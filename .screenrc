@@ -1,0 +1,11 @@
+# Allow scrolling in xterm
+termcapinfo xterm ti@:te@
+
+defmonitor on
+activity "activity -> %n%f %t" 
+
+# Keybindings
+
+bindkey "\033[Z" next # <S-tab>
+bindkey ^[[5;5~ prev # <C-PgUp>
+bindkey ^[[6;5~ next # <C-pgDn>

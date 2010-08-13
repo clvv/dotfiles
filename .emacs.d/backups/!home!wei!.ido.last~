@@ -1,0 +1,31 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/wei/work/" . "lisp/")
+ ("/home/wei/" . "work/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/wei/work/lisp/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "unit.lisp"
+ "prime.lisp"
+ "ants.clj"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/wei/work/lisp/" (19540 45595) "test.o" ".unit.lisp.swp" "unit.lisp" "./" "test.lisp" "prime.lisp" "unit.fasl" "../")
+
+ ("/home/wei/" (19535 35941) "examples.desktop" ".z" ".googleearth/" "Work/" ".android/" ".rnd" ".gnome2/" ".gnome2_private/" ".xinput.d/" "android-ndk-r3/" ".bash_profile" ".gksu.lock" "work/" ".emacs~" ".update-notifier/" "Pictures/" ".viminfo" "Videos/" "workspace/" "android-cm/" "cm-kernel/" ".lesshst" ".appcfg_nag" ".vim/" ".pulse/" "cmkern/" ".dropbox/" ".gitk" "opt/" "bin/" "google_appengine/" ".sudo_as_admin_successful" ".icons/" ".mission-control/" "gems/" ".compiz/" ".mozilla/" ".face" "rc/" ".ido.last" ".bash_history" ".dbus/" ".Porn/" ".themes/" ".esd_auth" ".vimrc" ".bash_logout" ".clojure/" "Music/" "iso/" ".gnome/" ".recentf" ".openoffice.org/" ".gvfs/" ".googlecl/" ".gnuplot_history" "./" ".dmrc" "android-sdk-linux_86/" ".elinks/" ".pki/" ".repopickle_.gitconfig" "cache/" ".pulse-cookie" "android/" ".local/" "coffee-script/" "specifications/" ".eclipse/" ".gegl-0.0/" ".loki/" "G1/" "Downloads/" ".repoconfig/" ".node_libraries/" ".emacs.d/" ".opera/" ".Skype/" "Public/" ".bzr.log" ".slime-history.eld" ".irssi/" ".gconf/" "Forms/" ".ICEauthority" ".config/" ".gitconfig" ".gtk-bookmarks" "../" ".adobe/" "Templates/" ".gnuplot-wxt" "android-cm.bak/" "Lost/" "google-earth/" ".ubuntu-tweak/" ".evolution/" "Movies/" "Big Bang S2/" "N1/" ".m2/" "node/" ".profile" ".subversion/" ".gconfd/" ".gem/" "cheat-sheets/" ".bashrc" ".ssh/" ".recently-used.xbel" "books/" ".tor/" ".thumbnails/" ".kde/" "openvpn/" ".gimp-2.6/" ".dropbox-dist/" ".bash_aliases" ".fontconfig/" "doc/" ".macromedia/" "Documents/" ".aMule/" "emacs" ".xsession-errors.old" ".gstreamer-0.10/" "Desktop/" ".nero/" ".rvm/" "Ubuntu One/" "tmpv/" ".selected_editor" ".cache/" "Dropbox/" "arm-toolchain/" "Me/" ".xsession-errors")
+
+ ("/home/wei/work/" (19535 24754) "scholarzhang-read-only/" "test.o" "bench.rb" "test" "awib-0.2.tar.gz" "lisp/" "jfeed/" "baidu.rb" "renren_friends.rb" "gt/" "rss/" "mechanize/" "renren.rb" "awib-0.2/" "test2.c" "renren/" "./" "asm/" "keywords/" "Hello.class" "data" "full-text-rss/" "classreview/" "test2" "test.c" "Hello.java" "../" "testtt.c~" "repl.js" "node/" "benchmark.rb" "nodejs-api/" "page.txt" "pa/" "west-chamber-season-2-read-only/" "file")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

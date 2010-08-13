@@ -1,0 +1,10 @@
+set bell-style none
+set completion-ignore-case On
+set show-all-if-ambiguous
+
+$if Bash
+  Space: magic-space
+$endif
+
+"\C-K": history-search-backward
+"\C-J": history-search-forward

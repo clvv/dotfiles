@@ -1,0 +1,7 @@
+[color]
+	ui = auto
+[user]
+	name = Wei Dai
+	email = x@wei23.net
+[core]
+	editor = vim
