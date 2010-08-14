@@ -8,8 +8,8 @@ set ruler
 let mapleader = ","
 
 " Copy & Paste
-nmap <silent> <leader>y "+y
-nmap <silent> <leader>p "+gp
+map <silent> <leader>y "+y
+map <silent> <leader>p "+gp
 
 " Windows Control
 map <C-h> <C-w>h
