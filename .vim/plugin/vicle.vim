@@ -270,7 +270,7 @@ endfunction
 
 function! Vicle_send_lines(lines)
   if a:lines != ['']
-    let l:text = substitute(join(a:lines, "\n") , "'", "'\\\\''", 'g') . "\n"
+    let l:text = substitute(join(a:lines, '') , "'", "'\\\\''", 'g') . ''
     call Vicle_up_svars()
     if t:vicle_history_active > 0
       call Vicle_history_save_command(a:lines)
@@ -288,7 +288,11 @@ function! Vicle_send_lines(lines)
       " For debug
       "echo 'screen -S ' . t:vicle_screen_sn . ' -p ' . t:vicle_screen_wn . " -X stuff '" . l:ttext . "'"
       " -  -  -  -
-      echo system('screen -S ' . t:vicle_screen_sn . ' -p ' . t:vicle_screen_wn . " -X stuff '" . l:ttext . "'")
+      if t:vicle_mode == 0
+          echo system('screen -S ' . t:vicle_screen_sn . ' -p ' . t:vicle_screen_wn . " -X stuff '" . l:ttext . "'")
+      else
+          echo system('tmux send-keys -t' . t:vicle_tmux_tp . " '" . l:ttext . "'")
+      endif
       let l:i = l:i + 1
     endwhile
 
@@ -488,10 +492,15 @@ function! Vicle_up_svars()
     call Vicle_history_clear('')
   end
 
-  if !exists('t:vicle_screen_sn') || !exists('t:vicle_screen_wn')
+  if !exists('t:vicle_mode') 
     echohl Identifier
-    let t:vicle_screen_sn = input('Session name: ', '', 'custom,Vicle_screen_sessions')
-    let t:vicle_screen_wn = input('Window number: ', '0')
+    let t:vicle_mode = input('Screen => 0; Tmux => 1 : ', '0')
+    if t:vicle_mode == 0
+        let t:vicle_screen_sn = input('Session name: ', '', 'custom,Vicle_screen_sessions')
+        let t:vicle_screen_wn = input('Window number: ', '0')
+    else
+        let t:vicle_tmux_tp = input('Target Pane(session:window.pane): ')
+    endif
     echohl None
   end
 endfunction
