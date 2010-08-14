@@ -3,8 +3,18 @@ set completion-ignore-case On
 set show-all-if-ambiguous
 
 $if Bash
-  Space: magic-space
+    Space: magic-space
 $endif
 
 "\C-K": history-search-backward
 "\C-J": history-search-forward
+
+# set editing-mode vi
+
+$if mode=vi
+    set keymap vi-insert
+    "\C-l": clear-screen
+    "\C-w": backward-kill-word
+    "\C-a": beginning-of-line
+    "\C-e": end-of-line
+$endif
