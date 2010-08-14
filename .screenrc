@@ -1,3 +1,5 @@
+startup_message off
+
 # Allow scrolling in xterm
 termcapinfo xterm ti@:te@
 
