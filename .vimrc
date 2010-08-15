@@ -29,7 +29,6 @@ map <S-l> gt
 nmap <C-t> :tabnew<CR>
 map! <C-t> <Esc>:tabnew<CR>
 
-map <C-S-a> ggVG
 map <F2> :NERDTreeToggle<CR>
 
 " Search options
