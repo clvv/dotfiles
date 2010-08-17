@@ -1,6 +1,6 @@
 session = ./torrents
 directory = ./rtorrent
-schedule = watch_directory,5,5,load_start=./torrent/*.torrent
+schedule = watch_directory,5,5,load_start=./torrents/*.torrent
 schedule = ratio,60,60,"stop_on_ratio=200,200M,2000"
 max_peers = 80
 max_peers_seed = 30
