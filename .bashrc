@@ -1,6 +1,6 @@
 if [[ -n "$PS1" ]] ; then
 
-    HISTCONTROL=ignoredups:ignorespace
+    HISTCONTROL=ignoreboth:erasedupes
     shopt -s histappend
     shopt -s checkwinsize
     HISTSIZE=1000
