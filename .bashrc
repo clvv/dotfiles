@@ -31,8 +31,11 @@ if [[ -n "$PS1" ]] ; then
     export PATH=$PATH:~/opt/clojure-contrib/launchers/bash
     alias clj=clj-env-dir
 
-    if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
-    if [[ -s /usr/local/rvm/scripts/rvm ]] ; then source /usr/local/rvm/scripts/rvm ; fi
+    if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
+        source "$HOME/.rvm/scripts/rvm"
+    elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
+        source "/usr/local/rvm/scripts/rvm"
+    fi
 
 fi
 
