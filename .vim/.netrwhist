@@ -1,7 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/home/wei'
 let g:netrw_dirhist_2='/home/wei/work/appengine/mapreduce'
 let g:netrw_dirhist_3='/home/wei/.picloud'
 let g:netrw_dirhist_4='/home/wei/.vim'
 let g:netrw_dirhist_5='/home/wei/work/shua2'
+let g:netrw_dirhist_6='/etc'
+let g:netrw_dirhist_7='/usr/share/themes/Default/gtk-2.0-key'
+let g:netrw_dirhist_8='/etc'
