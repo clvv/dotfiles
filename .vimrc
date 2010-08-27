@@ -1,4 +1,6 @@
 set nocompatible
+filetype off
+call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 syntax on
 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
