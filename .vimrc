@@ -59,6 +59,12 @@ set foldlevelstart=1
 nmap <silent> <leader>fi :set foldmethod=indent<CR>
 nmap <silent> <leader>fs :set foldmethod=syntax<CR>
 
+" Lookup tags file up the dir tree
+set tags=tags;/
+" Tab and Vsplit open tag
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+
 " Source the vimrc file after saving it
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
