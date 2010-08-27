@@ -70,3 +70,7 @@ command! Sw :w !sudo tee %
 let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
 let g:clj_paren_rainbow=1           " Rainbow parentheses'!
 
+:au BufReadPost * if b:current_syntax == "lisp"
+:au BufReadPost * call rainbow_parenthsis#LoadRound ()
+:au BufReadPost * call rainbow_parenthsis#Activate ()
+:au BufReadPost * endif
