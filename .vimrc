@@ -32,6 +32,7 @@ nmap <C-t> :tabnew<CR>
 map! <C-t> <Esc>:tabnew<CR>
 
 map <F2> :NERDTreeToggle<CR>
+map <F3> :TlistToggle<CR>
 
 " Search options
 set hlsearch
@@ -62,6 +63,8 @@ endif
 " one-key indentation
 nmap > >>
 nmap < <<
+
+command! Sw :w !sudo tee %
 
 " Settings for Vim Clojure
 let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
