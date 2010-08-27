@@ -50,6 +50,15 @@ nmap <silent> <leader>w :set wrap!<CR>
 set wildmode=longest:full
 set wildmenu
 
+"folding settings
+set foldmethod=indent
+set foldnestmax=10
+set foldenable
+set foldlevel=1
+set foldlevelstart=1
+nmap <silent> <leader>fi :set foldmethod=indent<CR>
+nmap <silent> <leader>fs :set foldmethod=syntax<CR>
+
 " Source the vimrc file after saving it
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
@@ -70,7 +79,9 @@ command! Sw :w !sudo tee %
 let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
 let g:clj_paren_rainbow=1           " Rainbow parentheses'!
 
-:au BufReadPost * if b:current_syntax == "lisp"
+" Lisp rainbow parentheses loading
+:au BufReadPost * if &filetype == "lisp"
 :au BufReadPost * call rainbow_parenthsis#LoadRound ()
 :au BufReadPost * call rainbow_parenthsis#Activate ()
 :au BufReadPost * endif
+
