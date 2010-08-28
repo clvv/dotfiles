@@ -84,6 +84,8 @@ endif
 if has('gui_running')
     set guioptions=r
     set lines=33 columns=100
+    set cursorline
+    colorscheme moria
 endif
 
 " one-key indentation
