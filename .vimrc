@@ -62,6 +62,14 @@ set foldlevelstart=1
 nmap <silent> <leader>fi :set foldmethod=indent<CR>
 nmap <silent> <leader>fs :set foldmethod=syntax<CR>
 
+" FuzzyFinder key mappings
+nmap <silent> <leader>ff :FufFile<CR>
+nmap <silent> <leader>fF :FufFileWithCurrentBufferDir<CR>
+nmap <silent> <leader>ft :FufTag<CR>
+nmap <silent> <leader>fc :FufChangeList<CR>
+nmap <silent> <leader>fj :FufJumpList<CR>
+nmap <silent> <leader>fd :FufDir<CR>
+
 " Lookup tags file up the dir tree
 set tags=tags;/
 " Tab and Vsplit open tag
