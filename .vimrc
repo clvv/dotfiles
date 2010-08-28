@@ -92,13 +92,11 @@ nmap < <<
 
 command! Sw :w !sudo tee %
 
-" Settings for Vim Clojure
-let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
-let g:clj_paren_rainbow=1           " Rainbow parentheses'!
+" For LISP
+let g:lisp_rainbow=1
 
-" Lisp rainbow parentheses loading
-:au BufReadPost * if &filetype == "lisp"
-:au BufReadPost * call rainbow_parenthsis#LoadRound ()
-:au BufReadPost * call rainbow_parenthsis#Activate ()
-:au BufReadPost * endif
+" Settings for Vim Clojure
+let g:clj_highlight_builtins=1
+let g:clj_highlight_contrib=1
+let g:clj_paren_rainbow=1
 
