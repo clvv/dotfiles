@@ -28,8 +28,9 @@ map <A-[> gT
 map <A-]> gt
 map <S-h> gT
 map <S-l> gt
-nmap <C-t> :tabnew<CR>
-map! <C-t> <Esc>:tabnew<CR>
+nmap <silent> <leader>t :tabnew<Cr>
+"nmap <C-t> :tabnew<CR>
+"map! <C-t> <Esc>:tabnew<CR>
 
 map <F2> :NERDTreeToggle<CR>
 map <F3> :TlistToggle<CR>
