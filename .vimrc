@@ -66,6 +66,9 @@ set tags=tags;/
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
+" Minibufexpl
+map <Leader>b :TMiniBufExplorer<cr>
+
 " Source the vimrc file after saving it
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
