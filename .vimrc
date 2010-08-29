@@ -86,6 +86,11 @@ if has('gui_running')
     set lines=33 columns=100
     set cursorline
     colorscheme moria
+elseif $TERM =~ "xterm"
+    set t_Co=16
+    hi DiffAdd ctermbg=14
+    hi DiffDelete ctermbg=11
+    "colorscheme light
 endif
 
 " one-key indentation
