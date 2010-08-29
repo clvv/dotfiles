@@ -6,8 +6,12 @@ $if Bash
     Space: magic-space
 $endif
 
-"\C-K": history-search-backward
-"\C-J": history-search-forward
+C-k: history-search-backward
+C-j: history-search-forward
+ 
+# Tab to menucomplete, Shift + Tab to do it backward
+Tab: menu-complete
+"\e[Z": menu-complete-backward
 
 # set editing-mode vi
 
