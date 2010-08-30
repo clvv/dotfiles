@@ -18,6 +18,10 @@ if [[ -n "$PS1" ]] ; then
         . ~/.bash_aliases
     fi
 
+    if [ "$COLORTERM" == "gnome-terminal" ]; then
+        export TERM="xterm-256color"
+    fi
+
     if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
         . /etc/bash_completion
     fi
