@@ -14,6 +14,7 @@ let mapleader = ","
 " Copy & Paste
 map <silent> <leader>y "+y
 map <silent> <leader>p "+gp
+set pastetoggle=<leader>v
 
 " Windows Control
 map <C-h> <C-w>h
@@ -86,12 +87,15 @@ if has('gui_running')
     set lines=33 columns=100
     set cursorline
     colorscheme moria
-elseif $TERM =~ "xterm"
-    set t_Co=16
-    hi DiffAdd ctermbg=14
-    hi DiffDelete ctermbg=11
-    "colorscheme light
+else
+    if $TERM =~ "xterm"
+        set t_Co=256
+        colorscheme lucius
+    endif
+    nmap <silent> <leader>c2 :set t_Co=256<CR>
+    nmap <silent> <leader>c8 :set t_Co=8<CR>
 endif
+
 
 " one-key indentation
 nmap > >>
