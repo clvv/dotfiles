@@ -48,6 +48,11 @@ set smartcase
 map <up> gk
 map <down> gj
 
+imap <C-a> <Esc>0i
+imap <C-e> <Esc>$a
+imap <M-b> <Esc>bi
+imap <M-f> <Esc>wi
+
 nmap <silent> <leader>s :set spell!<CR>
 nmap <silent> <leader>n :set number!<CR>
 nmap <silent> <leader>w :set wrap!<CR>
