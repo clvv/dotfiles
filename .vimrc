@@ -91,9 +91,9 @@ if has('gui_running')
     set guioptions=r
     set lines=33 columns=100
     set cursorline
-    colorscheme moria
+    colorscheme lucius
 else
-    if $TERM =~ "xterm"
+    if ( $TERM =~ "xterm" && !( $TMUX =~ "tmux" ) && !( $TERMCAP =~"screen" ) )
         set t_Co=256
         colorscheme lucius
     endif
