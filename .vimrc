@@ -102,6 +102,9 @@ else
 endif
 
 
+" Command mode shortcut
+nmap ; :
+
 " one-key indentation
 nmap > >>
 nmap < <<
