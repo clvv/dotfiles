@@ -59,7 +59,7 @@ nmap <Tab> %
 nmap <silent> <leader>s :set spell!<CR>
 nmap <silent> <leader>n :set number!<CR>
 nmap <silent> <leader>w :set wrap!<CR>
-set wildmode=longest:full
+set wildmode=full " :longest
 set wildmenu
 
 set formatprg=par
