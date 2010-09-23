@@ -62,12 +62,15 @@ nmap <silent> <leader>w :set wrap!<CR>
 set wildmode=longest:full
 set wildmenu
 
+set formatprg=par
+nmap <silent> <leader>fp :formatprg=par
+
 "folding settings
 set foldmethod=indent
 set foldnestmax=10
 set foldenable
-set foldlevel=1
-set foldlevelstart=1
+set foldlevel=2
+set foldlevelstart=2
 nmap <silent> <leader>fi :set foldmethod=indent<CR>
 nmap <silent> <leader>fs :set foldmethod=syntax<CR>
 
