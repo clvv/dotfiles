@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="scrollback_unlimited" mtime="1285212900" type="bool" value="true"/>
+	<entry name="scrollback_lines" mtime="1285212900" type="int" value="2048"/>
+	<entry name="cursor_shape" mtime="1283068615" type="string">
+		<stringvalue>block</stringvalue>
+	</entry>
+	<entry name="use_theme_colors" mtime="1285212900" type="bool" value="false"/>
+	<entry name="font" mtime="1285212900" type="string">
+		<stringvalue>Monospace 10</stringvalue>
+	</entry>
+	<entry name="use_system_font" mtime="1285212900" type="bool" value="false"/>
+	<entry name="silent_bell" mtime="1285212900" type="bool" value="true"/>
+	<entry name="default_show_menubar" mtime="1285212900" type="bool" value="false"/>
+	<entry name="background_darkness" mtime="1285212900" type="float" value="1"/>
+	<entry name="use_theme_background" mtime="1283073250" type="bool" value="true"/>
+	<entry name="background_type" mtime="1283073250" type="string">
+		<stringvalue>solid</stringvalue>
+	</entry>
+	<entry name="visible_name" mtime="1285212900" type="string">
+		<stringvalue>Wei23</stringvalue>
+	</entry>
+	<entry name="alternate_screen_scroll" mtime="1285212900" type="bool" value="true"/>
+	<entry name="palette" mtime="1285212900" type="string">
+		<stringvalue>#232319190000:#AFA6442E06EC:#434387120707:#787860600000:#323250509B9B:#808000009494:#045787E78A22:#D8D8D8D8D8D8:#3C3C32320000:#D8D84C4C4C4C:#7171B2B22A2A:#EAEAE2E23E3E:#3C3C7878B4B4:#9C51796E9887:#A6A6B7B7DBDB:#EAAAEAAAEAEA</stringvalue>
+	</entry>
+	<entry name="background_color" mtime="1285212900" type="string">
+		<stringvalue>#F0F0F0F0F0F0</stringvalue>
+	</entry>
+	<entry name="foreground_color" mtime="1285212900" type="string">
+		<stringvalue>#28281E1E0000</stringvalue>
+	</entry>
+	<entry name="bold_color" mtime="1285212900" type="string">
+		<stringvalue>#000000000000</stringvalue>
+	</entry>
+</gconf>
