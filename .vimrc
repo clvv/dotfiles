@@ -49,8 +49,13 @@ set smartcase
 map <up> gk
 map <down> gj
 
+" Some handy Emacs movement key bindings
 imap <C-a> <Esc>0i
 imap <C-e> <Esc>$a
+imap <C-p> <Esc>ka
+imap <C-n> <Esc>ja
+imap <C-b> <Esc>i
+imap <C-f> <Esc>la
 imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
