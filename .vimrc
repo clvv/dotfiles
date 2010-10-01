@@ -90,6 +90,7 @@ set foldlevel=2
 set foldlevelstart=2
 nmap <silent> <leader>fi :set foldmethod=indent<CR>
 nmap <silent> <leader>fs :set foldmethod=syntax<CR>
+set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " FuzzyFinder key mappings
 nmap <silent> <leader>ff :FufFile<CR>
