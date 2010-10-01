@@ -49,8 +49,25 @@ set smartcase
 map <up> gk
 map <down> gj
 
-imap <C-a> <Esc>0i
-imap <C-e> <Esc>$a
+" Some handy Emacs key bindings
+cnoremap <C-A>      <Home>
+cnoremap <C-B>      <Left>
+cnoremap <C-E>      <End>
+cnoremap <C-F>      <Right>
+cnoremap <C-N>      <End>
+cnoremap <C-P>      <Up>
+cnoremap <ESC>b     <S-Left>
+cnoremap <ESC><C-B> <S-Left>
+cnoremap <ESC>f     <S-Right>
+cnoremap <ESC><C-F> <S-Right>
+cnoremap <ESC><C-H> <C-W>
+
+imap <C-a> <Home>
+imap <C-e> <End>
+imap <C-p> <Esc>ka
+imap <C-n> <Esc>ja
+imap <C-b> <Esc>i
+imap <C-f> <Esc>la
 imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
