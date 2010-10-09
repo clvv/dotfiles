@@ -1,7 +1,7 @@
 " ============================================================================
 " File:        autoload/delimitMate.vim
-" Version:     2.4.1
-" Modified:    2010-07-31
+" Version:     2.5.1
+" Modified:    2010-09-30
 " Description: This plugin provides auto-completion for quotes, parens, etc.
 " Maintainer:  Israel Chauca F. <israelchauca@gmail.com>
 " Manual:      Read ":help delimitMate".
@@ -45,47 +45,6 @@ function! delimitMate#ShouldJump() "{{{
 
 	return 0
 endfunction "}}}
-
-function! delimitMate#Visual(del) " {{{
-	if len(getline('.')) == 0
-		" This for proper wrap of empty lines.
-		let @" = "\n"
-	endif
-
-	" Let's find which kind of delimiter we got:
-	let index = index(b:_l_delimitMate_left_delims, a:del)
-	if index >= 0
-		let ld = a:del
-		let rd = b:_l_delimitMate_right_delims[index]
-	endif
-
-	let index = index(b:_l_delimitMate_right_delims, a:del)
-	if index >= 0
-		let ld = b:_l_delimitMate_left_delims[index]
-		let rd = a:del
-	endif
-
-	if index(b:_l_delimitMate_quotes_list, a:del) >= 0
-		let ld = a:del
-		let rd = ld
-	endif
-
-	let mode = mode()
-	if mode == "\<C-V>"
-		" Block-wise visual
-		return "I" . ld . "\<Esc>gv\<Right>A" . rd . "\<Esc>"
-	elseif mode ==# "V"
-		let dchar = "\<BS>"
-	else
-		let dchar = ""
-	endif
-
-	" Store unnamed register values for later use in delimitMate#RestoreRegister().
-	let b:save_reg = getreg('"')
-	let b:save_reg_mode = getregtype('"')
-
-	return "s" . ld . "\<C-R>\"" . dchar . rd . "\<Esc>:call delimitMate#RestoreRegister()\<CR>"
-endfunction " }}}
 
 function! delimitMate#IsEmptyPair(str) "{{{
 	for pair in b:_l_delimitMate_matchpairs_list
@@ -166,12 +125,6 @@ function! delimitMate#WriteAfter(str) "{{{
 		call setline('.',line[:(col)].a:str.line[(col+len):])
 	endif
 	return ''
-endfunction " }}}
-
-function! delimitMate#RestoreRegister() " {{{
-	" Restore unnamed register values stored in delimitMate#Visual().
-	call setreg('"', b:save_reg, b:save_reg_mode)
-	echo ""
 endfunction " }}}
 
 function! delimitMate#GetSyntaxRegion(line, col) "{{{
@@ -486,59 +439,11 @@ endfunction " }}}
 " Tools: {{{
 function! delimitMate#TestMappings() "{{{
 	let options = sort(keys(delimitMate#OptionsList()))
-	let optoutput = ['delimitMate Report', '', 'Options:']
+	let optoutput = ['delimitMate Report', '==================', '', '* Options: (-) unset, (g) global, (b) buffer','']
 	for option in options
-		exec 'call add(optoutput, ''delimitMate_''.option.'' = ''.string(b:_l_delimitMate_'.option.'))'
+		exec 'call add(optoutput, ''('.(exists('b:delimitMate_'.option) ? 'b' : exists('g:delimitMate_'.option) ? 'g' : '-').') delimitMate_''.option.'' = ''.string(b:_l_delimitMate_'.option.'))'
 	endfor
-	call append(line('$'), optoutput + ['','Showcase:', ''])
-	if b:_l_delimitMate_autoclose
-		" {{{
-		for i in range(len(b:_l_delimitMate_left_delims))
-			exec "normal GGoOpen: " . b:_l_delimitMate_left_delims[i]. "|"
-			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . "\<BS>|"
-			exec "normal oExit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . " \<BS>|"
-			exec "normal GGoVisual-L: v\<Esc>v" . b:_l_delimitMate_visual_leader . b:_l_delimitMate_left_delims[i]
-			exec "normal oVisual-R: v\<Esc>v" . b:_l_delimitMate_visual_leader . b:_l_delimitMate_right_delims[i]
-			exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
-		endfor
-		for i in range(len(b:_l_delimitMate_quotes_list))
-			exec "normal GGAOpen: " . b:_l_delimitMate_quotes_list[i]	. "|"
-			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<BS>|"
-			exec "normal oExit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
-			exec "normal GGoVisual: v\<Esc>v" . b:_l_delimitMate_visual_leader . b:_l_delimitMate_quotes_list[i]
-			exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
-		endfor
-		"}}}
-	else
-		"{{{
-		for i in range(len(b:_l_delimitMate_left_delims))
-			exec "normal GGoOpen & close: " . b:_l_delimitMate_left_delims[i]	. b:_l_delimitMate_right_delims[i] . "|"
-			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<BS>|"
-			exec "normal oExit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " \<BS>|"
-			exec "normal GGoVisual-L: v\<Esc>v" . b:_l_delimitMate_visual_leader . b:_l_delimitMate_left_delims[i]
-			exec "normal oVisual-R: v\<Esc>v" . b:_l_delimitMate_visual_leader . b:_l_delimitMate_right_delims[i]
-			exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
-		endfor
-		for i in range(len(b:_l_delimitMate_quotes_list))
-			exec "normal GGoOpen & close: " . b:_l_delimitMate_quotes_list[i]	. b:_l_delimitMate_quotes_list[i] . "|"
-			exec "normal oDelete: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<BS>|"
-			exec "normal oExit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
-			exec "normal GGoVisual: v\<Esc>v" . b:_l_delimitMate_visual_leader . b:_l_delimitMate_quotes_list[i]
-			exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
-		endfor
-	endif "}}}
+	call append(line('$'), optoutput + ['--------------------',''])
 
 	" Check if mappings were set. {{{
 	let imaps = b:_l_delimitMate_right_delims
@@ -570,37 +475,61 @@ function! delimitMate#TestMappings() "{{{
 	endfor
 	let ibroken = len(ibroken) > 0 ? ['IMAP'] + ibroken : []
 
-	let vbroken = []
-	if !exists("b:_l_delimitMate_visual_leader")
-		let vleader = ""
-	else
-		let vleader = b:_l_delimitMate_visual_leader
-	endif
-	for map in vmaps
-		if maparg(vleader . map, "v") !~? "delimitMate"
-			let output = ''
-			if map == '|'
-				let map = '<Bar>'
-			endif
-			redir => output | execute "verbose imap ".map | redir END
-			let vbroken = vbroken + [vleader.map.": is not set:"] + split(output,'\n')
-		endif
-	endfor
-	let vbroken = len(vbroken) > 0 ? ['VMAP'] + vbroken : []
-
 	unlet! output
-	if ibroken == [] && vbroken == []
-		let output = ['Mappings:', '', 'All mappings were set-up.', '--------------------', '', '']
+	if ibroken == []
+		let output = ['* Mappings:', '', 'All mappings were set-up.', '--------------------', '', '']
 	else
-		let output = ['Mappings:', ''] + ibroken + vbroken + ['--------------------', '', '']
+		let output = ['* Mappings:', ''] + ibroken + ['--------------------', '']
 	endif
-	call append('$', output)
+	call append('$', output+['* Showcase:', ''])
 	" }}}
+	if b:_l_delimitMate_autoclose
+		" {{{
+		for i in range(len(b:_l_delimitMate_left_delims))
+			exec "normal GGoOpen: " . b:_l_delimitMate_left_delims[i]. "|"
+			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . "\<BS>|"
+			exec "normal oExit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
+			exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . " |"
+			exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . " \<BS>|"
+			exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . "\<CR>|"
+			exec "normal GGoDelete car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+		endfor
+		for i in range(len(b:_l_delimitMate_quotes_list))
+			exec "normal GGAOpen: " . b:_l_delimitMate_quotes_list[i]	. "|"
+			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<BS>|"
+			exec "normal oExit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
+			exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . " |"
+			exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
+			exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
+			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+		endfor
+		"}}}
+	else
+		"{{{
+		for i in range(len(b:_l_delimitMate_left_delims))
+			exec "normal GGoOpen & close: " . b:_l_delimitMate_left_delims[i]	. b:_l_delimitMate_right_delims[i] . "|"
+			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<BS>|"
+			exec "normal oExit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
+			exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " |"
+			exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " \<BS>|"
+			exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>|"
+			exec "normal GGoDelete car return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+		endfor
+		for i in range(len(b:_l_delimitMate_quotes_list))
+			exec "normal GGoOpen & close: " . b:_l_delimitMate_quotes_list[i]	. b:_l_delimitMate_quotes_list[i] . "|"
+			exec "normal oDelete: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<BS>|"
+			exec "normal oExit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
+			exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " |"
+			exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
+			exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
+			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+		endfor
+	endif "}}}
 endfunction "}}}
 
-function! delimitMate#OptionsList()
-	return {'autoclose' : 1,'matchpairs': &matchpairs, 'quotes' : '" '' `', 'nesting_quotes' : [], 'visual_leader' : ( exists('mapleader') ? mapleader : exists('b:maplocalleader') ? b:maplocalleader : '\' ), 'expand_cr' : 0, 'expand_space' : 0, 'smart_quotes' : 1, 'balance_matchpairs' : 0, 'excluded_regions' : 'Comment', 'excluded_ft' : '', 'apostrophes' : ''}
-endfunction
+function! delimitMate#OptionsList() "{{{
+	return {'autoclose' : 1,'matchpairs': &matchpairs, 'quotes' : '" '' `', 'nesting_quotes' : [], 'expand_cr' : 0, 'expand_space' : 0, 'smart_quotes' : 1, 'balance_matchpairs' : 0, 'excluded_regions' : 'Comment', 'excluded_ft' : '', 'apostrophes' : ''}
+endfunction " delimitMate#OptionsList }}}
 "}}}
 
 " vim:foldmethod=marker:foldcolumn=4
