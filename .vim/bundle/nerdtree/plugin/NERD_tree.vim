@@ -194,6 +194,7 @@ function! s:Bookmark.activate()
         if self.validate()
             let n = s:TreeFileNode.New(self.path)
             call n.open()
+            call s:closeTreeIfQuitOnOpen()
         endif
     endif
 endfunction
@@ -2820,9 +2821,17 @@ function! s:closeTree()
     endif
 
     if winnr("$") != 1
+        if winnr() == s:getTreeWinNum()
+            wincmd p
+            let bufnr = bufnr("")
+            wincmd p
+        else
+            let bufnr = bufnr("")
+        endif
+
         call s:exec(s:getTreeWinNum() . " wincmd w")
         close
-        call s:exec("wincmd p")
+        call s:exec(bufwinnr(bufnr) . " wincmd w")
     else
         close
     endif
