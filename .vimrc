@@ -12,6 +12,14 @@ set backspace=indent,eol,start
 
 let mapleader = ","
 
+" Bubble single lines <C-S-[K,J]>
+nmap <Esc>K [e
+nmap <Esc>J ]e
+
+" Bubble multiple lines <C-S-[K,J]> 
+vmap <Esc>K [egv
+vmap <Esc>J ]egv
+
 " Copy & Paste
 map <silent> <leader>y "+y
 map <silent> <leader>p "+gp
