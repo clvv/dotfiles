@@ -24,6 +24,8 @@ source $ZSH/oh-my-zsh.sh
 
 bindkey "^K" history-beginning-search-backward
 bindkey "^J" history-beginning-search-forward
+bindkey "^[^I" _history-complete-older
+bindkey "^[^[^I" _history-complete-newer
 
 [ -s "$HOME/.shenv" ] && source $HOME/.shenv
 
