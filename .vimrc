@@ -135,7 +135,7 @@ endif
 
 
 " Command mode shortcut
-nmap ; :
+map ; :
 
 " one-key indentation
 nmap > >>
