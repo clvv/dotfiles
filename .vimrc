@@ -90,7 +90,7 @@ set wildmode=full " :longest
 set wildmenu
 
 set formatprg=par
-nmap <silent> <leader>fp :formatprg=par
+nmap <silent> <leader>fp :set formatprg=par
 
 "folding settings
 set foldmethod=indent
