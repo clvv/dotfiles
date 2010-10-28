@@ -23,7 +23,7 @@ vmap <Esc>J ]egv
 " Copy & Paste
 map <silent> <leader>y "+y
 map <silent> <leader>p "+gp
-set pastetoggle=<leader>v
+set pastetoggle=<leader>gv
 
 " Windows Control
 map <C-h> <C-w>h
@@ -45,7 +45,9 @@ nmap <silent> <leader>t :tabnew<Cr>
 "map! <C-t> <Esc>:tabnew<CR>
 
 map <F2> :NERDTreeToggle<CR>
+map <silent> <leader>g1 :NERDTreeToggle<CR>
 map <F3> :TlistToggle<CR>
+map <silent> <leader>g2 :TlistToggle<CR>
 
 " Search options
 set hlsearch
@@ -81,14 +83,14 @@ imap <M-f> <Esc>wi
 
 nmap <Tab> %
 
-nmap <silent> <leader>s :set spell!<CR>
-nmap <silent> <leader>n :set number!<CR>
-nmap <silent> <leader>w :set wrap!<CR>
+nmap <silent> <leader>gs :set spell!<CR>
+nmap <silent> <leader>gn :set number!<CR>
+nmap <silent> <leader>gw :set wrap!<CR>
 set wildmode=full " :longest
 set wildmenu
 
 set formatprg=par
-nmap <silent> <leader>fp :formatprg=par
+nmap <silent> <leader>fp :set formatprg=par
 
 "folding settings
 set foldmethod=indent
