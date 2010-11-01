@@ -81,7 +81,9 @@ imap <C-f> <Esc>la
 imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
+" Easy jumping and selecting over block of code
 nmap <Tab> %
+vmap <Tab> %
 
 nmap <silent> <leader>gs :set spell!<CR>
 nmap <silent> <leader>gn :set number!<CR>
