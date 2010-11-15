@@ -252,13 +252,17 @@ function! delimitMate#ParenDelim(char) " {{{
 	if delimitMate#IsForbidden(a:char)
 		return ''
 	endif
+	" Try to balance matchpairs
 	if b:_l_delimitMate_balance_matchpairs &&
 				\ delimitMate#BalancedParens(a:char) <= 0
 		return ''
 	endif
 	let line = getline('.')
 	let col = col('.')-2
-	if (col) < 0
+	if b:_l_delimitMate_smart_matchpairs &&
+				\ line[col+1] =~ '\w'
+		return ''
+	elseif (col) < 0
 		call setline('.',a:char.line)
 		call insert(b:_l_delimitMate_buffer, a:char)
 	else
@@ -282,10 +286,10 @@ function! delimitMate#QuoteDelim(char) "{{{
 				\ index(b:_l_delimitMate_nesting_quotes, a:char) < 0
 		" Get out of the string.
 		return a:char . delimitMate#Del()
-	elseif (line[col] =~ '[[:alnum:]]' && a:char == "'") ||
+	elseif (line[col] =~ '\w' && a:char == "'") ||
 				\ (b:_l_delimitMate_smart_quotes &&
-				\ (line[col] =~ '[[:alnum:]]' ||
-				\ line[col + 1] =~ '[[:alnum:]]'))
+				\ (line[col] =~ '\w' ||
+				\ line[col + 1] =~ '\w'))
 		" Seems like an apostrophe or a smart quote case, insert a single quote.
 		return a:char
 	elseif (line[col] == a:char && line[col + 1 ] != a:char) && b:_l_delimitMate_smart_quotes
@@ -473,7 +477,6 @@ function! delimitMate#TestMappings() "{{{
 			let ibroken = ibroken + [map.": is not set:"] + split(output, '\n')
 		endif
 	endfor
-	let ibroken = len(ibroken) > 0 ? ['IMAP'] + ibroken : []
 
 	unlet! output
 	if ibroken == []
@@ -528,7 +531,7 @@ function! delimitMate#TestMappings() "{{{
 endfunction "}}}
 
 function! delimitMate#OptionsList() "{{{
-	return {'autoclose' : 1,'matchpairs': &matchpairs, 'quotes' : '" '' `', 'nesting_quotes' : [], 'expand_cr' : 0, 'expand_space' : 0, 'smart_quotes' : 1, 'balance_matchpairs' : 0, 'excluded_regions' : 'Comment', 'excluded_ft' : '', 'apostrophes' : ''}
+	return {'autoclose' : 1,'matchpairs': &matchpairs, 'quotes' : '" '' `', 'nesting_quotes' : [], 'expand_cr' : 0, 'expand_space' : 0, 'smart_quotes' : 1, 'smart_matchpairs' : 1, 'balance_matchpairs' : 0, 'excluded_regions' : 'Comment', 'excluded_ft' : '', 'apostrophes' : ''}
 endfunction " delimitMate#OptionsList }}}
 "}}}
 
