@@ -118,9 +118,9 @@ set tags=tags;/
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
-" Source the vimrc file after saving it
 if has("autocmd")
-    autocmd bufwritepost .vimrc source $MYVIMRC
+    autocmd bufwritepost .vimrc source $MYVIMRC " Source the vimrc file after saving it
+    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
 endif
 
 if has('gui_running')
