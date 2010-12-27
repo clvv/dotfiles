@@ -64,8 +64,10 @@ cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
 cnoremap <C-E>      <End>
 cnoremap <C-F>      <Right>
-cnoremap <C-N>      <End>
+cnoremap <C-N>      <Down>
+cnoremap <C-J>      <Down>
 cnoremap <C-P>      <Up>
+cnoremap <C-K>      <Up>
 cnoremap <ESC>b     <S-Left>
 cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f     <S-Right>
@@ -140,6 +142,9 @@ endif
 
 " Command mode shortcut
 map ; :
+
+" open command line window from normal command line mode
+set cedit=<C-Q>
 
 " one-key indentation
 nmap > >>
