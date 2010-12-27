@@ -34,5 +34,7 @@ if [[ -n "$PS1" ]] ; then
         source "/usr/local/rvm/scripts/rvm"
     fi
 
+    [ -s "$HOME/.bashrc.local" ] && source $HOME/.bashrc.local
+
 fi
 
