@@ -87,7 +87,7 @@ set cpo&vim
   endif
 
   if !exists("g:SuperTabLeadingSpaceCompletion")
-    let g:SuperTabLeadingSpaceCompletion = 1
+    let g:SuperTabLeadingSpaceCompletion = 0
   endif
 
   if !exists("g:SuperTabMappingForward")
@@ -216,7 +216,7 @@ function! s:Init()
     autocmd FileType <buffer> call <SID>InitBuffer()
   augroup END
 
-  " Setup mechanism to restore orignial completion type upon leaving insert
+  " Setup mechanism to restore original completion type upon leaving insert
   " mode if configured to do so
   if g:SuperTabRetainCompletionDuration == 'insert'
     augroup supertab_retain
@@ -473,7 +473,7 @@ function! s:CaptureKeyPresses()
   if !b:capturing
     let b:capturing = 1
     " save any previous mappings
-    " TODO: caputure additional info provided by vim 7.3.032 and up.
+    " TODO: capture additional info provided by vim 7.3.032 and up.
     let b:captured = {
         \ '<bs>': maparg('<bs>', 'i'),
         \ '<c-h>': maparg('<c-h>', 'i'),
@@ -503,7 +503,13 @@ function! s:ReleaseKeyPresses()
     " restore any previous mappings
     for [key, rhs] in items(b:captured)
       if rhs != ''
-        exec printf('imap %s %s', key, rhs)
+        let args = substitute(rhs, '.*\(".\{-}"\).*', '\1', '')
+        if args != rhs
+          let args = substitute(args, '<', '<lt>', 'g')
+          let expr = substitute(rhs, '\(.*\)".\{-}"\(.*\)', '\1%s\2', '')
+          let rhs = printf(expr, args)
+        endif
+        exec printf("imap <silent> %s %s", key, rhs)
       endif
     endfor
     unlet b:captured
@@ -619,10 +625,12 @@ endfunction " }}}
   inoremap <c-p> <c-r>=<SID>SuperTab('p')<cr>
 
   if g:SuperTabCrMapping
-    " using a <c-r> mapping instead of <expr>, seems to prevent evaluating
-    " other functions mapped to <cr> etc. (like endwise.vim)
-    inoremap <cr> <c-r>=<SID>SelectCompletion()<cr>
-    function! s:SelectCompletion()
+    if maparg('<CR>','i') =~ '<CR>'
+      exec "inoremap <script> <cr> " . maparg('<cr>', 'i') . "<c-r>=<SID>SelectCompletion(0)<cr>"
+    else
+      inoremap <cr> <c-r>=<SID>SelectCompletion(1)<cr>
+    endif
+    function! s:SelectCompletion(cr)
       " selecting a completion
       if pumvisible()
         return "\<space>\<bs>"
@@ -636,8 +644,9 @@ endfunction " }}}
         return ''
       endif
 
-      " keep the <cr> ball rolling for other functions mapped to it.
-      return "\<cr>"
+      " only return a cr if nothing else is mapped to it since we don't want
+      " to duplicate a cr returned by another mapping.
+      return a:cr ? "\<cr>" : ""
     endfunction
   endif
 " }}}

@@ -346,6 +346,32 @@ function! delimitMate#JumpAny(key) " {{{
 	endif
 endfunction " delimitMate#JumpAny() }}}
 
+function! delimitMate#JumpMany() " {{{
+	let line = getline('.')[col('.') - 1 : ]
+	let len = len(line)
+	let rights = ""
+	let found = 0
+	let i = 0
+	while i < len
+		let char = line[i]
+		if index(b:_l_delimitMate_quotes_list, char) >= 0 ||
+					\ index(b:_l_delimitMate_right_delims, char) >= 0
+			let rights .= "\<Right>"
+			let found = 1
+		elseif found == 0
+			let rights .= "\<Right>"
+		else
+			break
+		endif
+		let i += 1
+	endwhile
+	if found == 1
+		return rights
+	else
+		return ''
+	endif
+endfunction " delimitMate#JumpMany() }}}
+
 function! delimitMate#MapMsg(msg) "{{{
 	redraw
 	echomsg a:msg
@@ -409,7 +435,7 @@ function! delimitMate#Del() " {{{
 	endif
 endfunction " }}}
 
-function! delimitMate#Finish() " {{{
+function! delimitMate#Finish(move_back) " {{{
 	let len = len(b:_l_delimitMate_buffer)
 	if len > 0
 		let buffer = join(b:_l_delimitMate_buffer, '')
@@ -425,8 +451,8 @@ function! delimitMate#Finish() " {{{
 			call setline('.', line[:col] . line[col+len2+1:])
 		endif
 		let i = 1
-		let lefts = "\<Left>"
-		while i < len
+		let lefts = ""
+		while i <= len && a:move_back
 			let lefts = lefts . "\<Left>"
 			let i += 1
 		endwhile
@@ -447,9 +473,9 @@ endfunction " }}}
 " Tools: {{{
 function! delimitMate#TestMappings() "{{{
 	let options = sort(keys(delimitMate#OptionsList()))
-	let optoutput = ['delimitMate Report', '==================', '', '* Options: (-) unset, (g) global, (b) buffer','']
+	let optoutput = ['delimitMate Report', '==================', '', '* Options: ( ) default, (g) global, (b) buffer','']
 	for option in options
-		exec 'call add(optoutput, ''('.(exists('b:delimitMate_'.option) ? 'b' : exists('g:delimitMate_'.option) ? 'g' : '-').') delimitMate_''.option.'' = ''.string(b:_l_delimitMate_'.option.'))'
+		exec 'call add(optoutput, ''('.(exists('b:delimitMate_'.option) ? 'b' : exists('g:delimitMate_'.option) ? 'g' : ' ').') delimitMate_''.option.'' = ''.string(b:_l_delimitMate_'.option.'))'
 	endfor
 	call append(line('$'), optoutput + ['--------------------',''])
 
@@ -461,7 +487,7 @@ function! delimitMate#TestMappings() "{{{
 				\ b:_l_delimitMate_apostrophes_list +
 				\ ['<BS>', '<S-BS>', '<Del>', '<S-Tab>', '<Esc>'] +
 				\ ['<Up>', '<Down>', '<Left>', '<Right>', '<LeftMouse>', '<RightMouse>'] +
-				\ ['<Home>', '<End>', '<PageUp>', '<PageDown>', '<S-Down>', '<S-Up>']
+				\ ['<Home>', '<End>', '<PageUp>', '<PageDown>', '<S-Down>', '<S-Up>', '<C-G>g']
 	let imaps = imaps + ( b:_l_delimitMate_expand_cr ?  ['<CR>'] : [] )
 	let imaps = imaps + ( b:_l_delimitMate_expand_space ?  ['<Space>'] : [] )
 
@@ -493,22 +519,22 @@ function! delimitMate#TestMappings() "{{{
 	if b:_l_delimitMate_autoclose
 		" {{{
 		for i in range(len(b:_l_delimitMate_left_delims))
-			exec "normal GGoOpen: " . b:_l_delimitMate_left_delims[i]. "|"
-			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . "\<BS>|"
-			exec "normal oExit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . " \<BS>|"
-			exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+			exec "normal GGo0\<C-D>Open: " . b:_l_delimitMate_left_delims[i]. "|"
+			exec "normal o0\<C-D>Delete: " . b:_l_delimitMate_left_delims[i] . "\<BS>|"
+			exec "normal o0\<C-D>Exit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
+			exec "normal o0\<C-D>Space: " . b:_l_delimitMate_left_delims[i] . " |"
+			exec "normal o0\<C-D>Delete space: " . b:_l_delimitMate_left_delims[i] . " \<BS>|"
+			exec "normal o0\<C-D>Car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>|"
+			exec "normal GGo0\<C-D>Delete car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>0\<C-D>\<BS>|\<Esc>GG\<Esc>o"
 		endfor
 		for i in range(len(b:_l_delimitMate_quotes_list))
-			exec "normal GGAOpen: " . b:_l_delimitMate_quotes_list[i]	. "|"
-			exec "normal oDelete: " . b:_l_delimitMate_quotes_list[i] . "\<BS>|"
-			exec "normal oExit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
-			exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+			exec "normal GGA0\<C-D>Open: " . b:_l_delimitMate_quotes_list[i]	. "|"
+			exec "normal o0\<C-D>Delete: " . b:_l_delimitMate_quotes_list[i] . "\<BS>|"
+			exec "normal o0\<C-D>Exit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
+			exec "normal o0\<C-D>Space: " . b:_l_delimitMate_quotes_list[i] . " |"
+			exec "normal o0\<C-D>Delete space: " . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
+			exec "normal o0\<C-D>Car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
+			exec "normal GGo0\<C-D>Delete car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
 		endfor
 		"}}}
 	else
@@ -532,6 +558,9 @@ function! delimitMate#TestMappings() "{{{
 			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
 		endfor
 	endif "}}}
+	redir => setoptions | set | redir END
+	call append(line('$'), split(setoptions,"\n"))
+	setlocal nowrap
 endfunction "}}}
 
 function! delimitMate#OptionsList() "{{{
