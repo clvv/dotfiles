@@ -143,6 +143,9 @@ endif
 " Command mode shortcut
 map ; :
 
+" open command line window from normal command line mode
+set cedit=<C-Q>
+
 " one-key indentation
 nmap > >>
 nmap < <<
