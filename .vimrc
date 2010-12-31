@@ -16,7 +16,7 @@ let mapleader = ","
 nmap <Esc>K [e
 nmap <Esc>J ]e
 
-" Bubble multiple lines <C-S-[K,J]> 
+" Bubble multiple lines <C-S-[K,J]>
 vmap <Esc>K [egv
 vmap <Esc>J ]egv
 
@@ -97,11 +97,11 @@ set formatprg=par
 nmap <silent> <leader>fp :set formatprg=par
 
 "folding settings
-set foldmethod=indent
+set foldmethod=syntax
 set foldnestmax=10
 set foldenable
-set foldlevel=2
-set foldlevelstart=2
+set foldlevel=4
+set foldlevelstart=4
 nmap <silent> <leader>fi :set foldmethod=indent<CR>
 nmap <silent> <leader>fs :set foldmethod=syntax<CR>
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
@@ -141,7 +141,7 @@ endif
 
 
 " Command mode shortcut
-map ; :
+" map ; :
 
 " open command line window from normal command line mode
 set cedit=<C-Q>
@@ -160,3 +160,4 @@ let g:clj_highlight_builtins=1
 let g:clj_highlight_contrib=1
 let g:clj_paren_rainbow=1
 
+autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
