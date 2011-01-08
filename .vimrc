@@ -12,18 +12,18 @@ set backspace=indent,eol,start
 
 let mapleader = ","
 
-" Bubble single lines <C-S-[K,J]>
-nmap <Esc>K [e
-nmap <Esc>J ]e
-
-" Bubble multiple lines <C-S-[K,J]>
-vmap <Esc>K [egv
-vmap <Esc>J ]egv
-
-" Copy & Paste
-map <silent> <leader>y "+y
-map <silent> <leader>p "+gp
+" System Copy & Paste prefix
+map <silent> <leader><leader> "+
 set pastetoggle=<leader>gv
+
+" Toggles
+nmap <silent> <leader>gs :set spell!<CR>
+nmap <silent> <leader>gn :set number!<CR>
+nmap <silent> <leader>gw :set wrap!<CR>
+map <F2> :NERDTreeToggle<CR>
+map <silent> <leader>g1 :NERDTreeToggle<CR>
+map <F3> :TlistToggle<CR>
+map <silent> <leader>g2 :TlistToggle<CR>
 
 " Windows Control
 map <C-h> <C-w>h
@@ -44,16 +44,13 @@ nmap <silent> <leader>t :tabnew<Cr>
 "nmap <C-t> :tabnew<CR>
 "map! <C-t> <Esc>:tabnew<CR>
 
-map <F2> :NERDTreeToggle<CR>
-map <silent> <leader>g1 :NERDTreeToggle<CR>
-map <F3> :TlistToggle<CR>
-map <silent> <leader>g2 :TlistToggle<CR>
+" one-key indentation
+nmap > >>
+nmap < <<
 
-" Search options
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
+command! Sw :w !sudo tee %
+nmap ZS :w !sudo tee %
+nmap ZW :w
 
 " display line up/down (not actual)
 map <up> gk
@@ -87,14 +84,21 @@ imap <M-f> <Esc>wi
 nmap <Tab> %
 vmap <Tab> %
 
-nmap <silent> <leader>gs :set spell!<CR>
-nmap <silent> <leader>gn :set number!<CR>
-nmap <silent> <leader>gw :set wrap!<CR>
+" Bubble single lines <S-M-[K,J]>
+nmap <Esc>K [e
+nmap <Esc>J ]e
+
+" Bubble multiple lines <S-M-[K,J]>
+vmap <Esc>K [egv
+vmap <Esc>J ]egv
 set wildmode=full " :longest
 set wildmenu
 
-set formatprg=par
-nmap <silent> <leader>fp :set formatprg=par
+" Search options
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
 
 "folding settings
 set foldmethod=syntax
@@ -122,6 +126,7 @@ map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC " Source the vimrc file after saving it
+    autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
     au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
 endif
 
@@ -139,18 +144,15 @@ else
     nmap <silent> <leader>c8 :set t_Co=8<CR>
 endif
 
+" set par as default formatter
+set formatprg=par
+nmap <silent> <leader>fp :set formatprg=par
 
 " Command mode shortcut
 " map ; :
 
 " open command line window from normal command line mode
 set cedit=<C-Q>
-
-" one-key indentation
-nmap > >>
-nmap < <<
-
-command! Sw :w !sudo tee %
 
 " For LISP
 let g:lisp_rainbow=1
@@ -159,5 +161,3 @@ let g:lisp_rainbow=1
 let g:clj_highlight_builtins=1
 let g:clj_highlight_contrib=1
 let g:clj_paren_rainbow=1
-
-autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
