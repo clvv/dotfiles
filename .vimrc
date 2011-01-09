@@ -81,8 +81,8 @@ imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
 " Easy jumping and selecting over block of code
-nmap <Tab> %
-vmap <Tab> %
+nmap <Space> %
+vmap <Space> %
 
 " Bubble single lines <S-M-[K,J]>
 nmap <Esc>K [e
