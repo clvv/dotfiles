@@ -14,7 +14,7 @@
 " }}}
 "
 " License: {{{
-"   Copyright (c) 2002 - 2010
+"   Copyright (c) 2002 - 2011
 "   All rights reserved.
 "
 "   Redistribution and use of this software in source and binary forms, with
@@ -82,12 +82,22 @@ set cpo&vim
     let g:SuperTabRetainCompletionDuration = 'insert'
   endif
 
-  if !exists("g:SuperTabMidWordCompletion")
-    let g:SuperTabMidWordCompletion = 1
+  if !exists("g:SuperTabNoCompleteBefore")
+    " retain backwards compatability
+    if exists("g:SuperTabMidWordCompletion") && !g:SuperTabMidWordCompletion
+      let g:SuperTabNoCompleteBefore = ['\k']
+    else
+      let g:SuperTabNoCompleteBefore = []
+    endif
   endif
 
-  if !exists("g:SuperTabLeadingSpaceCompletion")
-    let g:SuperTabLeadingSpaceCompletion = 0
+  if !exists("g:SuperTabNoCompleteAfter")
+    " retain backwards compatability
+    if exists("g:SuperTabLeadingSpaceCompletion") && g:SuperTabLeadingSpaceCompletion
+      let g:SuperTabNoCompleteAfter = []
+    else
+      let g:SuperTabNoCompleteAfter = ['\s']
+    endif
   endif
 
   if !exists("g:SuperTabMappingForward")
@@ -239,6 +249,13 @@ function! s:InitBuffer()
 
   " init hack for <c-x><c-v> workaround.
   let b:complCommandLine = 0
+
+  if !exists('b:SuperTabNoCompleteBefore')
+    let b:SuperTabNoCompleteBefore = g:SuperTabNoCompleteBefore
+  endif
+  if !exists('b:SuperTabNoCompleteAfter')
+    let b:SuperTabNoCompleteAfter = g:SuperTabNoCompleteAfter
+  endif
 
   let b:SuperTabDefaultCompletionType = g:SuperTabDefaultCompletionType
 
@@ -430,24 +447,22 @@ function! s:WillComplete()
     return 0
   endif
 
-  " Leading space.
-  if !g:SuperTabLeadingSpaceCompletion
-    let prev_char = strpart(line, cnum - 2, 1)
-    if prev_char =~ '^\s*$'
+  " honor SuperTabNoCompleteAfter
+  let pre = line[:cnum - 2]
+  for pattern in b:SuperTabNoCompleteAfter
+    if pre =~ pattern . '$'
       return 0
     endif
-  endif
+  endfor
 
+  " honor SuperTabNoCompleteBefore
   " Within a word, but user does not have mid word completion enabled.
-  let next_char = strpart(line, cnum - 1, 1)
-  if !g:SuperTabMidWordCompletion && next_char =~ '\k'
-    return 0
-  endif
-
-  " In keyword completion mode and no preceding word characters.
-  "if (b:complType == "\<c-n>" || b:complType == "\<c-p>") && prev_char !~ '\k'
-  "  return 0
-  "endif
+  let post = line[cnum - 1:]
+  for pattern in b:SuperTabNoCompleteBefore
+    if post =~ '^' . pattern
+      return 0
+    endif
+  endfor
 
   return 1
 endfunction " }}}
@@ -626,14 +641,29 @@ endfunction " }}}
 
   if g:SuperTabCrMapping
     if maparg('<CR>','i') =~ '<CR>'
-      exec "inoremap <script> <cr> " . maparg('<cr>', 'i') . "<c-r>=<SID>SelectCompletion(0)<cr>"
+      let map = maparg('<cr>', 'i')
+      let cr = (map =~? '\(^\|[^)]\)<cr>')
+      if map =~ '<Plug>'
+        let plug = substitute(map, '.\{-}\(<Plug>\w\+\).*', '\1', '')
+        let plug_map = maparg(plug, 'i')
+        let map = substitute(map, '.\{-}\(<Plug>\w\+\).*', plug_map, '')
+      endif
+      exec "inoremap <script> <cr> <c-r>=<SID>SelectCompletion(" . cr . ")<cr>" . map
     else
       inoremap <cr> <c-r>=<SID>SelectCompletion(1)<cr>
     endif
     function! s:SelectCompletion(cr)
       " selecting a completion
       if pumvisible()
-        return "\<space>\<bs>"
+        " ugly hack to let other <cr> mappings for other plugins cooperate
+        " with supertab
+        let b:supertab_pumwasvisible = 1
+        return "\<c-y>"
+      endif
+
+      if exists('b:supertab_pumwasvisible')
+        unlet b:supertab_pumwasvisible
+        return ''
       endif
 
       " not so pleasant hack to keep <cr> working for abbreviations
