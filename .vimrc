@@ -158,6 +158,5 @@ set cedit=<C-Q>
 let g:lisp_rainbow=1
 
 " Settings for Vim Clojure
-let g:clj_highlight_builtins=1
-let g:clj_highlight_contrib=1
-let g:clj_paren_rainbow=1
+let vimclojure#HighlightBuiltins=1
+let vimclojure#ParenRainbow=1
