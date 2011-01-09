@@ -49,8 +49,8 @@ nmap > >>
 nmap < <<
 
 command! Sw :w !sudo tee %
-nmap ZS :w !sudo tee %
-nmap ZW :w
+nmap ZS :w !sudo tee %<CR>
+nmap ZW :w<CR>
 
 " display line up/down (not actual)
 map <up> gk
