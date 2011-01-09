@@ -49,8 +49,8 @@ nmap > >>
 nmap < <<
 
 command! Sw :w !sudo tee %
-nmap ZS :w !sudo tee %
-nmap ZW :w
+nmap ZS :w !sudo tee %<CR>
+nmap ZW :w<CR>
 
 " display line up/down (not actual)
 map <up> gk
@@ -81,8 +81,8 @@ imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
 " Easy jumping and selecting over block of code
-nmap <Tab> %
-vmap <Tab> %
+nmap <Space> %
+vmap <Space> %
 
 " Bubble single lines <S-M-[K,J]>
 nmap <Esc>K [e
