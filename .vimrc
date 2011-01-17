@@ -151,6 +151,8 @@ nmap <silent> <leader>fp :set formatprg=par
 " Command mode shortcut
 " map ; :
 
+runtime ftplugin/man.vim
+
 " open command line window from normal command line mode
 set cedit=<C-Q>
 
