@@ -1,10 +1,10 @@
-" ============================================================================
 " File:        plugin/delimitMate.vim
-" Version:     2.5.1
-" Modified:    2010-09-30
+" Version:     2.6
+" Modified:    2011-01-14
 " Description: This plugin provides auto-completion for quotes, parens, etc.
 " Maintainer:  Israel Chauca F. <israelchauca@gmail.com>
 " Manual:      Read ":help delimitMate".
+" ============================================================================
 
 " Initialization: {{{
 
@@ -27,7 +27,7 @@ if v:version < 700
 endif
 
 let s:loaded_delimitMate = 1
-let delimitMate_version = "2.5.1"
+let delimitMate_version = "2.6"
 
 function! s:option_init(name, default) "{{{
 	let b = exists("b:delimitMate_" . a:name)
@@ -112,7 +112,7 @@ function! s:init() "{{{
 	call s:option_init("expand_cr", 0)
 
 	" smart_matchpairs
-	call s:option_init("smart_matchpairs", '^\%(\w\|\!\)')
+	call s:option_init("smart_matchpairs", '^\%(\w\|\!\|£\|\$\|_\|["'']\s*\S\)')
 
 	" smart_quotes
 	call s:option_init("smart_quotes", 1)
@@ -128,8 +128,6 @@ function! s:init() "{{{
 	call s:option_init("balance_matchpairs", 0)
 
 	let b:_l_delimitMate_buffer = []
-
-	let b:loaded_delimitMate = 1
 
 endfunction "}}} Init()
 
@@ -204,7 +202,7 @@ function! s:TestMappingsDo() "{{{
 				call s:Unmap()
 				call s:Map()
 				call delimitMate#TestMappings()
-				normal o
+				call append(line('$'),'')
 			endfor
 		endfor
 		let b:delimitMate_expand_space = temp_varsDM[0]
@@ -227,8 +225,13 @@ function! s:DelimitMateDo(...) "{{{
 	if exists("g:delimitMate_excluded_ft") &&
 				\ index(split(g:delimitMate_excluded_ft, ','), &filetype, 0, 1) >= 0
 
-			" Finish here:
-			return 1
+		" Finish here:
+		return 1
+	endif
+
+	" Check if user tried to disable using b:loaded_delimitMate
+	if exists("b:loaded_delimitMate")
+		return 1
 	endif
 
 	" Initialize settings:
@@ -411,8 +414,9 @@ augroup delimitMate
 
 	" Run on new buffers.
 	autocmd BufNewFile,BufRead,BufEnter *
-				\ if !exists("b:loaded_delimitMate") |
+				\ if !exists('b:delimitMate_was_here') |
 				\   call <SID>DelimitMateDo() |
+				\   let b:delimitMate_was_here = 1 |
 				\ endif
 
 	" Flush the char buffer:
