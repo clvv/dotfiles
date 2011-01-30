@@ -1,10 +1,10 @@
-" ============================================================================
 " File:        autoload/delimitMate.vim
-" Version:     2.5.1
-" Modified:    2010-09-30
+" Version:     2.6
+" Modified:    2011-01-14
 " Description: This plugin provides auto-completion for quotes, parens, etc.
 " Maintainer:  Israel Chauca F. <israelchauca@gmail.com>
 " Manual:      Read ":help delimitMate".
+" ============================================================================
 
 " Utilities {{{
 
@@ -215,6 +215,13 @@ function! delimitMate#BalancedParens(char) "{{{
 	return opening - closing
 endfunction "}}}
 
+function! delimitMate#RmBuffer(num) " {{{
+	if len(b:_l_delimitMate_buffer) > 0
+	   call remove(b:_l_delimitMate_buffer, 0, (a:num-1))
+	endif
+	return ""
+endfunction " }}}
+
 " }}}
 
 " Doers {{{
@@ -372,12 +379,6 @@ function! delimitMate#JumpMany() " {{{
 	endif
 endfunction " delimitMate#JumpMany() }}}
 
-function! delimitMate#MapMsg(msg) "{{{
-	redraw
-	echomsg a:msg
-	return ""
-endfunction "}}}
-
 function! delimitMate#ExpandReturn() "{{{
 	if delimitMate#IsForbidden("")
 		return "\<CR>"
@@ -461,13 +462,6 @@ function! delimitMate#Finish(move_back) " {{{
 	return ''
 endfunction " }}}
 
-function! delimitMate#RmBuffer(num) " {{{
-	if len(b:_l_delimitMate_buffer) > 0
-	   call remove(b:_l_delimitMate_buffer, 0, (a:num-1))
-	endif
-	return ""
-endfunction " }}}
-
 " }}}
 
 " Tools: {{{
@@ -519,47 +513,68 @@ function! delimitMate#TestMappings() "{{{
 	if b:_l_delimitMate_autoclose
 		" {{{
 		for i in range(len(b:_l_delimitMate_left_delims))
-			exec "normal GGo0\<C-D>Open: " . b:_l_delimitMate_left_delims[i]. "|"
+			exec "normal Go0\<C-D>Open: " . b:_l_delimitMate_left_delims[i]. "|"
 			exec "normal o0\<C-D>Delete: " . b:_l_delimitMate_left_delims[i] . "\<BS>|"
 			exec "normal o0\<C-D>Exit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
-			exec "normal o0\<C-D>Space: " . b:_l_delimitMate_left_delims[i] . " |"
-			exec "normal o0\<C-D>Delete space: " . b:_l_delimitMate_left_delims[i] . " \<BS>|"
-			exec "normal o0\<C-D>Car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>|"
-			exec "normal GGo0\<C-D>Delete car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>0\<C-D>\<BS>|\<Esc>GG\<Esc>o"
+			if b:_l_delimitMate_expand_space == 1
+				exec "normal o0\<C-D>Space: " . b:_l_delimitMate_left_delims[i] . " |"
+				exec "normal o0\<C-D>Delete space: " . b:_l_delimitMate_left_delims[i] . " \<BS>|"
+			endif
+			if b:_l_delimitMate_expand_cr == 1
+				exec "normal o0\<C-D>Car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>|"
+				exec "normal Go0\<C-D>Delete car return: " . b:_l_delimitMate_left_delims[i] . "\<CR>0\<C-D>\<BS>|"
+			endif
+			call append(line('$'), '')
 		endfor
 		for i in range(len(b:_l_delimitMate_quotes_list))
-			exec "normal GGA0\<C-D>Open: " . b:_l_delimitMate_quotes_list[i]	. "|"
+			exec "normal Go0\<C-D>Open: " . b:_l_delimitMate_quotes_list[i]	. "|"
 			exec "normal o0\<C-D>Delete: " . b:_l_delimitMate_quotes_list[i] . "\<BS>|"
 			exec "normal o0\<C-D>Exit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
-			exec "normal o0\<C-D>Space: " . b:_l_delimitMate_quotes_list[i] . " |"
-			exec "normal o0\<C-D>Delete space: " . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
-			exec "normal o0\<C-D>Car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
-			exec "normal GGo0\<C-D>Delete car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+			if b:_l_delimitMate_expand_space == 1
+				exec "normal o0\<C-D>Space: " . b:_l_delimitMate_quotes_list[i] . " |"
+				exec "normal o0\<C-D>Delete space: " . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
+			endif
+			if b:_l_delimitMate_expand_cr == 1
+				exec "normal o0\<C-D>Car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
+				exec "normal Go0\<C-D>Delete car return: " . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|"
+			endif
+			call append(line('$'), '')
 		endfor
 		"}}}
 	else
 		"{{{
 		for i in range(len(b:_l_delimitMate_left_delims))
-			exec "normal GGoOpen & close: " . b:_l_delimitMate_left_delims[i]	. b:_l_delimitMate_right_delims[i] . "|"
+			exec "normal GoOpen & close: " . b:_l_delimitMate_left_delims[i]	. b:_l_delimitMate_right_delims[i] . "|"
 			exec "normal oDelete: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<BS>|"
 			exec "normal oExit: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . b:_l_delimitMate_right_delims[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " \<BS>|"
-			exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+			if b:_l_delimitMate_expand_space == 1
+				exec "normal oSpace: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " |"
+				exec "normal oDelete space: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . " \<BS>|"
+			endif
+			if b:_l_delimitMate_expand_cr == 1
+				exec "normal oCar return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>|"
+				exec "normal GoDelete car return: " . b:_l_delimitMate_left_delims[i] . b:_l_delimitMate_right_delims[i] . "\<CR>\<BS>|"
+			endif
+			call append(line('$'), '')
 		endfor
 		for i in range(len(b:_l_delimitMate_quotes_list))
-			exec "normal GGoOpen & close: " . b:_l_delimitMate_quotes_list[i]	. b:_l_delimitMate_quotes_list[i] . "|"
+			exec "normal GoOpen & close: " . b:_l_delimitMate_quotes_list[i]	. b:_l_delimitMate_quotes_list[i] . "|"
 			exec "normal oDelete: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<BS>|"
 			exec "normal oExit: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "|"
-			exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " |"
-			exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
-			exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
-			exec "normal GGoDelete car return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|\<Esc>GG\<Esc>o"
+			if b:_l_delimitMate_expand_space == 1
+				exec "normal oSpace: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " |"
+				exec "normal oDelete space: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . " \<BS>|"
+			endif
+			if b:_l_delimitMate_expand_cr == 1
+				exec "normal oCar return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>|"
+				exec "normal GoDelete car return: " . b:_l_delimitMate_quotes_list[i] . b:_l_delimitMate_quotes_list[i] . "\<CR>\<BS>|"
+			endif
+			call append(line('$'), '')
 		endfor
 	endif "}}}
-	redir => setoptions | set | redir END
-	call append(line('$'), split(setoptions,"\n"))
+	redir => setoptions | set | filetype | redir END
+	call append(line('$'), split(setoptions,"\n")
+				\ + ['--------------------'])
 	setlocal nowrap
 endfunction "}}}
 

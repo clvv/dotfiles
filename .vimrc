@@ -127,7 +127,7 @@ map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC " Source the vimrc file after saving it
     autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
-    au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod +x <afile> | endif | endif
+    "au BufWritePost * if getline(1) =~ "^#!" && getline(1) =~ "/bin/" | silent !chmod +x <afile>
 endif
 
 if has('gui_running')
@@ -150,6 +150,8 @@ nmap <silent> <leader>fp :set formatprg=par
 
 " Command mode shortcut
 " map ; :
+
+runtime ftplugin/man.vim
 
 " open command line window from normal command line mode
 set cedit=<C-Q>
