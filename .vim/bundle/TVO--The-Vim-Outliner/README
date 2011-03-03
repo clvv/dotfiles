@@ -1,0 +1,13 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=517
+
+TVO (The Vim Outliner) is my solution for text outlining in Vim.
+
+It works a lot like Word's outline support, but is much more vim-compatible.
+It has syntax highlighting, embedded text blocks, shortcut mappings using both  LocalLeader and arrow keys, and works reasonably well with Vim Easy.
+There is a toolbar that will be familiar to you if you've used Word's outliner.
+
+You can extract just text, or just headings if you wish; there's also some converters (to HTML, Perl POD, and to RTF) included.
+
+Please email me with bug reports, improvements, comments or more documentation (badly needed!).
+
+Earlier versions are available at http://bike-nomad.com/vim/vimoutliner.html
