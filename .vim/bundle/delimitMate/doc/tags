@@ -27,6 +27,7 @@
 delimitMate	delimitMate.txt	/*delimitMate*
 delimitMate#JumpAny()	delimitMate.txt	/*delimitMate#JumpAny()*
 delimitMate#ShouldJump()	delimitMate.txt	/*delimitMate#ShouldJump()*
+delimitMate#WithinEmptyPair()	delimitMate.txt	/*delimitMate#WithinEmptyPair()*
 delimitMate-contents	delimitMate.txt	/*delimitMate-contents*
 delimitMate.txt	delimitMate.txt	/*delimitMate.txt*
 delimitMateAutoClose	delimitMate.txt	/*delimitMateAutoClose*
@@ -49,4 +50,3 @@ delimitMateSmartMatchpairs	delimitMate.txt	/*delimitMateSmartMatchpairs*
 delimitMateSmartQuotes	delimitMate.txt	/*delimitMateSmartQuotes*
 delimitMateSyntax	delimitMate.txt	/*delimitMateSyntax*
 delimitMateTodo	delimitMate.txt	/*delimitMateTodo*
-delimitMate_WithinEmptyPair()	delimitMate.txt	/*delimitMate_WithinEmptyPair()*

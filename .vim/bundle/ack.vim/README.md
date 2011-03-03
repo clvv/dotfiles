@@ -12,7 +12,7 @@ The *Official Version* of this plugin is available at [vim.org](http://www.vim.o
 
 ### Ack
 
-You have to install [ack](http://search.cpan.org/~petdance/ack/ack), of course.
+You have to install [ack](http://betterthangrep.com/), of course.
 
 Install on Debian / Ubuntu with:
 
@@ -25,6 +25,9 @@ For Debian / Ubuntu you can add this line into your .vimrc:
 Install on Gentoo with:
 
     sudo emerge ack
+
+Install with Homebrew:
+    brew install ack
 
 Install with MacPorts:
 
@@ -59,7 +62,7 @@ in this window will open the file, and place the cursor on the matching line.
 
 Just like where you use :grep, :grepadd, :lgrep, and :lgrepadd, you can use `:Ack`, `:AckAdd`, `:LAck`, and `:LAckAdd` respectively. (See `doc/ack.txt`, or install and `:h Ack` for more information.)
 
-**From the [ack docs](http://search.cpan.org/~petdance/ack/ack)** (my favorite feature):
+**From the [ack docs](http://betterthangrep.com/)** (my favorite feature):
 
     --type=TYPE, --type=noTYPE
 
@@ -71,10 +74,20 @@ Just like where you use :grep, :grepadd, :lgrep, and :lgrepadd, you can use `:Ac
 
         See ack --help=types for a list of valid types.
 
+### Keyboard Shortcuts ###
+
+In the quickfix window, you can use:
+
+    o to open (same as enter)
+    go to preview file (open but maintain focus on ack.vim results)
+    t to open in new tab
+    T to open in new tab silently
+    q to close the quickfix window
+
 This Vim plugin is derived (and by derived, I mean copied, essentially) from
 Antoine Imbert's blog post [Ack and Vim
-Integration](http://blog.ant0ine.com/2007/03/ack_and_vim_integration.html) (in
+Integration](http://blog.ant0ine.com/typepad/2007/03/ack-and-vim-integration.html) (in
 particular, the function at the bottom of the post).  I added a help file that
 provides just enough reference to get you going.  I also highly recommend you
 check out the docs for the Perl script 'ack', for obvious reasons: [ack -
-grep-like text finder](http://search.cpan.org/~petdance/ack/ack).
+grep-like text finder](http://betterthangrep.com/).

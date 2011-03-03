@@ -3,6 +3,7 @@
 'NERDCommentWholeLinesInVMode'	NERD_commenter.txt	/*'NERDCommentWholeLinesInVMode'*
 'NERDCompactSexyComs'	NERD_commenter.txt	/*'NERDCompactSexyComs'*
 'NERDCreateDefaultMappings'	NERD_commenter.txt	/*'NERDCreateDefaultMappings'*
+'NERDCustomDelimiters'	NERD_commenter.txt	/*'NERDCustomDelimiters'*
 'NERDDefaultNesting'	NERD_commenter.txt	/*'NERDDefaultNesting'*
 'NERDLPlace'	NERD_commenter.txt	/*'NERDLPlace'*
 'NERDMenuMode'	NERD_commenter.txt	/*'NERDMenuMode'*
