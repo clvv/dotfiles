@@ -47,7 +47,7 @@ endfunction
 let s:spaceStr = ' '
 let s:lenSpaceStr = strlen(s:spaceStr)
 
-" Section: variable init calls {{{2
+" Section: variable initialization {{{2
 call s:InitVariable("g:NERDAllowAnyVisualDelims", 1)
 call s:InitVariable("g:NERDBlockComIgnoreEmpty", 0)
 call s:InitVariable("g:NERDCommentWholeLinesInVMode", 0)
@@ -58,13 +58,15 @@ call s:InitVariable("g:NERDMenuMode", 3)
 call s:InitVariable("g:NERDLPlace", "[>")
 call s:InitVariable("g:NERDUsePlaceHolders", 1)
 call s:InitVariable("g:NERDRemoveAltComs", 1)
-call s:InitVariable("g:NERDRemoveExtraSpaces", 1)
+call s:InitVariable("g:NERDRemoveExtraSpaces", 0)
 call s:InitVariable("g:NERDRPlace", "<]")
 call s:InitVariable("g:NERDSpaceDelims", 0)
-call s:InitVariable("g:NERDDelimiterRequests", 1)
+
+if !exists("g:NERDCustomDelimiters")
+    let g:NERDCustomDelimiters = {}
+endif
 
 let s:NERDFileNameEscape="[]#*$%'\" ?`!&();<>\\"
-"vf ;;dA:hcs"'A {j^f(lyi(k$p0f{a A }0f{a 'left':jdd^
 
 let s:delimiterMap = {
     \ 'aap': { 'left': '#' },
@@ -144,7 +146,7 @@ let s:delimiterMap = {
     \ 'eiffel': { 'left': '--' },
     \ 'elf': { 'left': "'" },
     \ 'elmfilt': { 'left': '#' },
-    \ 'erlang': { 'left': '%' },
+    \ 'erlang': { 'left': '%', 'leftAlt': '%%' },
     \ 'eruby': { 'left': '<%#', 'right': '%>', 'leftAlt': '<!--', 'rightAlt': '-->' },
     \ 'expect': { 'left': '#' },
     \ 'exports': { 'left': '#' },
@@ -173,7 +175,7 @@ let s:delimiterMap = {
     \ 'gitrebase': { 'left': '#' },
     \ 'gnuplot': { 'left': '#' },
     \ 'groovy': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
-    \ 'gsp': { 'left': '<%--', 'right': '--%>' },
+    \ 'gsp': { 'left': '<%--', 'right': '--%>', 'leftAlt': '<!--','rightAlt': '-->'},
     \ 'gtkrc': { 'left': '#' },
     \ 'haskell': { 'left': '{-','right': '-}', 'leftAlt': '--' },
     \ 'hb': { 'left': '#' },
@@ -206,6 +208,7 @@ let s:delimiterMap = {
     \ 'kscript': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'lace': { 'left': '--' },
     \ 'ldif': { 'left': '#' },
+    \ 'less': { 'left': '/*','right': '*/' },
     \ 'lilo': { 'left': '#' },
     \ 'lilypond': { 'left': '%' },
     \ 'liquid': { 'left': '{% comment %}', 'right': '{% endcomment %}' },
@@ -255,6 +258,7 @@ let s:delimiterMap = {
     \ 'occam': { 'left': '--' },
     \ 'omlet': { 'left': '(*', 'right': '*)' },
     \ 'omnimark': { 'left': ';' },
+    \ 'ooc': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
     \ 'openroad': { 'left': '//' },
     \ 'opl': { 'left': "REM" },
     \ 'ora': { 'left': '#' },
@@ -300,8 +304,10 @@ let s:delimiterMap = {
     \ 'sass': { 'left': '//', 'leftAlt': '/*' },
     \ 'sather': { 'left': '--' },
     \ 'scala': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
+    \ 'scheme': { 'left': ';', 'leftAlt': '#|', 'rightAlt': '|#' },
     \ 'scilab': { 'left': '//' },
     \ 'scsh': { 'left': ';' },
+    \ 'scss': { 'left': '/*','right': '*/' },
     \ 'sed': { 'left': '#' },
     \ 'sgmldecl': { 'left': '--', 'right': '--' },
     \ 'sgmllnx': { 'left': '<!--', 'right': '-->' },
@@ -376,12 +382,17 @@ let s:delimiterMap = {
     \ 'z8a': { 'left': ';' }
     \ }
 
+"merge in the custom delimiters
+for ft in keys(g:NERDCustomDelimiters)
+    let s:delimiterMap[ft] = g:NERDCustomDelimiters[ft]
+endfor
+
 " Section: Comment mapping functions, autocommands and commands {{{1
 " ============================================================================
 " Section: Comment enabler autocommands {{{2
 " ============================================================================
 
-augroup commentEnablers
+augroup NERDCommenter
 
     "if the user enters a buffer or reads a buffer then we gotta set up
     "the comment delimiters for that new filetype
@@ -403,10 +414,24 @@ augroup END
 "    set for this buffer.
 "
 function s:SetUpForNewFiletype(filetype, forceReset)
+    let ft = a:filetype
+
+    "for compound filetypes, if we dont know how to handle the full filetype
+    "then break it down and use the first part that we know how to handle
+    if ft =~ '\.' && !has_key(s:delimiterMap, ft)
+        let filetypes = split(a:filetype, '\.')
+        for i in filetypes
+            if has_key(s:delimiterMap, i)
+                let ft = i
+                break
+            endif
+        endfor
+    endif
+
     let b:NERDSexyComMarker = ''
 
-    if has_key(s:delimiterMap, a:filetype)
-        let b:NERDCommenterDelims = s:delimiterMap[a:filetype]
+    if has_key(s:delimiterMap, ft)
+        let b:NERDCommenterDelims = s:delimiterMap[ft]
         for i in ['left', 'leftAlt', 'right', 'rightAlt']
             if !has_key(b:NERDCommenterDelims, i)
                 let b:NERDCommenterDelims[i] = ''
