@@ -2,7 +2,7 @@
 "   Original: Gergely Kontra <kgergely@mcl.hu>
 "   Current:  Eric Van Dewoestine <ervandew@gmail.com> (as of version 0.4)
 "   Please direct all correspondence to Eric.
-" Version: 1.5
+" Version: 1.4
 " GetLatestVimScripts: 1643 1 :AutoInstall: supertab.vim
 "
 " Description: {{{
@@ -208,7 +208,7 @@ function! SuperTabAlternateCompletion(type)
   " vim into keyword completion mode and end that mode to prevent the regular
   " insert behavior of <c-e> from occurring.
   call feedkeys("\<c-x>\<c-p>\<c-e>", 'n')
-  call feedkeys(b:complType, 'n')
+  call feedkeys(b:complType)
   return ''
 endfunction " }}}
 
@@ -235,6 +235,7 @@ function! s:InitBuffer()
   let b:complReset = 0
   let b:complTypeManual = !exists('b:complTypeManual') ? '' : b:complTypeManual
   let b:complTypeContext = ''
+  let b:capturing = 0
 
   " init hack for <c-x><c-v> workaround.
   let b:complCommandLine = 0
@@ -479,7 +480,7 @@ function! s:EnableLongestEnhancement()
   augroup END
 endfunction " }}}
 
-" s:CompletionReset(char) {{{
+" s:CompletionReset() {{{
 function! s:CompletionReset(char)
   let b:complReset = 1
   return a:char
@@ -499,7 +500,7 @@ function! s:CaptureKeyPresses()
     for c in split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_', '.\zs')
       exec 'imap <buffer> ' . c . ' <c-r>=<SID>CompletionReset("' . c . '")<cr>'
     endfor
-    imap <buffer> <bs> <c-r>=<SID>CompletionReset("\<lt>bs>")<cr>
+    imap <buffer> <bs> <c-r>=<SID>CompletionReset("\<lt>c-h>")<cr>
     imap <buffer> <c-h> <c-r>=<SID>CompletionReset("\<lt>c-h>")<cr>
     exec 'imap <buffer> ' . g:SuperTabMappingForward . ' <c-r>=<SID>SuperTab("n")<cr>'
   endif
@@ -507,7 +508,7 @@ endfunction " }}}
 
 " s:ReleaseKeyPresses() {{{
 function! s:ReleaseKeyPresses()
-  if exists('b:capturing') && b:capturing
+  if b:capturing
     let b:capturing = 0
     for c in split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_', '.\zs')
       exec 'iunmap <buffer> ' . c
@@ -623,58 +624,33 @@ function! s:ContextText()
   endif
 endfunction " }}}
 
-" s:ExpandMap(map) {{{
-function! s:ExpandMap(map)
-  let map = a:map
-  if map =~ '<Plug>'
-    let plug = substitute(map, '.\{-}\(<Plug>\w\+\).*', '\1', '')
-    let plug_map = maparg(plug, 'i')
-    let map = substitute(map, '.\{-}\(<Plug>\w\+\).*', plug_map, '')
-  endif
-  return map
-endfunction " }}}
-
 " Key Mappings {{{
   " map a regular tab to ctrl-tab (note: doesn't work in console vim)
   exec 'inoremap ' . g:SuperTabMappingTabLiteral . ' <tab>'
 
   imap <c-x> <c-r>=<SID>ManualCompletionEnter()<cr>
 
-  imap <script> <Plug>SuperTabForward <c-r>=<SID>SuperTab('n')<cr>
-  imap <script> <Plug>SuperTabBackward <c-r>=<SID>SuperTab('p')<cr>
-
-  exec 'imap ' . g:SuperTabMappingForward . ' <Plug>SuperTabForward'
-  exec 'imap ' . g:SuperTabMappingBackward . ' <Plug>SuperTabBackward'
+  " From the doc |insert.txt| improved
+  exec 'imap ' . g:SuperTabMappingForward . ' <c-n>'
+  exec 'imap ' . g:SuperTabMappingBackward . ' <c-p>'
 
   " After hitting <Tab>, hitting it once more will go to next match
   " (because in XIM mode <c-n> and <c-p> mappings are ignored)
   " and wont start a brand new completion
   " The side effect, that in the beginning of line <c-n> and <c-p> inserts a
   " <Tab>, but I hope it may not be a problem...
-  let ctrl_n = maparg('<c-n>', 'i')
-  if ctrl_n != ''
-    let ctrl_n = substitute(ctrl_n, '<', '<lt>', 'g')
-    exec 'imap <c-n> <c-r>=<SID>ForwardBack("n", "' . ctrl_n . '")<cr>'
-  else
-    imap <c-n> <Plug>SuperTabForward
-  endif
-  let ctrl_p = maparg('<c-p>', 'i')
-  if ctrl_p != ''
-    let ctrl_p = substitute(ctrl_p, '<', '<lt>', 'g')
-    exec 'imap <c-p> <c-r>=<SID>ForwardBack("p", "' . ctrl_p . '")<cr>'
-  else
-    imap <c-p> <Plug>SuperTabBackward
-  endif
-  function! s:ForwardBack(command, map)
-    exec "let map = \"" . escape(a:map, '<') . "\""
-    return pumvisible() ? s:SuperTab(a:command) : map
-  endfunction
+  inoremap <c-n> <c-r>=<SID>SuperTab('n')<cr>
+  inoremap <c-p> <c-r>=<SID>SuperTab('p')<cr>
 
   if g:SuperTabCrMapping
     if maparg('<CR>','i') =~ '<CR>'
       let map = maparg('<cr>', 'i')
       let cr = (map =~? '\(^\|[^)]\)<cr>')
-      let map = s:ExpandMap(map)
+      if map =~ '<Plug>'
+        let plug = substitute(map, '.\{-}\(<Plug>\w\+\).*', '\1', '')
+        let plug_map = maparg(plug, 'i')
+        let map = substitute(map, '.\{-}\(<Plug>\w\+\).*', plug_map, '')
+      endif
       exec "inoremap <script> <cr> <c-r>=<SID>SelectCompletion(" . cr . ")<cr>" . map
     else
       inoremap <cr> <c-r>=<SID>SelectCompletion(1)<cr>
