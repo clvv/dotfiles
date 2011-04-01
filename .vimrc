@@ -132,7 +132,7 @@ if has("autocmd")
 endif
 
 if has('gui_running')
-    set guioptions=r
+    set guioptions=
     set lines=33 columns=100
     set cursorline
     colorscheme lucius
@@ -146,8 +146,8 @@ else
 endif
 
 " set par as default formatter
-set formatprg=par
-nmap <silent> <leader>fp :set formatprg=par
+" set formatprg=par
+" nmap <silent> <leader>fp :set formatprg=par
 
 " Command mode shortcut
 " map ; :
