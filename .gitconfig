@@ -5,3 +5,7 @@
 	email = x@wei23.net
 [core]
 	editor = vim
+[alias]
+    ci = commit
+    co = checkout
+    st = status
