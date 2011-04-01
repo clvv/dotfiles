@@ -34,7 +34,7 @@ if [[ -n "$PS1" ]] ; then
         source "/usr/local/rvm/scripts/rvm"
     fi
 
-    [ -s "$HOME/lib/z/z.sh"] && source $HOME/lib/z/z.sh
+    [ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
 
     [ -s "$HOME/.bashrc.local" ] && source $HOME/.bashrc.local
 
