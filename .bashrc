@@ -26,16 +26,6 @@ if [[ -n "$PS1" ]] ; then
         . /etc/bash_completion
     fi
 
-    [ -s "$HOME/.shenv" ] && source $HOME/.shenv
-
-    if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-        source "$HOME/.rvm/scripts/rvm"
-    elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-        source "/usr/local/rvm/scripts/rvm"
-    fi
-
-    [ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
-
     [ -s "$HOME/.bashrc.local" ] && source $HOME/.bashrc.local
 
 fi

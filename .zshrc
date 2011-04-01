@@ -3,7 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Set to the name theme to load.
 # Look in ~/.oh-my-zsh/themes/
-export ZSH_THEME="x"
+export ZSH_THEME="kennethreitz"
 
 # Set to this to use case-sensitive completion
 # export CASE_SENSITIVE="true"
@@ -28,14 +28,6 @@ bindkey "^[^I" _history-complete-older
 bindkey "^[^[^I" _history-complete-newer
 
 [ -s "$HOME/.shenv" ] && source $HOME/.shenv
-
-if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-    source "$HOME/.rvm/scripts/rvm"
-elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-    source "/usr/local/rvm/scripts/rvm"
-fi
-
-[ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
 
 function precmd () {
     z --add "$(pwd -P)"
