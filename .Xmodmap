@@ -1,0 +1,3 @@
+!Caps Lock to Esc
+remove Lock = Caps_Lock
+keysym Caps_Lock = Escape
