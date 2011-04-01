@@ -35,7 +35,7 @@ elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
     source "/usr/local/rvm/scripts/rvm"
 fi
 
-[ -s "$HOME/lib/z/z.sh"] && source $HOME/lib/z/z.sh
+[ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
 
 function precmd () {
     z --add "$(pwd -P)"
