@@ -140,6 +140,7 @@ else
     if ( $TERM =~ "xterm" && !( $TMUX =~ "tmux" ) && !( $TERMCAP =~"screen" ) )
         set t_Co=256
         colorscheme lucius
+        set cursorline
     endif
     nmap <silent> <leader>c2 :set t_Co=256<CR>
     nmap <silent> <leader>c8 :set t_Co=8<CR>
