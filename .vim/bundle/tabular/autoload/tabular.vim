@@ -70,38 +70,38 @@ endfunction
 function! s:SplitDelim(string, delim)
   let rv = []
   let beg = 0
-  let idx = 0
 
   let len = len(a:string)
+  let searchoff = 0
 
   while 1
-    let mid = match(a:string, a:delim, beg, 1)
+    let mid = match(a:string, a:delim, beg + searchoff, 1)
     if mid == -1 || mid == len
       break
     endif
 
-    let matchstr = matchstr(a:string, a:delim, beg, 1)
+    let matchstr = matchstr(a:string, a:delim, beg + searchoff, 1)
     let length = strlen(matchstr)
 
-    if beg < mid
-      let rv += [ a:string[beg : mid-1] ]
-    else
-      let rv += [ "" ]
+    if length == 0 && beg == mid
+      " Zero-length match for a zero-length delimiter - advance past it
+      let searchoff += 1
+      continue
     endif
-
-    let beg = mid + length
-    let idx = beg
 
     if beg == mid
-      " Empty match, advance "beg" by one to avoid infinite loop
       let rv += [ "" ]
-      let beg += 1
-    else " beg > mid
-      let rv += [ a:string[mid : beg-1] ]
+    else
+      let rv += [ a:string[beg : mid-1] ]
     endif
+
+    let rv += [ matchstr ]
+
+    let beg = mid + length
+    let searchoff = 0
   endwhile
 
-  let rv += [ strpart(a:string, idx) ]
+  let rv += [ strpart(a:string, beg) ]
 
   return rv
 endfunction
@@ -274,6 +274,50 @@ function! tabular#PipeRange(includepat, ...) range
   endfor
 
   call s:SetLines(top, bot - top + 1, lines)
+endfunction
+
+function! s:SplitDelimTest(string, delim, expected)
+  let result = s:SplitDelim(a:string, a:delim)
+
+  if result !=# a:expected
+    echomsg 'Test failed!'
+    echomsg '  string=' . string(a:string) . '  delim=' . string(a:delim)
+    echomsg '  Returned=' . string(result)
+    echomsg '  Expected=' . string(a:expected)
+  endif
+endfunction
+
+function! tabular#SplitDelimUnitTest()
+  let assignment = '[|&+*/%<>=!~-]\@<!\([<>!=]=\|=\~\)\@![|&+*/%<>=!~-]*='
+  let two_spaces = '  '
+  let ternary_operator = '^.\{-}\zs?\|:'
+  let cpp_io = '<<\|>>'
+  let pascal_assign = ':='
+  let trailing_c_comments = '\/\*\|\*\/\|\/\/'
+
+  call s:SplitDelimTest('a+=b',    assignment, ['a', '+=', 'b'])
+  call s:SplitDelimTest('a-=b',    assignment, ['a', '-=', 'b'])
+  call s:SplitDelimTest('a!=b',    assignment, ['a!=b'])
+  call s:SplitDelimTest('a==b',    assignment, ['a==b'])
+  call s:SplitDelimTest('a&=b',    assignment, ['a', '&=', 'b'])
+  call s:SplitDelimTest('a|=b',    assignment, ['a', '|=', 'b'])
+  call s:SplitDelimTest('a=b=c',   assignment, ['a', '=', 'b', '=', 'c'])
+
+  call s:SplitDelimTest('a  b  c', two_spaces, ['a', '  ', 'b', '  ', 'c'])
+  call s:SplitDelimTest('a b   c', two_spaces, ['a b', '  ', ' c'])
+  call s:SplitDelimTest('ab    c', two_spaces, ['ab', '  ', '', '  ', 'c'])
+
+  call s:SplitDelimTest('a?b:c',   ternary_operator, ['a', '?', 'b', ':', 'c'])
+
+  call s:SplitDelimTest('a<<b<<c', cpp_io, ['a', '<<', 'b', '<<', 'c'])
+
+  call s:SplitDelimTest('a:=b=c',  pascal_assign, ['a', ':=', 'b=c'])
+
+  call s:SplitDelimTest('x//foo',  trailing_c_comments, ['x', '//', 'foo'])
+  call s:SplitDelimTest('x/*foo*/',trailing_c_comments, ['x', '/*', 'foo', '*/', ''])
+
+  call s:SplitDelimTest('#ab#cd#ef', '[^#]*', ['#', 'ab', '#', 'cd', '#', 'ef', ''])
+  call s:SplitDelimTest('#ab#cd#ef', '#\zs',  ['#', '', 'ab#', '', 'cd#', '', 'ef'])
 endfunction
 
 " Stupid vimscript crap, part 2                                           {{{1
