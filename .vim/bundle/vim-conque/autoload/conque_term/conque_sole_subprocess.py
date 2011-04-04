@@ -330,13 +330,16 @@ class ConqueSoleSubprocess():
         # set update range
         if curs_line != self.cursor_line or self.top != buf_info.srWindow.Top or self.screen_redraw_ct == CONQUE_SOLE_SCREEN_REDRAW:
             self.screen_redraw_ct = 0
-            logging.debug('screen redraw')
+            logging.info('screen redraw')
             read_start = self.top
-            read_end = buf_info.srWindow.Bottom + 1
+            read_end = max([buf_info.srWindow.Bottom + 1, curs_line + 1])
         else:
-            logging.debug('no screen redraw')
+            logging.info('no screen redraw')
             read_start = curs_line
             read_end = curs_line + 1
+
+        #logging.info('start: ' + str(read_start))
+        #logging.info('end: ' + str(read_end))
 
         # vars used in for loop
         coord = COORD(0, 0)
@@ -348,17 +351,22 @@ class ConqueSoleSubprocess():
             coord.Y = i
 
             res = ctypes.windll.kernel32.ReadConsoleOutputCharacterW(self.stdout, ctypes.byref(self.tc), self.buffer_width, coord, ctypes.byref(chars_read))
-            ctypes.windll.kernel32.ReadConsoleOutputAttribute(self.stdout, ctypes.byref(self.ac), self.buffer_width, coord, ctypes.byref(chars_read))
+            if not self.fast_mode:
+                ctypes.windll.kernel32.ReadConsoleOutputAttribute(self.stdout, ctypes.byref(self.ac), self.buffer_width, coord, ctypes.byref(chars_read))
 
             t = self.tc.value
-            a = self.ac.value
+            if not self.fast_mode:
+                a = self.ac.value
 
             # add data
             if i >= len(self.data):
-                self.data.append(t)
-                self.attributes.append(a)
-            else:
-                self.data[i] = t
+                for j in range(len(self.data), i + 1):
+                    self.data.append('')
+                    if not self.fast_mode:
+                        self.attributes.append('')
+
+            self.data[i] = t
+            if not self.fast_mode:
                 self.attributes[i] = a
 
             #logging.debug(str(chars_read))
@@ -370,34 +378,41 @@ class ConqueSoleSubprocess():
             #logging.debug("attributes " + str(i) + " is: " + str(a))
 
         # write new output to shared memory
-        if self.mem_redraw_ct == CONQUE_SOLE_MEM_REDRAW:
-            self.mem_redraw_ct = 0
-            logging.debug('mem redraw')
-            for i in range(0, len(self.data)):
-                self.shm_output.write(text=self.data[i], start=self.buffer_width * i)
-                if not self.fast_mode:
-                    self.shm_attributes.write(text=self.attributes[i], start=self.buffer_width * i)
-        else:
-            logging.debug('no mem redraw')
-            for i in range(read_start, read_end):
-                self.shm_output.write(text=self.data[i], start=self.buffer_width * i)
-                if not self.fast_mode:
-                    self.shm_attributes.write(text=self.attributes[i], start=self.buffer_width * i)
-                #self.shm_output.write(text=''.join(self.data[read_start:read_end]), start=read_start * self.buffer_width)
-                #self.shm_attributes.write(text=''.join(self.attributes[read_start:read_end]), start=read_start * self.buffer_width)
+        try:
+            if self.mem_redraw_ct == CONQUE_SOLE_MEM_REDRAW:
+                self.mem_redraw_ct = 0
+                logging.debug('mem redraw')
+                for i in range(0, len(self.data)):
+                    self.shm_output.write(text=self.data[i], start=self.buffer_width * i)
+                    if not self.fast_mode:
+                        self.shm_attributes.write(text=self.attributes[i], start=self.buffer_width * i)
+            else:
+                logging.debug('no mem redraw')
+                for i in range(read_start, read_end):
+                    self.shm_output.write(text=self.data[i], start=self.buffer_width * i)
+                    if not self.fast_mode:
+                        self.shm_attributes.write(text=self.attributes[i], start=self.buffer_width * i)
+                    #self.shm_output.write(text=''.join(self.data[read_start:read_end]), start=read_start * self.buffer_width)
+                    #self.shm_attributes.write(text=''.join(self.attributes[read_start:read_end]), start=read_start * self.buffer_width)
 
-        # write cursor position to shared memory
-        stats = {'top_offset': buf_info.srWindow.Top, 'default_attribute': buf_info.wAttributes, 'cursor_x': curs_col, 'cursor_y': curs_line, 'is_alive': 1}
-        self.shm_stats.write(stats)
-        #logging.debug('wtf cursor: ' + str(buf_info))
+            # write cursor position to shared memory
+            stats = {'top_offset': buf_info.srWindow.Top, 'default_attribute': buf_info.wAttributes, 'cursor_x': curs_col, 'cursor_y': curs_line, 'is_alive': 1}
+            self.shm_stats.write(stats)
 
-        # adjust screen position
-        self.top = buf_info.srWindow.Top
-        self.cursor_line = curs_line
+            # adjust screen position
+            self.top = buf_info.srWindow.Top
+            self.cursor_line = curs_line
 
-        # check for reset
-        if curs_line > buf_info.dwSize.Y - 200:
-            self.reset_console(buf_info)
+            # check for reset
+            if curs_line > buf_info.dwSize.Y - 200:
+                self.reset_console(buf_info)
+
+        except:
+            logging.info('start: ' + str(read_start))
+            logging.info('end: ' + str(read_end))
+            logging.info('data: ' + str(len(self.data)))
+            logging.info(traceback.format_exc())
+            pass
 
         # increment redraw counters
         self.screen_redraw_ct += 1
