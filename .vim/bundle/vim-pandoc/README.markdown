@@ -35,7 +35,7 @@ Briefly, it sets soft word wrapping, eliminates the extra space that vim
 likes to insert when joining lines, sets equalprg to "pandoc -t markdown
 --no-wrap", enables folding of ATX style sections, implements very crude
 dictionary-based autocompletion of citations (you'll need to generate the
-dictionary yourself), and provides some basic commands for quick conversion to 
+dictionary yourself), and provides some basic commands for quick conversion to
 html, pdf, and odt.
 
 The conversion commands come in two flavors. The first flavor depends on [an

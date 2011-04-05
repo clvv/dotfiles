@@ -2,9 +2,9 @@
 " Language:	Pandoc (superset of Markdown)
 " Maintainer:	Jeremy Schultz <taozhyn@gmail.com>
 " HackedUpBy:	David Sanson
-" URL:		
+" URL:
 " Version:	2.1
-" Changes: 2011-03-05 (David Sanson)	
+" Changes: 2011-03-05 (David Sanson)
 "	- Added support for Numbered Examples
 " Remark:	Uses HTML and TeX syntax file
 " TODO:
@@ -41,7 +41,7 @@ syn include @LATEX syntax/tex.vim
 syn match pdcLatex	/\\\w\+{[^}]\+}/	contains=@LATEX
 
 "   Tex Block (begin-end)
-syn region pdcLatex start=/\\begin{[^}]\+}\ze/ end=/\ze\\end{[^}]\+}/ contains=@LATEX 
+syn region pdcLatex start=/\\begin{[^}]\+}\ze/ end=/\ze\\end{[^}]\+}/ contains=@LATEX
 
 "   Math Tex
 syn match pdcLatex	/$[^$]\+\$/	   contains=@LATEX
@@ -51,13 +51,13 @@ syn match pdcLatex	/$[^$]\+\$/	   contains=@LATEX
 " Block Elements
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Needed by other elements 
+" Needed by other elements
 syn match pdcBlankLine   /\(^\s*\n\|\%^\)/    nextgroup=pdcHeader,pdcCodeBlock,pdcListItem,pdcListItem1,pdcHRule,pdcTableHeader,pdcTableMultiStart,pdcBlockquote transparent
 
 
 """""""""""""""""""""""""""""""""""""""
 " Title Block:
-syn match pandocTitleBlock /\%^\(%.*\n\)\{1,3}$/ 
+syn match pandocTitleBlock /\%^\(%.*\n\)\{1,3}$/
 
 
 """""""""""""""""""""""""""""""""""""""
@@ -73,7 +73,7 @@ syn region pdcHeader    start="^\s*#\{1,6}[^#]*" end="\($\|#\+\)" contains=@Spel
 """""""""""""""""""""""""""""""""""""""
 " Blockquotes:
 
-syn match pdcBlockquote	    /\s*>.*$/  nextgroup=pdcBlockquote,pdcBlockquote2 contained skipnl 
+syn match pdcBlockquote	    /\s*>.*$/  nextgroup=pdcBlockquote,pdcBlockquote2 contained skipnl
 syn match pdcBlockquote2    /[^>].*/  nextgroup=pdcBlockquote2 skipnl contained
 
 
@@ -82,7 +82,7 @@ syn match pdcBlockquote2    /[^>].*/  nextgroup=pdcBlockquote2 skipnl contained
 
 "   Indent with at least 4 space or 1 tab
 "   This rule must appear for pdcListItem, or highlighting gets messed up
-syn match pdcCodeBlock   /\(\s\{4,}\|\t\{1,}\).*\n/ contained nextgroup=pdcCodeBlock  
+syn match pdcCodeBlock   /\(\s\{4,}\|\t\{1,}\).*\n/ contained nextgroup=pdcCodeBlock
 
 "   HTML code blocks, pre and code
 syn match pdcCodeStartPre	/<pre>/ nextgroup=pdcCodeHTMLPre skipnl transparent
@@ -105,10 +105,10 @@ syn match pdcCodeEndCode  /\s*<\/code>/ contained transparent
 syn match pdcListCont /\s*[^-+*].*\n/ contained nextgroup=pdcListCont,pdcListItem,pdcListSkipNL transparent
 
 "   Skip empty lines
-syn match pdcListSkipNL /\s*\n/ contained nextgroup=pdcListItem,pdcListSkipNL 
+syn match pdcListSkipNL /\s*\n/ contained nextgroup=pdcListItem,pdcListSkipNL
 
 "   Unorder list
-syn match  pdcListItem /\s*[-*+]\s\+/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl 
+syn match  pdcListItem /\s*[-*+]\s\+/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl
 
 "   Order list, numeric
 syn match  pdcListItem  /\s*(\?\(\d\+\|#\)[\.)]\s\+/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl
@@ -119,13 +119,13 @@ syn match  pdcListItem  /\s*(\?[ivxlcdm]\+[\.)]\s\+/ contained nextgroup=pdcList
 "   Order list, lowercase letters
 syn match  pdcListItem  /\s*(\?\l[\.)]\s\+/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl
 
-"   Order list, uppercase letters, does not include '.' 
+"   Order list, uppercase letters, does not include '.'
 syn match  pdcListItem  /\s*(\?\u[\)]\s\+/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl
 
 "   Order list, uppercase letters, special case using '.' and two or more spaces
 syn match  pdcListItem  /\s*\u\.\([ ]\{2,}\|\t\+\)/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl
 
-"  Numbered Example list (doesn't handle hyphens or underscores in labels) 
+"  Numbered Example list (doesn't handle hyphens or underscores in labels)
 syn match  pdcListItem  /\s*(\?@\a*[\.)]\s\+/ contained nextgroup=pdcListSkipNL,pdcListCont skipnl
 
 
@@ -154,7 +154,7 @@ syn match pdcLinkText /\[\zs[^\]]*\ze\]/ contains=@Spell
 syn match pdcLinkID /\][ ]\{0,1}\[\zs[^\]]*\ze\]/
 
 "   Skip [ so we do not highlight it
-syn match pdcSkip /^[ ]\{0,3}\[/ nextgroup=pdcLinkID 
+syn match pdcSkip /^[ ]\{0,3}\[/ nextgroup=pdcLinkID
 
 "   Link ID - definition
 syn match pdcLinkID /[^\]]*\ze\]:/ nextgroup=pdcSkip skipwhite contained
@@ -163,11 +163,11 @@ syn match pdcLinkID /[^\]]*\ze\]:/ nextgroup=pdcSkip skipwhite contained
 syn match pdcSkip /\]:/ contained nextgroup=pdcLinkURL skipwhite
 
 "   Link URL
-syn region pdcLinkURL  start=/\](\zs/	end=/)/me=e-1 
+syn region pdcLinkURL  start=/\](\zs/	end=/)/me=e-1
 
 "   Link URL on ID definition line
 syn match pdcLinkURL /\s\+.*\s\+\ze[("']/ nextgroup=pdcLinkTitle skipwhite  contained
-syn match pdcLinkURL /\s*.*\s*[^)"']\s*$/ contained 
+syn match pdcLinkURL /\s*.*\s*[^)"']\s*$/ contained
 syn match pdcLinkURL /\s*.*\s*[^)"']\s*\n\s*\ze[("']/ contained nextgroup=pdcLinkTitle skipwhite
 
 "   Link URL for inline <> links
@@ -190,9 +190,9 @@ syn match pdcEmphasis   / \(\*\|\*\*\)\([^\* ]\|[^\*]\( [^\*]\)\+\)\+\1/    cont
 
 """""""""""""""""""""""""""""""""""""""
 " Inline Code:
-   
+
 "   Using single back ticks
-syn region pdcCode start=/`/		end=/`\|^\s*$/ 
+syn region pdcCode start=/`/		end=/`\|^\s*$/
 
 "   Using double back ticks
 syn region pdcCode start=/``[^`]*/      end=/``\|^\s*$/
@@ -248,22 +248,22 @@ syn region pdcFootnoteDef matchgroup=pdcFootnoteID start=/\^\[/ matchgroup=pdcFo
 "   Regular Table
 syn match pdcTableHeader /\s*\w\+\(\s\+\w\+\)\+\s*\n\s*-\+\(\s\+-\+\)\+\s*\n/ contained nextgroup=pdcTableBody
 syn match pdcTableBody	 /\s*\w\+\(\s\+\w\+\)\+\s*\n/ contained nextgroup=pdcTableBody,pdcTableCaption skipnl
-syn match pdcTableCaption /\n\+\s*Table.*\n/ contained nextgroup=pdcTableCaptionCont 
-syn match pdcTableCaptionCont /\s*\S.\+\n/ contained nextgroup=pdcTableCaptionCont 
+syn match pdcTableCaption /\n\+\s*Table.*\n/ contained nextgroup=pdcTableCaptionCont
+syn match pdcTableCaptionCont /\s*\S.\+\n/ contained nextgroup=pdcTableCaptionCont
 
 "   Multi-line Table
 syn match pdcTableMultiStart /^\s\{0,3}-\+\s*\n\ze\(\s*\w\+\(\s\+\w\+\)\+\s*\n\)\+\s*-\+\(\s\+-\+\)\+\s*\n/ contained nextgroup=pdcTableMultiHeader
 syn match pdcTableMultiEnd /^\s\{0,3}-\+/ contained nextgroup=pdcTableMultiCaption skipnl
-syn match pdcTableMultiHeader /\(\s*\w\+\(\s\+\w\+\)\+\s*\n\)\+\s*-\+\(\s\+-\+\)\+\s*\n/ contained nextgroup=pdcTableMultiBody 
+syn match pdcTableMultiHeader /\(\s*\w\+\(\s\+\w\+\)\+\s*\n\)\+\s*-\+\(\s\+-\+\)\+\s*\n/ contained nextgroup=pdcTableMultiBody
 syn match pdcTableMultiBody /^\(\s\{3,}[^-]\|[^-\s]\).*$/ contained nextgroup=pdcTableMultiBody,pdcTableMultiSkipNL,pdcTableMultiEnd skipnl
 syn match pdcTableMultiSkipNL /^\s*\n/ contained nextgroup=pdcTableMultiBody,pdcTableMultiEnd skipnl
-syn match pdcTableMultiCaption /\n*\s*Table.*\n/ contained nextgroup=pdcTableCaptionCont 
+syn match pdcTableMultiCaption /\n*\s*Table.*\n/ contained nextgroup=pdcTableCaptionCont
 
 
 
 """""""""""""""""""""""""""""""""""""""
 " Delimited Code Block: (added in 1.0)
-syn region pdcCodeBlock matchgroup=pdcCodeStart start=/^\z(\~\{3,}\) \( {[^}]\+}\)\?/ matchgroup=pdcCodeEnd end=/^\z1\~*/ 
+syn region pdcCodeBlock matchgroup=pdcCodeStart start=/^\z(\~\{3,}\) \( {[^}]\+}\)\?/ matchgroup=pdcCodeEnd end=/^\z1\~*/
 
 
 """""""""""""""""""""""""""""""""""""""
