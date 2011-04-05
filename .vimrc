@@ -9,6 +9,7 @@ set noswapfile
 set nobackup
 set ruler
 set backspace=indent,eol,start
+set t_RV=
 
 let mapleader = ","
 
