@@ -151,3 +151,6 @@ let g:lisp_rainbow=1
 " Settings for Vim Clojure
 let vimclojure#HighlightBuiltins=1
 let vimclojure#ParenRainbow=1
+
+" YankRing
+let g:yankring_history_file = '.yankring'
