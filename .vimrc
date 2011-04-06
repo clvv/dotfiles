@@ -18,12 +18,10 @@ map <silent> <leader><leader> "+
 set pastetoggle=<leader>gv
 
 " Toggles
-nmap <silent> <leader>gs :set spell!<CR>
-nmap <silent> <leader>gn :set number!<CR>
-nmap <silent> <leader>gw :set wrap!<CR>
-map <F2> :NERDTreeToggle<CR>
+map <silent> <leader>gs :set spell!<CR>
+map <silent> <leader>gn :set number!<CR>
+map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
-map <F3> :TlistToggle<CR>
 map <silent> <leader>g2 :TlistToggle<CR>
 
 " Windows Control
@@ -31,24 +29,19 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
-nmap <silent> <leader>h <C-w>h
-nmap <silent> <leader>j <C-w>j
-nmap <silent> <leader>k <C-w>k
-nmap <silent> <leader>l <C-w>l
 
 " Tabs Control
-map <A-[> gT
-map <A-]> gt
-map <S-h> gT
-map <S-l> gt
-nmap <silent> <leader>t :tabnew<Cr>
-"nmap <C-t> :tabnew<CR>
-"map! <C-t> <Esc>:tabnew<CR>
+map H gT
+map L gt
+map <silent> <leader>n :tabnew<Cr>
+map <silent> <leader>c <C-w>c
+map <silent> <leader>q ZQ
 
 " one-key indentation
 nmap > >>
 nmap < <<
 
+command! Q :q
 command! Sw :w !sudo tee %
 nmap ZS :w !sudo tee %<CR>
 nmap ZW :w<CR>
@@ -82,8 +75,7 @@ imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
 " Easy jumping and selecting over block of code
-nmap <Space> %
-vmap <Space> %
+map <Space> %
 
 " Bubble single lines <S-M-[K,J]>
 nmap <Esc>K [e
@@ -92,6 +84,7 @@ nmap <Esc>J ]e
 " Bubble multiple lines <S-M-[K,J]>
 vmap <Esc>K [egv
 vmap <Esc>J ]egv
+
 set wildmode=full " :longest
 set wildmenu
 
@@ -102,22 +95,22 @@ set ignorecase
 set smartcase
 
 "folding settings
-set foldmethod=syntax
-set foldnestmax=10
-set foldenable
-set foldlevel=4
-set foldlevelstart=4
-nmap <silent> <leader>fi :set foldmethod=indent<CR>
-nmap <silent> <leader>fs :set foldmethod=syntax<CR>
+"set foldmethod=syntax
+"set foldnestmax=10
+"set foldenable
+"set foldlevel=4
+"set foldlevelstart=4
+"nmap <silent> <leader>fi :set foldmethod=indent<CR>
+"nmap <silent> <leader>fs :set foldmethod=syntax<CR>
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " FuzzyFinder key mappings
-nmap <silent> <leader>ff :FufFile<CR>
-nmap <silent> <leader>fF :FufFileWithCurrentBufferDir<CR>
-nmap <silent> <leader>ft :FufTag<CR>
-nmap <silent> <leader>fc :FufChangeList<CR>
-nmap <silent> <leader>fj :FufJumpList<CR>
-nmap <silent> <leader>fd :FufDir<CR>
+nmap <silent> <leader>of :FufFile<CR>
+nmap <silent> <leader>oF :FufFileWithCurrentBufferDir<CR>
+nmap <silent> <leader>ot :FufTag<CR>
+nmap <silent> <leader>oc :FufChangeList<CR>
+nmap <silent> <leader>oj :FufJumpList<CR>
+nmap <silent> <leader>od :FufDir<CR>
 
 " Lookup tags file up the dir tree
 set tags=tags;/
@@ -146,13 +139,6 @@ else
     nmap <silent> <leader>c2 :set t_Co=256<CR>
     nmap <silent> <leader>c8 :set t_Co=8<CR>
 endif
-
-" set par as default formatter
-" set formatprg=par
-" nmap <silent> <leader>fp :set formatprg=par
-
-" Command mode shortcut
-" map ; :
 
 runtime ftplugin/man.vim
 
