@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+# This is a quiz that test you on your mental day of the week calculation.
+# Enter a number according to the date prompted, Monday being 1. (1..7)
+
+times = 10 # Number of dates
+
+i = total_time = 0
+times.times do
+    year = rand > 0.3 ? 1900 + rand(150) : 1600 + rand(700)
+    # tweak year for your own needs, this one is pretty general
+    month, day = rand(12) + 1, rand(31) + 1
+    puts date = Time.utc(year, month, day)
+    dow = date.strftime('%u')
+    t0 = Time.now
+    i += 1 if gets.strip == dow.to_i
+    puts dow
+    puts t = Time.now - t0
+    total_time += t
+end
+puts "#{i * 100.0 / times}% correct, average time: #{total_time / times} secs"
