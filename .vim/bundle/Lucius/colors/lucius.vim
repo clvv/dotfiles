@@ -133,8 +133,8 @@ if g:lucius_style == "dark"
     hi IncSearch        guifg=#66ffff                                   gui=reverse
     hi IncSearch        ctermfg=87                                      cterm=reverse
     " hlsearch (last search pattern), also used for quickfix
-    hi Search                                    guibg=#ffaa33          gui=none
-    hi Search                                    ctermbg=214            cterm=none
+    hi Search           guifg=#000000            guibg=#ffaa33          gui=none
+    hi Search           ctermfg=0                ctermbg=214            cterm=none
 
     " == UI ==
     " normal item in popup
@@ -300,7 +300,7 @@ elseif g:lucius_style == "light"
     " == Text Selection ==
     " character under the cursor
     hi Cursor           guifg=bg                guibg=#406090
-    hi Cursor           ctermfg=bg              ctermbg=4 
+    hi Cursor           ctermfg=bg              ctermbg=4
     " like cursor, but used when in IME mode
     hi CursorIM         guifg=bg                guibg=#96cdcd
     hi CursorIM         ctermfg=bg              ctermbg=116
@@ -507,7 +507,7 @@ elseif g:lucius_style == "blue"
     hi IncSearch        guifg=#60f0f0                                   gui=reverse
     hi IncSearch        ctermfg=87                                      cterm=reverse
     " hlsearch (last search pattern), also used for quickfix
-    hi Search                                    guibg=#f0b030          gui=none
+    hi Search           guifg=#000000            guibg=#f0b030          gui=none
     hi Search           ctermfg=0                ctermbg=214            cterm=none
 
     " == UI ==
@@ -520,7 +520,7 @@ elseif g:lucius_style == "blue"
     " scrollbar in popup
     hi PMenuSbar                                guibg=#406070           gui=none
     hi PMenuSbar                                ctermbg=59              cterm=none
-    " thumb of the scrollbar in the popup 
+    " thumb of the scrollbar in the popup
     hi PMenuThumb                               guibg=#4090a0           gui=none
     hi PMenuThumb                               ctermbg=102             cterm=none
     " status line for current window
