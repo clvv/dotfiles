@@ -1,7 +1,8 @@
 URxvt*background: #2B2B2B
 URxvt*foreground: #DEDEDE
-URxvt*font: xft:DejaVu Sans Mono:pixelsize=12
-URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12
+URxvt*font: xft:DejaVu Sans Mono:pixelsize=14
+URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=14
+URxvt.letterSpace: -2
 URxvt*saveLines: 2000
 URxvt*scrollBar: false
 URxvt*scrollstyle: rxvt
