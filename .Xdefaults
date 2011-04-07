@@ -1,4 +1,4 @@
-URxvt*background: #2B2B2B
+URxvt*background: #202020
 URxvt*foreground: #DEDEDE
 URxvt*font: xft:DejaVu Sans Mono:pixelsize=14
 URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=14
