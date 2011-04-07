@@ -131,11 +131,10 @@ if has('gui_running')
     set cursorline
     colorscheme lucius
 else
-    if ( $TERM =~ "xterm" && !( $TMUX =~ "tmux" ) && !( $TERMCAP =~"screen" ) )
-        set t_Co=256
-        colorscheme lucius
-        set cursorline
-    endif
+    set mouse=a " Scrolling in urxvt
+    set t_Co=256
+    colorscheme lucius
+    set cursorline
     nmap <silent> <leader>c2 :set t_Co=256<CR>
     nmap <silent> <leader>c8 :set t_Co=8<CR>
 endif
