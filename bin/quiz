@@ -18,10 +18,7 @@ ranDate(){
 
 getDate(){
     # Function that makes sure we get a valid date
-    ranDate
-    while [ $? -eq 1 ]; do
-        ranDate
-    done
+    ranDate 2>/dev/null || getDate
 }
 
 testDate(){
