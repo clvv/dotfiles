@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# This simple wrapper help gnome-terminal declare itself as xterm-256color
-# Set this as the custom command for gnome-terminal to execute
-
-export TERM=xterm-256color
-exec $SHELL
