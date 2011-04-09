@@ -1,4 +1,4 @@
-alias sudo='sudo env PATH=$PATH'
+#alias sudo='sudo env PATH=$PATH'
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
