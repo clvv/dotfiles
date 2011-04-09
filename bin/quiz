@@ -13,7 +13,7 @@ times.times do
     puts date = Time.utc(year, month, day)
     dow = date.strftime('%u')
     t0 = Time.now
-    i += 1 if gets.strip == dow.to_i
+    i += 1 if gets.strip == dow
     puts dow
     puts t = Time.now - t0
     total_time += t
