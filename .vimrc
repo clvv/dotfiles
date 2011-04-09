@@ -131,10 +131,12 @@ if has('gui_running')
     set cursorline
     colorscheme lucius
 else
-    set mouse=a " Scrolling in urxvt
-    set t_Co=256
-    colorscheme lucius
-    set cursorline
+    if &t_Co == 256
+        set mouse=a " Scrolling in urxvt
+        set t_Co=256
+        colorscheme lucius
+        set cursorline
+    endif
     nmap <silent> <leader>c2 :set t_Co=256<CR>
     nmap <silent> <leader>c8 :set t_Co=8<CR>
 endif
