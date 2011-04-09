@@ -1,21 +1,56 @@
-#!/usr/bin/env ruby
+#!/bin/sh
 
 # This is a quiz that test you on your mental day of the week calculation.
-# Enter a number according to the date prompted, Monday being 1. (1..7)
+# Enter a number from range {1..7} according to the date prompted, with Monday being 1.
 
-times = 10 # Number of dates
+DEFAULT_TIMES=10
 
-i = total_time = 0
-times.times do
-    year = rand > 0.3 ? 1900 + rand(150) : 1600 + rand(700)
-    # tweak year for your own needs, this one is pretty general
-    month, day = rand(12) + 1, rand(31) + 1
-    puts date = Time.utc(year, month, day)
-    dow = date.strftime('%u')
-    t0 = Time.now
-    i += 1 if gets.strip == dow
-    puts dow
-    puts t = Time.now - t0
-    total_time += t
-end
-puts "#{i * 100.0 / times}% correct, average time: #{total_time / times} secs"
+ranDate(){
+    # Function that generates a raw random date
+    # We have about 365.25/372 probability to get a valid date here
+    # Tweak YEAR for your own needs, this one is pretty general
+    YEAR=$(( RANDOM % 700 + 1600))
+    MONTH=$(( RANDOM % 12 + 1 ))
+    DAY=$(( RANDOM % 31 + 1 ))
+    DOW=`date -d $(( YEAR * 10000 + MONTH * 100 + DAY )) '+%u'`
+    # DOW(Day of the Week) is a number from range {1..7}, with Monday being 1.
+}
+
+getDate(){
+    # Function that makes sure we get a valid date
+    ranDate
+    while [ $? -eq 1 ]; do
+        ranDate
+    done
+}
+
+testDate(){
+    # Function that performs the test with a random date
+    getDate;
+    echo "$YEAR-$MONTH-$DAY"
+    read R
+    if [ "$R" = "$DOW" ]; then
+        echo "Correct!"
+        return 0
+    else
+        echo "The correct day of the week is $DOW"
+        echo
+        return 1
+    fi
+}
+
+quiz(){
+    # The main()
+    ERRORS=0
+    START_TIME=`cat /proc/uptime | awk '{print $1}'`
+    for (( i = 1; i <= $1; i++ )) do
+        testDate
+        RETURN_CODE=$?
+        ERRORS=$((ERRORS + RETURN_CODE))
+    done
+    # Notice that we have to double escape $1 with \\$1 here
+    echo -n "Average time: `cat /proc/uptime | awk "{print (\\$1 - $START_TIME) / $1}"`secs"
+    echo ", `echo "$1 $ERRORS" | awk '{print ( $1 - $2 ) * 100 / $1}'`% correct"
+}
+
+[ "$1" != "" ] && quiz $1 || quiz $DEFAULT_TIMES
