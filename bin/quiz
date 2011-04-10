@@ -5,29 +5,52 @@
 
 DEFAULT_TIMES=10
 
-ranDate(){
-    # Function that generates a raw random date
-    # We have about 365.25/372 probability to get a valid date here
-    # Tweak YEAR for your own needs, this one is pretty general
-    YEAR=$(( RANDOM % 700 + 1600))
-    MONTH=$(( RANDOM % 12 + 1 ))
-    DAY=$(( RANDOM % 31 + 1 ))
-    DOW=`date -d $(( YEAR * 10000 + MONTH * 100 + DAY )) '+%u'`
-    # DOW(Day of the Week) is a number from range {1..7}, with Monday being 1.
-}
-
 getDate(){
-    # Function that makes sure we get a valid date
-    ranDate 2>/dev/null || getDate
+    # Function that generates a random date and find its day of the week
+    DATE_DOW=`cat /dev/urandom | head -c 7 | awk '
+    function dow(year, month, day) {
+        # Function that returns the day of the week of a given date
+        # Below is Zellers congruence
+        M = 1 + (month + 9) % 12
+        if ( M > 10)
+            year = year - 1
+            return int((int((13*M-1)/5)+int(year+year/4)-int(year/100)+int(year/400)+day)%7)
+    }
+    function doRanDate() {
+        # Function that generates a random date,
+        # then prints the date and day of the week.
+        year = int( rand() * 700 + 1600 )
+        # Tweak year for your own needs, this one is pretty general
+        month = int( rand() * 12 + 1 )
+        day = int( rand() * 31 + 1 )
+        # We have about 365.25/372 probability to get a valid date here
+        if ( (year % 4 == 0 && year % 100 !=0) || (year % 400 == 0) )
+            cmd = "date -d 1972-" month "-" day " 2>/dev/null"
+        else
+            cmd = "date -d 1970-" month "-" day " 2>/dev/null"
+        cmd | getline str
+        ret = close(cmd)
+        if (ret != 0)
+            return doRanDate()
+        else {
+            printf "%d-%d-%d ", year, month, day
+            print dow(year, month, day)
+        }
+    } { srand($1); doRanDate() }'`
+    # $DATE_DOW is in this format "date day-of-the-week"
+    DATE=`echo $DATE_DOW | awk '{print $1}'`
+    echo $DATE
+    DOW=`echo $DATE_DOW | awk '{print $2}'`
+    # DOW(Day of the Week) is a number from range {0..6}, with Monday being 1.
 }
 
 testDate(){
     # Function that performs the test with a random date
     getDate;
-    echo "$YEAR-$MONTH-$DAY"
     read R
-    if [ "$R" = "$DOW" ]; then
+    if [ $((R % 7)) = $((DOW % 7)) ]; then
         echo "Correct!"
+        echo
         return 0
     else
         echo "The correct day of the week is $DOW"
@@ -40,7 +63,7 @@ quiz(){
     # The main()
     ERRORS=0
     START_TIME=`cat /proc/uptime | awk '{print $1}'`
-    for (( i = 1; i <= $1; i++ )) do
+    for i in `seq 1 $1`; do
         testDate
         RETURN_CODE=$?
         ERRORS=$((ERRORS + RETURN_CODE))
