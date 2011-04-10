@@ -7,7 +7,10 @@ DEFAULT_TIMES=10
 
 getDate(){
     # Function that generates a random date and find its day of the week
-    DATE_DOW=`cat /dev/urandom | head -c 7 | awk '
+    DATE_DOW=`echo | awk 'BEGIN {
+    "od -tu4 -N4 -A n /dev/urandom" | getline
+    srand(0+$0)
+    }
     function dow(year, month, day) {
         # Function that returns the day of the week of a given date
         # Below is Zellers congruence
@@ -36,7 +39,7 @@ getDate(){
             printf "%d-%d-%d ", year, month, day
             print dow(year, month, day)
         }
-    } { srand($1); doRanDate() }'`
+    } { doRanDate() }'`
     # $DATE_DOW is in this format "date day-of-the-week"
     DATE=`echo $DATE_DOW | awk '{print $1}'`
     echo $DATE
@@ -48,7 +51,7 @@ testDate(){
     # Function that performs the test with a random date
     getDate;
     read R
-    if [ $((R % 7)) = $((DOW % 7)) ]; then
+    if [ $((R % 7)) = $((DOW % 7)) -a "$R" != "" ]; then
         echo "Correct!"
         echo
         return 0
