@@ -9,7 +9,7 @@ getDate(){
     # Function that generates a random date and find its day of the week
     DATE_DOW=`echo | awk 'BEGIN {
     "od -tu4 -N4 -A n /dev/urandom" | getline
-    srand(0+$0)
+    srand($0)
     }
     function dow(year, month, day) {
         # Function that returns the day of the week of a given date
