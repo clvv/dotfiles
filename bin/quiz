@@ -42,14 +42,14 @@ getDate(){
     } { doRanDate() }'`
     # $DATE_DOW is in this format "date day-of-the-week"
     DATE=`echo $DATE_DOW | awk '{print $1}'`
-    echo $DATE
     DOW=`echo $DATE_DOW | awk '{print $2}'`
     # DOW(Day of the Week) is a number from range {0..6}, with Monday being 1.
 }
 
 testDate(){
     # Function that performs the test with a random date
-    getDate;
+    getDate; # getDate will set $DATE and $DOW
+    echo $DATE
     read R
     if [ $((R % 7)) = $((DOW % 7)) -a "$R" != "" ]; then
         echo "Correct!"
