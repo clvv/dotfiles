@@ -34,3 +34,5 @@ bindkey "^[^[^I" _history-complete-newer
 function precmd () {
     z --add "$(pwd -P)"
 }
+
+setopt interactivecomments
