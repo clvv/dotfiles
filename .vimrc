@@ -55,22 +55,24 @@ cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
 cnoremap <C-E>      <End>
 cnoremap <C-F>      <Right>
-"cnoremap <C-N>      <Down>
-"cnoremap <C-J>      <Down>
-"cnoremap <C-P>      <Up>
-"cnoremap <C-K>      <Up>
+cnoremap <C-N>      <Down>
+cnoremap <C-J>      <Down>
+cnoremap <C-P>      <Up>
+cnoremap <C-K>      <Up>
 cnoremap <ESC>b     <S-Left>
 cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f     <S-Right>
 cnoremap <ESC><C-F> <S-Right>
 cnoremap <ESC><C-H> <C-W>
 
-imap <C-a> <Home>
-imap <C-e> <End>
-imap <C-p> <Esc>ka
-imap <C-n> <Esc>ja
-imap <C-b> <Esc>i
-imap <C-f> <Esc>la
+inoremap <C-A> <Home>
+inoremap <C-E> <End>
+inoremap <C-K> <Esc>ka
+inoremap <C-J> <Esc>ja
+inoremap <C-B> <Esc>i
+inoremap <C-F> <Esc>la
+inoremap <M-o> <C-O>o
+inoremap <M-O> <C-O>O
 imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 
@@ -93,6 +95,7 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
+nnoremap <C-L> :noh<CR>
 
 "folding settings
 "set foldmethod=syntax
