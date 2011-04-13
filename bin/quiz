@@ -22,7 +22,10 @@ getDate(){
     function doRanDate() {
         # Function that generates a random date,
         # then prints the date and day of the week.
-        year = int( rand() * 700 + 1600 )
+        if ( rand() > 0.45)
+            year = int( rand() * 150 + 1900 )
+        else
+            year = int( rand() * 700 + 1600 )
         # Tweak year for your own needs, this one is pretty general
         month = int( rand() * 12 + 1 )
         day = int( rand() * 31 + 1 )
@@ -32,9 +35,10 @@ getDate(){
         else
             cmd = "date -d 1970-" month "-" day " 2>/dev/null"
         cmd | getline str
-        ret = close(cmd)
-        if (ret != 0)
-            return doRanDate()
+        # Validate our date with a known to work year
+        returnCode = close(cmd)
+        if (returnCode != 0)
+            return doRanDate() # Call self recursivly
         else {
             printf "%d-%d-%d ", year, month, day
             print dow(year, month, day)
