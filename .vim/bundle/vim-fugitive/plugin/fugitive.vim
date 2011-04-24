@@ -108,7 +108,7 @@ function! s:ExtractGitDir(path) abort
   let ofn = ""
   let nfn = fn
   while fn != ofn
-    if isdirectory(fn . '/.git')
+    if filereadable(fn . '/.git/HEAD')
       return s:sub(simplify(fnamemodify(fn . '/.git',':p')),'\W$','')
     elseif fn =~ '\.git$' && filereadable(fn . '/HEAD')
       return s:sub(simplify(fnamemodify(fn,':p')),'\W$','')
@@ -720,7 +720,7 @@ function! s:Commit(args) abort
     else
       let errors = readfile(errorfile)
       let error = get(errors,-2,get(errors,-1,'!'))
-      if error =~# "'false'\\.$"
+      if error =~# '\<false''\=\.$'
         let args = a:args
         let args = s:gsub(args,'%(%(^| )-- )@<!%(^| )@<=%(-[se]|--edit|--interactive)%($| )','')
         let args = s:gsub(args,'%(%(^| )-- )@<!%(^| )@<=%(-F|--file|-m|--message)%(\s+|\=)%(''[^'']*''|"%(\\.|[^"])*"|\\.|\S)*','')
@@ -732,7 +732,7 @@ function! s:Commit(args) abort
         if bufname('%') == '' && line('$') == 1 && getline(1) == '' && !&mod
           edit `=msgfile`
         else
-          split `=msgfile`
+          keepalt split `=msgfile`
         endif
         if old_type ==# 'index'
           bdelete #
@@ -1178,9 +1178,9 @@ function! s:Move(force,destination)
   call fugitive#reload_status()
   if s:buffer().commit() == ''
     if isdirectory(destination)
-      return 'edit '.s:fnameescape(destination)
+      return 'keepalt edit '.s:fnameescape(destination)
     else
-      return 'saveas! '.s:fnameescape(destination)
+      return 'keepalt saveas! '.s:fnameescape(destination)
     endif
   else
     return 'file '.s:fnameescape(s:repo().translate(':0:'.destination)
