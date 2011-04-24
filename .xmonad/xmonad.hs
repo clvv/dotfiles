@@ -50,6 +50,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     , ((modm,               xK_p     ), spawn "gnome-do")
 
+    , ((modm,               xK_o     ), spawn "gnome-do")
+    -- Work around for Ubuntu's Mod4-p bug
+
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
 
