@@ -95,7 +95,8 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-nnoremap <C-L> :noh<CR>
+nmap <Esc>L :noh<CR>
+" <S-M-L> to clear highlights
 
 "folding settings
 "set foldmethod=syntax
