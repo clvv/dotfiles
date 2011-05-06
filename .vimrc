@@ -11,7 +11,7 @@ set ruler
 set backspace=indent,eol,start
 set t_RV=
 
-let mapleader = ","
+let mapleader = ','
 
 " System Copy & Paste prefix
 map <silent> <leader><leader> "+
@@ -124,20 +124,18 @@ map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
 if has("autocmd")
     autocmd FileType tex setlocal wm=2 " Auto wrap tex files
-    autocmd bufwritepost .vimrc source $MYVIMRC " Source the vimrc file after saving it
+    autocmd BufWritePost .vimrc source $MYVIMRC
+    " Source the vimrc file after saving it
     autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
-    "au BufWritePost * if getline(1) =~ "^#!" && getline(1) =~ "/bin/" | silent !chmod +x <afile>
 endif
 
 if has('gui_running')
     set guioptions=
-    set lines=33 columns=100
     set cursorline
     colorscheme lucius
 else
     if &t_Co == 256
         set mouse=a " Scrolling in urxvt
-        set t_Co=256
         colorscheme lucius
         set cursorline
     endif
