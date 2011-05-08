@@ -10,8 +10,8 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # Soft word wrapping
 "
-set formatoptions=1
-set linebreak
+setlocal formatoptions=1
+setlocal linebreak
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -20,7 +20,7 @@ vnoremap k gk
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # Do not add two spaces at end of punctuation when joining lines
 "
-set nojoinspaces
+setlocal nojoinspaces
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # Use pandoc to tidy up text
@@ -31,7 +31,7 @@ set nojoinspaces
 " blocks...)
 "
 
-set equalprg=pandoc\ -t\ markdown\ --no-wrap
+setlocal equalprg=pandoc\ -t\ markdown\ --no-wrap
 
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -61,8 +61,8 @@ function! MarkdownLevel()
     endif
     return "="
 endfunction
-set foldexpr=MarkdownLevel()
-set foldmethod=expr
+setlocal foldexpr=MarkdownLevel()
+setlocal foldmethod=expr
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # Save folding between sessions
@@ -76,7 +76,7 @@ autocmd BufWinEnter * if expand("%") != "" | loadview | endif
 " There must be a better way to do this. I've generated a list of citekeys from
 " my bibtex file and put it in citationkeys.dict.
 "
- set dictionary=~/.pandoc/citationkeys.dict
+setlocal dictionary=~/.pandoc/citationkeys.dict
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # Autocomplete citationkeys using function
@@ -97,7 +97,7 @@ autocmd BufWinEnter * if expand("%") != "" | loadview | endif
 	"return res
   "endif
 "endfun
-"set completefunc=CompleteKeys
+"setlocal completefunc=CompleteKeys
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " # Commands that call Pandoc
