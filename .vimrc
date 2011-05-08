@@ -3,12 +3,14 @@ filetype off
 call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 syntax on
-set tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+set smarttab
 set autoindent
 set noswapfile
 set nobackup
 set ruler
 set backspace=indent,eol,start
+set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
 set t_RV=
 
 let mapleader = ','
@@ -18,8 +20,9 @@ map <silent> <leader><leader> "+
 set pastetoggle=<leader>gv
 
 " Toggles
-map <silent> <leader>gs :set spell!<CR>
+map <silent> <leader>gl :set list!<CR>
 map <silent> <leader>gn :set number!<CR>
+map <silent> <leader>gs :set spell!<CR>
 map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
 map <silent> <leader>g2 :TlistToggle<CR>
@@ -123,27 +126,68 @@ map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 
 if has("autocmd")
-    autocmd FileType tex setlocal wm=2 " Auto wrap tex files
-    autocmd BufWritePost .vimrc source $MYVIMRC
-    " Source the vimrc file after saving it
-    autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
+  autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
+  autocmd BufNewFile,BufRead *.json set ft=javascript
+  autocmd BufNewFile  * let b:chmod_exe=1
+  autocmd BufWritePre * if exists("b:chmod_exe") |
+        \ unlet b:chmod_exe |
+        \ if getline(1) =~ '^#!' | let b:chmod_new="+x" | endif |
+        \ endif
+  autocmd BufWritePost,FileWritePost * if exists("b:chmod_new")|
+        \ silent! execute "!chmod ".b:chmod_new." <afile>"|
+        \ unlet b:chmod_new|
+        \ endif
+  autocmd FileType *commit* setlocal spell
+  autocmd FileType tex setlocal wm=2 " Auto wrap tex files
+  autocmd FileType make setlocal list noet
+  autocmd FileType python setlocal ts=4 sw=4 sts=4 et
 endif
 
 if has('gui_running')
-    set guioptions=
-    set cursorline
-    colorscheme lucius
+  set guioptions=
+  set cursorline
+  colorscheme lucius
 else
-    if &t_Co == 256
-        set mouse=a " Scrolling in urxvt
-        colorscheme lucius
-        set cursorline
-    endif
-    nmap <silent> <leader>c2 :set t_Co=256<CR>
-    nmap <silent> <leader>c8 :set t_Co=8<CR>
+  if &t_Co == 256
+    set mouse=a " Scrolling in urxvt
+    colorscheme lucius
+    set cursorline
+  endif
+  nmap <silent> <leader>c2 :set t_Co=256<CR>
+  nmap <silent> <leader>c8 :set t_Co=8<CR>
 endif
 
 runtime ftplugin/man.vim
+
+" Set tabstop, softtabstop and shiftwidth to the same value
+command! -nargs=* Stab call Stab()
+function! Stab()
+  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
+  if l:tabstop > 0
+    let &l:sts = l:tabstop
+    let &l:ts = l:tabstop
+    let &l:sw = l:tabstop
+  endif
+  call SummarizeTabs()
+endfunction
+
+function! SummarizeTabs()
+  try
+    echohl ModeMsg
+    echon 'tabstop='.&l:ts
+    echon ' shiftwidth='.&l:sw
+    echon ' softtabstop='.&l:sts
+    if &l:et
+      echon ' expandtab'
+    else
+      echon ' noexpandtab'
+    endif
+  finally
+    echohl None
+  endtry
+endfunction
+
+nmap <leader>st :call SummarizeTabs()<CR>
 
 " open command line window from normal command line mode
 set cedit=<C-Q>
@@ -157,3 +201,7 @@ let vimclojure#ParenRainbow=1
 
 " YankRing
 let g:yankring_history_file = '.yankring'
+
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
