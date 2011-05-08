@@ -1,1 +1,1 @@
-source .logout
+source $HOME/.logout
