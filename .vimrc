@@ -45,6 +45,12 @@ let g:SuperTabDefaultCompletionType = 'context'
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 
+" Tagbar
+let g:tagbar_left = 1
+let g:tagbar_compact = 1
+let g:tagbar_width = 30
+let g:tagbar_expand = 1
+
 " YankRing
 let g:yankring_history_file = '.yankring'
 
@@ -59,7 +65,8 @@ map <silent> <leader>gr :set relativenumber!<CR>
 map <silent> <leader>gs :set spell!<CR>
 map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
-map <silent> <leader>g2 :TlistToggle<CR>
+map <silent> <leader>g2 :TagbarToggle<CR>
+map <silent> <leader>g3 :TlistToggle<CR>
 "   }}}
 
 " Windows Control {{{
@@ -199,7 +206,7 @@ if has("autocmd")
   autocmd FileType tex setlocal wm=2 " Auto wrap tex files
   autocmd FileType make setlocal list noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
-  autocmd FileType vim,html let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
+  autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
 endif " }}}
 
 " Styling {{{
