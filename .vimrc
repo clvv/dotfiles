@@ -17,7 +17,7 @@ set backspace=indent,eol,start
 set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
 set wildmode=full
 set wildmenu
-if v:version >= 730
+if v:version >= 703
   set undofile
 else
   set t_RV=
@@ -64,7 +64,7 @@ let g:yankring_history_file = '.yankring'
 " Toggles {{{
 map <silent> <leader>gl :set list!<CR>
 map <silent> <leader>gn :set number!<CR>
-if v:version >= 730
+if v:version >= 703
   map <silent> <leader>gr :set relativenumber!<CR>
 endif
 map <silent> <leader>gs :set spell!<CR>
