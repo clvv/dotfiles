@@ -1,6 +1,10 @@
+" Init {{{
 set nocompatible
 filetype off
 call pathogen#runtime_append_all_bundles()
+" }}}
+
+" Settings {{{
 filetype plugin indent on
 syntax on
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
@@ -11,49 +15,80 @@ set nobackup
 set ruler
 set backspace=indent,eol,start
 set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
+set wildmode=full
+set wildmenu
 set t_RV=
 
 let mapleader = ','
 
-" System Copy & Paste prefix
-map <silent> <leader><leader> "+
-set pastetoggle=<leader>gv
+" Search settings {{{
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+" }}}
 
-" Toggles
+" Plugin options "{{{
+
+" For LISP
+let g:lisp_rainbow=1
+
+" Settings for Vim Clojure
+let vimclojure#HighlightBuiltins=1
+let vimclojure#ParenRainbow=1
+
+" SuperTab
+let g:SuperTabDefaultCompletionType = 'context'
+
+" YankRing
+let g:yankring_history_file = '.yankring'
+
+"   }}}
+" }}}
+
+" Mappings {{{
+" Toggles {{{
 map <silent> <leader>gl :set list!<CR>
 map <silent> <leader>gn :set number!<CR>
 map <silent> <leader>gs :set spell!<CR>
 map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
 map <silent> <leader>g2 :TlistToggle<CR>
+"   }}}
 
-" Windows Control
+" Windows Control {{{
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+"   }}}
 
-" Tabs Control
+" Tabs Control {{{
 map H gT
 map L gt
 map <silent> <leader>n :tabnew<Cr>
 map <silent> <leader>c <C-w>c
 map <silent> <leader>q ZQ
+"   }}}
 
-" one-key indentation
+" System Copy & Paste prefix {{{
+map <silent> <leader><leader> "+
+set pastetoggle=<leader>gv
+"   }}}
+
+" One-key indentation {{{
 nmap > >>
 nmap < <<
+"   }}}
 
+" Sudo {{{
 command! Q :q
 command! Sw :w !sudo tee %
 nmap ZS :w !sudo tee %<CR>
 nmap ZW :w<CR>
+"   }}}
 
-" display line up/down (not actual)
-map <up> gk
-map <down> gj
-
-" Some handy Emacs key bindings
+" Handy Emacs key bindings {{{
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
 cnoremap <C-E>      <End>
@@ -78,53 +113,63 @@ inoremap <M-o> <C-O>o
 inoremap <M-O> <C-O>O
 imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
+"   }}}
 
-" Easy jumping and selecting over block of code
+" Easy jumping and selecting over block of code {{{
 map <Space> %
+"   }}}
 
-" Bubble single lines <S-M-[K,J]>
+" Bubble lines <S-M-[K,J]> {{{
 nmap <Esc>K [e
 nmap <Esc>J ]e
-
-" Bubble multiple lines <S-M-[K,J]>
 vmap <Esc>K [egv
 vmap <Esc>J ]egv
+"   }}}
 
-set wildmode=full " :longest
-set wildmenu
-
-" Search options
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-nmap <Esc>L :noh<CR>
-" <S-M-L> to clear highlights
-
-"folding settings
-"set foldmethod=syntax
-"set foldnestmax=10
-"set foldenable
-"set foldlevel=4
-"set foldlevelstart=4
-"nmap <silent> <leader>fi :set foldmethod=indent<CR>
-"nmap <silent> <leader>fs :set foldmethod=syntax<CR>
-set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
-
-" FuzzyFinder key mappings
+" FuzzyFinder key mappings {{{
 nmap <silent> <leader>of :FufFile<CR>
 nmap <silent> <leader>oF :FufFileWithCurrentBufferDir<CR>
 nmap <silent> <leader>ot :FufTag<CR>
 nmap <silent> <leader>oc :FufChangeList<CR>
 nmap <silent> <leader>oj :FufJumpList<CR>
 nmap <silent> <leader>od :FufDir<CR>
+"   }}}
 
+" Misc {{{
+set cedit=<C-Q> " open command line window from normal command line mode
+
+" display line up/down (not actual)
+map <up> gk
+map <down> gj
+
+" <S-M-L> to clear highlights
+nmap <Esc>L :noh<CR>
+"   }}}
+
+" }}}
+
+" Features {{{
+" Folding {{{
+set foldmethod=marker
+set foldenable
+"set foldlevel=4
+"set foldlevelstart=4
+nmap <silent> <leader>oi :set foldmethod=indent<CR>
+nmap <silent> <leader>os :set foldmethod=syntax<CR>
+nmap <silent> <leader>om :set foldmethod=marker<CR>
+set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+"   }}}
+
+" Ctag {{{
 " Lookup tags file up the dir tree
 set tags=tags;/
 " Tab and Vsplit open tag
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+"   }}}
+" }}}
 
+" Autocmd {{{
 if has("autocmd")
   autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
   autocmd BufNewFile,BufRead *.json set ft=javascript
@@ -141,8 +186,9 @@ if has("autocmd")
   autocmd FileType tex setlocal wm=2 " Auto wrap tex files
   autocmd FileType make setlocal list noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
-endif
+endif " }}}
 
+" Styling {{{
 if has('gui_running')
   set guioptions=
   set cursorline
@@ -155,23 +201,30 @@ else
   endif
   nmap <silent> <leader>c2 :set t_Co=256<CR>
   nmap <silent> <leader>c8 :set t_Co=8<CR>
-endif
+endif " }}}
 
+" Helpers {{{
 runtime ftplugin/man.vim
 
-" Set tabstop, softtabstop and shiftwidth to the same value
-command! -nargs=* Stab call Stab()
-function! Stab()
-  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-  if l:tabstop > 0
-    let &l:sts = l:tabstop
-    let &l:ts = l:tabstop
-    let &l:sw = l:tabstop
+" Stab, tab and space settings helper {{{
+" Calling Stab with no arguments will print current tab and space settings
+" Calling Stab with a number will set ts, sw and sts to that number
+" Trailing ! will set expandtab, and trailing ? will set noexpandtab
+command! -nargs=? Stab call Stab(<f-args>)
+function! Stab(...)
+  if a:0 != 0
+    if a:1 =~ '!'
+      set expandtab
+    elseif a:1 =~ '?'
+      set noexpandtab
+    endif
+    if a:1 > 0
+      let l:tabstop = 1 * a:1
+      let &l:sts = l:tabstop
+      let &l:ts = l:tabstop
+      let &l:sw = l:tabstop
+    endif
   endif
-  call SummarizeTabs()
-endfunction
-
-function! SummarizeTabs()
   try
     echohl ModeMsg
     echon 'tabstop='.&l:ts
@@ -185,23 +238,10 @@ function! SummarizeTabs()
   finally
     echohl None
   endtry
-endfunction
+endfunction " }}}
+" }}}
 
-nmap <leader>st :call SummarizeTabs()<CR>
-
-" open command line window from normal command line mode
-set cedit=<C-Q>
-
-" For LISP
-let g:lisp_rainbow=1
-
-" Settings for Vim Clojure
-let vimclojure#HighlightBuiltins=1
-let vimclojure#ParenRainbow=1
-
-" YankRing
-let g:yankring_history_file = '.yankring'
-
-if filereadable(expand("~/.vimrc.local"))
+" Source .vimrc.local if present {{{
+if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
-endif
+endif " }}}
