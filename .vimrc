@@ -17,6 +17,7 @@ set backspace=indent,eol,start
 set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
 set wildmode=full
 set wildmenu
+set undofile
 set t_RV=
 
 let mapleader = ','
@@ -40,6 +41,10 @@ let vimclojure#ParenRainbow=1
 " SuperTab
 let g:SuperTabDefaultCompletionType = 'context'
 
+" DelimitMate
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
+
 " YankRing
 let g:yankring_history_file = '.yankring'
 
@@ -50,6 +55,7 @@ let g:yankring_history_file = '.yankring'
 " Toggles {{{
 map <silent> <leader>gl :set list!<CR>
 map <silent> <leader>gn :set number!<CR>
+map <silent> <leader>gr :set relativenumber!<CR>
 map <silent> <leader>gs :set spell!<CR>
 map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
@@ -144,6 +150,9 @@ map <down> gj
 
 " <S-M-L> to clear highlights
 nmap <Esc>L :noh<CR>
+
+vnoremap <silent> <Leader>T= :Tabularize /=<CR>
+vnoremap <silent> <Leader>T, :Tabularize /,<CR>
 "   }}}
 
 " }}}
@@ -173,6 +182,10 @@ map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 if has("autocmd")
   autocmd BufWritePre * :%s/\s\+$//e " remove trailing spaces
   autocmd BufNewFile,BufRead *.json set ft=javascript
+  augroup VIMRC " {{{
+    autocmd!
+    autocmd BufWritePost .vimrc source $MYVIMRC
+  augroup END " }}}
   autocmd BufNewFile  * let b:chmod_exe=1
   autocmd BufWritePre * if exists("b:chmod_exe") |
         \ unlet b:chmod_exe |
@@ -186,6 +199,7 @@ if has("autocmd")
   autocmd FileType tex setlocal wm=2 " Auto wrap tex files
   autocmd FileType make setlocal list noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
+  autocmd FileType vim,html let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
 endif " }}}
 
 " Styling {{{
