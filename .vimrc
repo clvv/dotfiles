@@ -17,8 +17,11 @@ set backspace=indent,eol,start
 set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
 set wildmode=full
 set wildmenu
-set undofile
-set t_RV=
+if v:version >= 730
+  set undofile
+else
+  set t_RV=
+endif
 
 let mapleader = ','
 
@@ -61,7 +64,9 @@ let g:yankring_history_file = '.yankring'
 " Toggles {{{
 map <silent> <leader>gl :set list!<CR>
 map <silent> <leader>gn :set number!<CR>
-map <silent> <leader>gr :set relativenumber!<CR>
+if v:version >= 730
+  map <silent> <leader>gr :set relativenumber!<CR>
+endif
 map <silent> <leader>gs :set spell!<CR>
 map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
