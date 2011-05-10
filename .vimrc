@@ -54,6 +54,9 @@ let g:tagbar_compact = 1
 let g:tagbar_width = 30
 let g:tagbar_expand = 1
 
+" Easytags
+let g:easytags_dynamic_files = 1
+
 " YankRing
 let g:yankring_history_file = '.yankring'
 
