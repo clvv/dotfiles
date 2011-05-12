@@ -19,6 +19,7 @@ set wildmode=full
 set wildmenu
 if v:version >= 703
   set undofile
+  set undodir=~/.vim/undo
 else
   set t_RV=
 endif
@@ -53,6 +54,9 @@ let g:tagbar_left = 1
 let g:tagbar_compact = 1
 let g:tagbar_width = 30
 let g:tagbar_expand = 1
+
+" JSLint.vim
+let g:JSLintHighlightErrorLine = 0
 
 " Easytags
 let g:easytags_dynamic_files = 1
