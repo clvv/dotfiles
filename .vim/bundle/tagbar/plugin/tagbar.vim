@@ -121,6 +121,7 @@ endif
 
 let s:type_init_done    = 0
 let s:autocommands_done = 0
+let s:checked_ctags     = 0
 let s:window_expanded   = 0
 
 let s:access_symbols = {
@@ -857,7 +858,7 @@ function! s:MapKeys()
 
     nnoremap <script> <silent> <buffer> s    :call <SID>ToggleSort()<CR>
     nnoremap <script> <silent> <buffer> x    :call <SID>ZoomWindow()<CR>
-    nnoremap <script> <silent> <buffer> q    :close<CR>
+    nnoremap <script> <silent> <buffer> q    :call <SID>CloseWindow()<CR>
     nnoremap <script> <silent> <buffer> <F1> :call <SID>ToggleHelp()<CR>
 endfunction
 
@@ -876,6 +877,37 @@ function! s:CreateAutocommands()
     augroup END
 
     let s:autocommands_done = 1
+endfunction
+
+" s:CheckForExCtags() {{{2
+" Test whether the ctags binary is actually Exuberant Ctags and not GNU ctags
+" (or something else)
+function! s:CheckForExCtags()
+    let ctags_cmd = s:EscapeCtagsCmd(g:tagbar_ctags_bin, '--version')
+    if ctags_cmd == ''
+        return
+    endif
+
+    let ctags_output = s:ExecuteCtags(ctags_cmd)
+
+    if v:shell_error || ctags_output !~# 'Exuberant Ctags'
+        echoerr 'Tagbar: Ctags doesn''t seem to be Exuberant Ctags!'
+        echomsg 'GNU ctags will NOT WORK.'
+              \ 'Please download Exuberant Ctags from ctags.sourceforge.net'
+              \ 'and install it in a directory in your $PATH'
+              \ 'or set g:tagbar_ctags_bin.'
+        echomsg 'Executed command: "' . ctags_cmd . '"'
+        if !empty(ctags_output)
+            echomsg 'Command output:'
+            for line in split(ctags_output, '\n')
+                echomsg line
+            endfor
+        endif
+        return 0
+    else
+        let s:checked_ctags = 1
+        return 1
+    endif
 endfunction
 
 " Prototypes {{{1
@@ -1313,28 +1345,10 @@ function! s:OpenWindow(autoclose)
         return
     endif
 
-    " Test whether the ctags binary is actually Exuberant Ctags and not GNU
-    " ctags (or something else)
-    let ctags_cmd = s:EscapeCtagsCmd(g:tagbar_ctags_bin, '--version')
-    if ctags_cmd == ''
-        return
-    endif
-    let ctags_output = s:ExecuteCtags(ctags_cmd)
-
-    if v:shell_error || ctags_output !~# 'Exuberant Ctags'
-        echoerr 'Tagbar: Ctags doesn''t seem to be Exuberant Ctags!'
-        echomsg 'GNU ctags will NOT WORK.'
-              \ 'Please download Exuberant Ctags from ctags.sourceforge.net'
-              \ 'and install it in a directory in your $PATH'
-              \ 'or set g:tagbar_ctags_bin.'
-        echomsg 'Executed command: "' . ctags_cmd . '"'
-        if !empty(ctags_output)
-            echomsg 'Command output:'
-            for line in split(ctags_output, '\n')
-                echomsg line
-            endfor
+    if !s:checked_ctags
+        if !s:CheckForExCtags()
+            return
         endif
-        return
     endif
 
     " Expand the Vim window to accomodate for the Tagbar window if requested
@@ -1364,6 +1378,11 @@ function! s:OpenWindow(autoclose)
     endif
 
     setlocal nofoldenable
+    " Reset fold settings in case a plugin set them globally to something
+    " expensive. Apparently 'foldexpr' gets executed even if 'foldenable' is
+    " off, and then for every appended line (like with :put).
+    setlocal foldmethod&
+    setlocal foldexpr&
 
     setlocal statusline=%!TagbarGenerateStatusline()
 
@@ -1965,6 +1984,8 @@ function! s:RenderContent(...)
 
     let lazyredraw_save = &lazyredraw
     set lazyredraw
+    let eventignore_save = &eventignore
+    set eventignore=all
 
     setlocal modifiable
 
@@ -2005,7 +2026,8 @@ function! s:RenderContent(...)
         call winline()
     endif
 
-    let &lazyredraw = lazyredraw_save
+    let &lazyredraw  = lazyredraw_save
+    let &eventignore = eventignore_save
 
     if !in_tagbar
         execute prevwinnr . 'wincmd w'
