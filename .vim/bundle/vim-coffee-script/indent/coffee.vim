@@ -20,17 +20,18 @@ if exists("*GetCoffeeIndent")
   finish
 endif
 
-" Keywords and operators to indent after
-let s:INDENT_AFTER = '^\%(if\|unless\|else\|for\|while\|until\|'
-\                  . 'loop\|switch\|when\|try\|catch\|finally\|'
-\                  . 'class\)\>'
-\                  . '\|'
-\                  . '\%([([{:=]\|[-=]>\)$'
+" Keywords to indent after
+let s:INDENT_AFTER_KEYWORD = '^\%(if\|unless\|else\|for\|while\|until\|'
+\                          . 'loop\|switch\|when\|try\|catch\|finally\|'
+\                          . 'class\)\>'
+
+" Operators to indent after
+let s:INDENT_AFTER_OPERATOR = '\%([([{:=]\|[-=]>\)$'
 
 " Keywords and operators that continue a line
 let s:CONTINUATION = '\<\%(is\|isnt\|and\|or\)\>$'
 \                  . '\|'
-\                  . '\%(-\@<!-\|+\@<!+\|<\|[-=]\@<!>\|\*\|/\|%\||\|'
+\                  . '\%(-\@<!-\|+\@<!+\|<\|[-=]\@<!>\|\*\|/\@<!/\|%\||\|'
 \                  . '&\|,\|\.\@<!\.\)$'
 
 " Operators that block continuation indenting
@@ -77,10 +78,8 @@ endfunction
 
 " Check if a whole line is a comment.
 function! s:IsCommentLine(linenum)
-  call cursor(a:linenum, 0)
-  normal ^
-
-  return s:IsComment(a:linenum, col('.'))
+  " Check the first non-whitespace character.
+  return s:IsComment(a:linenum, indent(a:linenum) + 1)
 endfunction
 
 " Repeatedly search a line for a regex until one is found outside a string or
@@ -108,14 +107,24 @@ function! s:SmartSearch(linenum, regex)
   return 0
 endfunction
 
-" Skip a match if it's in a comment or string, or is an adjacent single-line
-" statement, or is a postfix condition.
+" Skip a match if it's in a comment or string, is a single-line statement that
+" isn't adjacent, or is a postfix condition.
 function! s:ShouldSkip(startlinenum, linenum, col)
-  return  s:IsCommentOrString(a:linenum, a:col) ||
-  \      (s:SmartSearch(a:linenum, '\<then\>') &&
-  \       a:startlinenum - a:linenum > 1) ||
-  \      (s:SmartSearch(a:linenum, s:POSTFIX_CONDITION) &&
-  \      !s:SmartSearch(a:linenum, s:COMPOUND_ASSIGNMENT))
+  if s:IsCommentOrString(a:linenum, a:col)
+    return 1
+  endif
+
+  " Check for a single-line statement that isn't adjacent.
+  if s:SmartSearch(a:linenum, '\<then\>') && a:startlinenum - a:linenum > 1
+    return 1
+  endif
+
+  if s:SmartSearch(a:linenum, s:POSTFIX_CONDITION) &&
+  \ !s:SmartSearch(a:linenum, s:COMPOUND_ASSIGNMENT)
+    return 1
+  endif
+
+  return 0
 endfunction
 
 " Find the farthest line to look back to, capped to line 1 (zero and negative
@@ -143,7 +152,7 @@ function! s:SearchPair(start, end)
 endfunction
 
 " Try to find a previous matching line.
-function! s:GetMatch(curline, prevlinenum)
+function! s:GetMatch(curline)
   let firstchar = a:curline[0]
 
   if firstchar == '}'
@@ -153,13 +162,11 @@ function! s:GetMatch(curline, prevlinenum)
   elseif firstchar == ']'
     return s:SearchPair('\[', '\]')
   elseif a:curline =~ '^else\>'
-    return s:SearchPair('\<if\|unless\|when\>', '\<else\>')
+    return s:SearchPair('\<\%(if\|unless\|when\)\>', '\<else\>')
   elseif a:curline =~ '^catch\>'
     return s:SearchPair('\<try\>', '\<catch\>')
   elseif a:curline =~ '^finally\>'
     return s:SearchPair('\<try\>', '\<finally\>')
-  elseif a:curline =~ '^when\>' && !s:SmartSearch(a:prevlinenum, '\<switch\>')
-    return s:SearchPair('\<when\>', '\<when\>')
   endif
 
   return 0
@@ -187,56 +194,76 @@ function! s:GetTrimmedLine(linenum)
 endfunction
 
 function! s:GetCoffeeIndent(curlinenum)
-  if s:IsCommentLine(a:curlinenum)
-    return -1
-  endif
-
   let prevlinenum = s:GetPrevNormalLine(a:curlinenum)
-  let prevprevlinenum = s:GetPrevNormalLine(prevlinenum)
 
-  " No indenting is needed at the start of a file.
+  " Don't do anything if there's no previous line.
   if !prevlinenum
     return -1
   endif
 
-  let curindent = indent(a:curlinenum)
-  let previndent = indent(prevlinenum)
-
   let curline = s:GetTrimmedLine(a:curlinenum)
-  let prevline = s:GetTrimmedLine(prevlinenum)
-  let prevprevline = s:GetTrimmedLine(prevprevlinenum)
 
-  " Reset the cursor for the following.
-  call cursor(a:curlinenum, 1)
-
-  " Try to find a matching pair before anything else.
-  let matchlinenum = s:GetMatch(curline, prevlinenum)
+  " Try to find a previous matching statement. This handles outdenting.
+  let matchlinenum = s:GetMatch(curline)
 
   if matchlinenum
     return indent(matchlinenum)
   endif
 
-  if prevline =~ s:INDENT_AFTER ||
-  \  prevline =~ s:COMPOUND_ASSIGNMENT ||
-  \ (prevline =~ s:CONTINUATION &&
-  \  prevprevline !~ s:CONTINUATION &&
-  \  prevprevline !~ s:CONTINUATION_BLOCK)
-    if !s:SmartSearch(prevlinenum, '\<then\>') && prevline !~ s:SINGLE_LINE_ELSE
-      return previndent + &shiftwidth
-    endif
-  elseif prevline =~ s:OUTDENT_AFTER &&
-  \    (!s:SmartSearch(prevlinenum, s:POSTFIX_CONDITION) ||
-  \      s:SmartSearch(prevlinenum, '\<then\>'))
-      if curindent < previndent
-        return -1
-      else
-        return curindent - &shiftwidth
+  " Try to find a matching `when`.
+  if curline =~ '^when\>' && !s:SmartSearch(prevlinenum, '\<switch\>')
+    let linenum = a:curlinenum
+
+    while linenum > 0
+      let linenum = s:GetPrevNormalLine(linenum)
+
+      if getline(linenum) =~ '^\s*when\>'
+        return indent(linenum)
       endif
-  elseif curline =~ s:DOT_ACCESS && prevline !~ s:DOT_ACCESS
+    endwhile
+  endif
+
+  let prevline = s:GetTrimmedLine(prevlinenum)
+  let previndent = indent(prevlinenum)
+
+  " Always indent after these operators.
+  if prevline =~ s:INDENT_AFTER_OPERATOR
     return previndent + &shiftwidth
   endif
 
-  " No indenting or outdenting is needed
+  " Indent after a continuation if it's the first.
+  if prevline =~ s:CONTINUATION
+    let prevprevlinenum = s:GetPrevNormalLine(prevlinenum)
+    let prevprevline = s:GetTrimmedLine(prevprevlinenum)
+
+    if prevprevline !~ s:CONTINUATION && prevprevline !~ s:CONTINUATION_BLOCK
+      return previndent + &shiftwidth
+    endif
+  endif
+
+  " Indent after these keywords and compound assignments if they aren't a
+  " single-line statement.
+  if prevline =~ s:INDENT_AFTER_KEYWORD || prevline =~ s:COMPOUND_ASSIGNMENT
+    if !s:SmartSearch(prevlinenum, '\<then\>') && prevline !~ s:SINGLE_LINE_ELSE
+      return previndent + &shiftwidth
+    endif
+  endif
+
+  " Indent a dot access if it's the first.
+  if curline =~ s:DOT_ACCESS && prevline !~ s:DOT_ACCESS
+    return previndent + &shiftwidth
+  endif
+
+  " Outdent after these keywords if they don't have a postfix condition and
+  " aren't a single-line statement.
+  if prevline =~ s:OUTDENT_AFTER
+    if !s:SmartSearch(prevlinenum, s:POSTFIX_CONDITION) ||
+    \   s:SmartSearch(prevlinenum, '\<then\>')
+      return previndent - &shiftwidth
+    endif
+  endif
+
+  " No indenting or outdenting is needed.
   return -1
 endfunction
 
