@@ -24,6 +24,7 @@ else
   set t_RV=
 endif
 
+let g:tex_flavor = "latex"
 let mapleader = ','
 
 " Search settings {{{
@@ -172,6 +173,8 @@ nmap <Esc>L :noh<CR>
 
 vnoremap <silent> <Leader>T= :Tabularize /=<CR>
 vnoremap <silent> <Leader>T, :Tabularize /,<CR>
+
+nmap <silent> <leader>m :make<CR><CR><CR>
 "   }}}
 
 " }}}
@@ -215,7 +218,8 @@ if has("autocmd")
         \ unlet b:chmod_new|
         \ endif
   autocmd FileType *commit* setlocal spell
-  autocmd FileType tex setlocal wm=2 " Auto wrap tex files
+  autocmd FileType tex silent! compiler tex | setlocal tw=78 makeprg=pdflatex\
+        \ -interaction=nonstopmode\ %
   autocmd FileType make setlocal list noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
