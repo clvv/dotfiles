@@ -25,6 +25,12 @@ endif
 " Initialization {{{1
 
 " Basic init {{{2
+
+if v:version < 700
+    echomsg 'Tagbar: Vim version is too old, Tagbar requires at least 7.0'
+    finish
+endif
+
 if !exists('g:tagbar_ctags_bin')
     if executable('ctags-exuberant')
         let g:tagbar_ctags_bin = 'ctags-exuberant'
@@ -129,6 +135,8 @@ let s:access_symbols = {
     \ 'protected' : '#',
     \ 'private'   : '-'
 \ }
+
+autocmd SessionLoadPost * nested call s:RestoreSession()
 
 " s:InitTypes() {{{2
 function! s:InitTypes()
@@ -825,6 +833,42 @@ function! s:GetUserTypeDefs()
     return defdict
 endfunction
 
+" s:RestoreSession() {{{2
+" Properly restore Tagbar after a session got loaded
+function! s:RestoreSession()
+    let tagbarwinnr = bufwinnr('__Tagbar__')
+    if tagbarwinnr == -1
+        " Tagbar wasn't open in the saved session, nothing to do
+        return
+    else
+        let in_tagbar = 1
+        if winnr() != tagbarwinnr
+            execute tagbarwinnr . 'wincmd w'
+            let in_tagbar = 0
+        endif
+    endif
+
+    if !s:type_init_done
+        call s:InitTypes()
+    endif
+
+    if !s:checked_ctags
+        if !s:CheckForExCtags()
+            return
+        endif
+    endif
+
+    call s:InitWindow(g:tagbar_autoclose)
+
+    " Leave the Tagbar window and come back so the update event gets triggered
+    execute 'wincmd p'
+    execute tagbarwinnr . 'wincmd w'
+
+    if !in_tagbar
+        execute 'wincmd p'
+    endif
+endfunction
+
 " s:MapKeys() {{{2
 function! s:MapKeys()
     nnoremap <script> <silent> <buffer> <CR>    :call <SID>JumpToTag(0)<CR>
@@ -904,10 +948,31 @@ function! s:CheckForExCtags()
             endfor
         endif
         return 0
+    elseif !s:CheckExCtagsVersion(ctags_output)
+        echoerr 'Tagbar: Exuberant Ctags is too old!'
+        echomsg 'You need at least version 5.5 for Tagbar to work.'
+              \ 'Please download a newer version from ctags.sourceforge.net.'
+        echomsg 'Executed command: "' . ctags_cmd . '"'
+        if !empty(ctags_output)
+            echomsg 'Command output:'
+            for line in split(ctags_output, '\n')
+                echomsg line
+            endfor
+        endif
+        return 0
     else
         let s:checked_ctags = 1
         return 1
     endif
+endfunction
+
+" s:CheckExCtagsVersion() {{{2
+function! s:CheckExCtagsVersion(output)
+    let matchlist = matchlist(a:output, '\vExuberant Ctags (\d+)\.(\d+)')
+    let major     = matchlist[1]
+    let minor     = matchlist[2]
+
+    return major >= 6 || (major == 5 && minor >= 5)
 endfunction
 
 " Prototypes {{{1
@@ -1332,10 +1397,6 @@ endfunction
 
 " s:OpenWindow() {{{2
 function! s:OpenWindow(autoclose)
-    if !s:type_init_done
-        call s:InitTypes()
-    endif
-
     " If the tagbar window is already open jump to it
     let tagbarwinnr = bufwinnr('__Tagbar__')
     if tagbarwinnr != -1
@@ -1343,6 +1404,10 @@ function! s:OpenWindow(autoclose)
             execute tagbarwinnr . 'wincmd w'
         endif
         return
+    endif
+
+    if !s:type_init_done
+        call s:InitTypes()
     endif
 
     if !s:checked_ctags
@@ -1360,6 +1425,20 @@ function! s:OpenWindow(autoclose)
     let openpos = g:tagbar_left ? 'topleft vertical ' : 'botright vertical '
     exe 'silent keepalt ' . openpos . g:tagbar_width . 'split ' . '__Tagbar__'
 
+    call s:InitWindow(a:autoclose)
+
+    execute 'wincmd p'
+
+    " Jump back to the tagbar window if autoclose or autofocus is set. Can't
+    " just stay in it since it wouldn't trigger the update event
+    if g:tagbar_autoclose || a:autoclose || g:tagbar_autofocus
+        let tagbarwinnr = bufwinnr('__Tagbar__')
+        execute tagbarwinnr . 'wincmd w'
+    endif
+endfunction
+
+" s:InitWindow() {{{2
+function! s:InitWindow(autoclose)
     setlocal noreadonly " in case the "view" mode is used
     setlocal buftype=nofile
     setlocal bufhidden=hide
@@ -1385,10 +1464,6 @@ function! s:OpenWindow(autoclose)
     setlocal foldexpr&
 
     setlocal statusline=%!TagbarGenerateStatusline()
-
-    " Variable for saving the current file for functions that are called from
-    " the tagbar window
-    let s:current_file = ''
 
     " Script-local variable needed since compare functions can't
     " take extra arguments
@@ -1416,15 +1491,6 @@ function! s:OpenWindow(autoclose)
     endif
 
     let &cpoptions = cpoptions_save
-
-    execute 'wincmd p'
-
-    " Jump back to the tagbar window if autoclose or autofocus is set. Can't
-    " just stay in it since it wouldn't trigger the update event
-    if g:tagbar_autoclose || a:autoclose || g:tagbar_autofocus
-        let tagbarwinnr = bufwinnr('__Tagbar__')
-        execute tagbarwinnr . 'wincmd w'
-    endif
 endfunction
 
 " s:CloseWindow() {{{2
@@ -2499,7 +2565,6 @@ endfunction
 function! s:CleanUp()
     silent autocmd! TagbarAutoCmds
 
-    unlet s:current_file
     unlet s:is_maximized
     unlet s:compare_typeinfo
     unlet s:short_help
@@ -2623,7 +2688,6 @@ function! s:EscapeCtagsCmd(ctags_bin, args, ...)
         echoerr 'Tagbar: Encoding conversion failed!'
               \ 'Please make sure your system is set up correctly'
               \ 'and that Vim is compiled with the "iconv" feature.'
-        return
     endif
 
     return ctags_cmd
