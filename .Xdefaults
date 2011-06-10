@@ -9,7 +9,7 @@ URxvt*scrollstyle: rxvt
 URxvt*termName: xterm-256color
 
 URxvt*perl-ext-common: default,matcher
-URxvt*urlLauncher: chromium
+URxvt*urlLauncher: xdg-open
 URxvt*matcher.button: 1
 URxvt*colorUL: #3465A4
 
