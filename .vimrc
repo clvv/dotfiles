@@ -152,6 +152,16 @@ vmap <Esc>K [egv
 vmap <Esc>J ]egv
 "   }}}
 
+" Alternate file mappings{{{
+nmap <silent> <leader>a :A<CR>
+nmap <silent> <leader>A :A<CR>
+nmap <silent> <leader>aa :A<CR>
+nmap <silent> <leader>as :AS<CR>
+nmap <silent> <leader>av :AV<CR>
+nmap <silent> <leader>at :AT<CR>
+nmap <silent> <leader>an :AN<CR>
+"   }}}
+
 " FuzzyFinder key mappings {{{
 nmap <silent> <leader>of :FufFile<CR>
 nmap <silent> <leader>oF :FufFileWithCurrentBufferDir<CR>
