@@ -1,11 +1,12 @@
 [color]
-	ui = auto
+  ui = auto
 [user]
-	name = Wei Dai
-	email = x@wei23.net
+  name = Wei Dai
+  email = x@wei23.net
 [core]
-	editor = vim
+  editor = vim
+  excludesfile = ~/.ignore
 [alias]
-    ci = commit
-    co = checkout
-    st = status
+  ci = commit
+  co = checkout
+  st = status
