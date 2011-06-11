@@ -10,3 +10,5 @@
   ci = commit
   co = checkout
   st = status
+[merge]
+	tool = vimdiff
