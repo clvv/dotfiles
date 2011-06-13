@@ -233,6 +233,7 @@ if has("autocmd")
   autocmd FileType make setlocal list noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
+  autocmd FileType lisp,scheme,clojure let b:delimitMate_quotes = '"'
 endif " }}}
 
 " Styling {{{
