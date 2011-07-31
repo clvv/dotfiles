@@ -1,5 +1,5 @@
 export PATH=$PATH:$HOME/bin
-export PYTHONSTARTUP=".pythonrc.py"
+export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export EDITOR=vim
 export PAGER=less
 
