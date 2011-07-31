@@ -11,4 +11,4 @@
   co = checkout
   st = status
 [merge]
-	tool = vimdiff
+  tool = vimdiff
