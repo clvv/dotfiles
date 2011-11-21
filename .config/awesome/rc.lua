@@ -55,17 +55,14 @@ end
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
-}
+--myawesomemenu = {
+   --{ "manual", terminal .. " -e man awesome" },
+   --{ "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua" },
+   --{ "restart", awesome.restart },
+   --{ "quit", awesome.quit }
+--}
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+mymainmenu = awful.menu
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
@@ -273,7 +270,13 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end)
+        end),
+     awful.key({ }, "XF86AudioRaiseVolume", function ()
+         awful.util.spawn("amixer sset Master 9%+") end),
+     awful.key({ }, "XF86AudioLowerVolume", function ()
+         awful.util.spawn("amixer sset Master 9%-") end),
+     awful.key({ }, "XF86AudioMute", function ()
+         awful.util.spawn("amixer sset Master toggle") end)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -338,6 +341,15 @@ awful.rules.rules = {
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
+      properties = { floating = true } },
+    -- Flash fullscreen in Firefox
+    { rule = { class = "Plugin-container" },
+      properties = { floating = true } },
+    -- Flash fullscreen in Chromium
+    { rule = { class = "Exe" },
+      properties = { floating = true } },
+    -- Float Wicd config window
+    { rule = { class = "Wicd-client.py" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
