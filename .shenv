@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/bin:$HOME/node_modules/.bin
 export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export EDITOR=vim
 export PAGER=less
