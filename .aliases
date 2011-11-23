@@ -11,4 +11,6 @@ alias l='ls -CF'
 
 alias ..='cd ..'
 
+[ -s "$HOME/.aliases.local" ] && source $HOME/.aliases.local
+
 # vim: se ft=sh:
