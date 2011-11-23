@@ -5,6 +5,6 @@ max_peers = 80
 max_peers_seed = 30
 upload_rate = 100
 download_rate = 500
-port_range = 49164-49164
+port_range = 49164-49200
 port_random = no
 encryption = allow_incoming,try_outgoing,enable_retry
