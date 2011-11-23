@@ -11,8 +11,8 @@ fi
 
 [ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
 
-if [[ "$COLORTERM" == "gnome-terminal" ]]; then
-    export TERM="xterm-256color"
-fi
+[[ "$COLORTERM" == "gnome-terminal" ]] && export TERM="xterm-256color"
+
+[ -s "$HOME/.shenv.local" ] && source $HOME/.shenv.local
 
 # vim: se ft=sh:
