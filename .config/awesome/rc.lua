@@ -273,7 +273,18 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end)
+              end),
+
+    -- Volume controls
+    awful.key({ }, "XF86AudioRaiseVolume", function ()
+        awful.util.spawn("amixer sset Master 9%+") end),
+    awful.key({ }, "XF86AudioLowerVolume", function ()
+        awful.util.spawn("amixer sset Master 9%-") end),
+    awful.key({ }, "XF86AudioMute", function ()
+        awful.util.spawn("amixer sset Master toggle") end),
+
+    -- Lock screen
+    awful.key({ modkey, "Control" }, "x", function () awful.util.spawn("slock") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -294,13 +305,7 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end),
-     awful.key({ }, "XF86AudioRaiseVolume", function ()
-         awful.util.spawn("amixer sset Master 9%+") end),
-     awful.key({ }, "XF86AudioLowerVolume", function ()
-         awful.util.spawn("amixer sset Master 9%-") end),
-     awful.key({ }, "XF86AudioMute", function ()
-         awful.util.spawn("amixer sset Master toggle") end)
+        end)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
