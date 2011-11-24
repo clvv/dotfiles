@@ -62,6 +62,7 @@ URxvt.scrollBar: false
 URxvt.scrollstyle: rxvt
 URxvt.termName: xterm-256color
 URxvt.urgentOnBell: True
+URxvt.cursorBlink: True
 
 !URxvt.perl-lib: lib/urxvt-perls
 URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select
