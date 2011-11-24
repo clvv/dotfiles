@@ -183,6 +183,7 @@ nmap <Esc>L :noh<CR>
 
 vnoremap <silent> <Leader>T= :Tabularize /=<CR>
 vnoremap <silent> <Leader>T, :Tabularize /,<CR>
+vnoremap <silent> <Leader>T: :Tabularize /:<CR>
 
 nmap <silent> <leader>m :make<CR><CR><CR>
 "   }}}
