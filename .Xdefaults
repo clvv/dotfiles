@@ -1,14 +1,40 @@
-URxvt*background: #202020
-URxvt*foreground: #DEDEDE
-URxvt*font: xft:Monospace:pixelsize=13
-URxvt*boldFont: xft:Monospace:bold:pixelsize=13
-URxvt.letterSpace: -1
+!Courier
+!URxvt*font: xft:Courier-10
+
+!Inconsolata
+!URxvt*font: xft:Inconsolata-11
+!URxvt.letterSpace: -1
+
+!Monaco
+!URxvt*font: xft:Monaco-10
+!URxvt.letterSpace: -1
+
+!Droid Sans Mono
+!URxvt*font: xft:Droid Sans Mono-10
+!URxvt.letterSpace: -1
+
+!DejaVu Sans
+!URxvt*font: xft:DejaVu Sans Mono-10
+!URxvt.letterSpace: -1
+
+!Bitstream Vera
+!URxvt*font: xft:Bitstream Vera Sans Mono-10
+!URxvt.letterSpace: -1
+
+!Manospace
+!URxvt*font: xft:Monospace-10
+!URxvt.letterSpace: -1
+
+!Terminus
+URxvt*font: xft:Terminus-10
+
 URxvt*saveLines: 2000
 URxvt*scrollBar: false
 URxvt*scrollstyle: rxvt
 URxvt*termName: xterm-256color
+URxvt.urgentOnBell: True
 
-URxvt*perl-ext-common: default,matcher
+URxvt*perl-ext-common: default,matcher,clipboard
 URxvt*urlLauncher: xdg-open
 URxvt*matcher.button: 1
 URxvt*colorUL: #3465A4
@@ -37,3 +63,12 @@ URxvt*color14 : #34E2E2
 ! white
 URxvt*color7  : #D3D7CF
 URxvt*color15 : #EEEEEC
+
+URxvt*background: #202020
+URxvt*foreground: #DEDEDE
+
+URxvt.copyCommand:  xclip -i -selection clipboard
+URxvt.pasteCommand: xclip -o -selection clipboard
+
+URxvt.keysym.Mod4-c: perl:clipboard:copy
+URxvt.keysym.Mod4-v: perl:clipboard:paste

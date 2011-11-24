@@ -41,7 +41,7 @@ end
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "gnome-terminal"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -382,6 +382,9 @@ awful.rules.rules = {
     -- Float Wicd config window
     { rule = { class = "Wicd-client.py" },
       properties = { floating = true } },
+    -- Fix URxvt borders
+    { rule = { class = "URxvt" },
+      properties = { size_hints_honor = false } }
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
