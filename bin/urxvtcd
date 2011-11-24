@@ -1,0 +1,6 @@
+#!/bin/sh
+urxvtc --perl-lib $HOME/lib/urxvt-perls "$@"
+if [ $? -eq 2 ]; then
+  urxvtd -q -f -o
+  urxvtc --perl-lib $HOME/lib/urxvt-perls "$@"
+fi
