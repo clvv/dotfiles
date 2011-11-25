@@ -11,6 +11,9 @@ alias l='ls -CF'
 
 alias ..='cd ..'
 
+alias rd=rmdir
+alias md='mkdir -p'
+
 [ -s "$HOME/.aliases.local" ] && source $HOME/.aliases.local
 
 # vim: se ft=sh:
