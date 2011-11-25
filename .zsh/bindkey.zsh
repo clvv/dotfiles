@@ -1,7 +1,5 @@
 bindkey -e
-bindkey -s '^[l' 'ls'
-bindkey -s '^[>' '..'
-bindkey '^r' history-incremental-search-backward
+bindkey '^R' history-incremental-search-backward
 bindkey '^[[5~' up-line-or-history
 bindkey '^[[6~' down-line-or-history
 
@@ -28,14 +26,18 @@ bindkey '^J' history-beginning-search-forward
 bindkey '^[^I' _history-complete-older
 bindkey '^[^[^I' _history-complete-newer
 
+bindkey -s '^[l' '^Qls^M' # Alt-l
+bindkey -s '^[>' '^Q..^M' # Alt-S-.
+bindkey -s '^[S' '^Asudo ^E' # Alt-S-s add sudo
+
 # Quick jumping to n-th arguments by pressing Alt-number
 bindkey '^[1' beginning-of-line
-bindkey -s '^[2' 'f'
-bindkey -s '^[3' 'ff'
-bindkey -s '^[4' 'fff'
-bindkey -s '^[5' 'ffff'
-bindkey -s '^[6' 'fffff'
-bindkey -s '^[7' 'ffffff'
-bindkey -s '^[8' 'fffffff'
-bindkey -s '^[9' 'ffffffff'
+bindkey -s '^[2' '^A^[f'
+bindkey -s '^[3' '^A^[f^[f'
+bindkey -s '^[4' '^A^[f^[f^[f'
+bindkey -s '^[5' '^A^[f^[f^[f^[f'
+bindkey -s '^[6' '^A^[f^[f^[f^[f^[f'
+bindkey -s '^[7' '^A^[f^[f^[f^[f^[f^[f'
+bindkey -s '^[8' '^A^[f^[f^[f^[f^[f^[f^[f'
+bindkey -s '^[9' '^A^[f^[f^[f^[f^[f^[f^[f^[f'
 
