@@ -6,8 +6,6 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-alias history='fc -l 1'
-
 setopt hist_ignore_dups
 setopt share_history
 
@@ -23,6 +21,9 @@ setopt APPEND_HISTORY
 autoload colors; colors;
 autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
+
+autoload -U edit-command-line
+zle -N edit-command-line
 
 setopt no_beep
 setopt auto_cd
