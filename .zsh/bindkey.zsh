@@ -28,3 +28,14 @@ bindkey '^J' history-beginning-search-forward
 bindkey '^[^I' _history-complete-older
 bindkey '^[^[^I' _history-complete-newer
 
+# Quick jumping to n-th arguments by pressing Alt-number
+bindkey '^[1' beginning-of-line
+bindkey -s '^[2' 'f'
+bindkey -s '^[3' 'ff'
+bindkey -s '^[4' 'fff'
+bindkey -s '^[5' 'ffff'
+bindkey -s '^[6' 'fffff'
+bindkey -s '^[7' 'ffffff'
+bindkey -s '^[8' 'fffffff'
+bindkey -s '^[9' 'ffffffff'
+
