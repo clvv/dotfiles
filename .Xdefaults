@@ -3,7 +3,15 @@
 !URxvt.font: xft:Courier-10
 
 !Inconsolata
-!URxvt.font: xft:Inconsolata-11
+URxvt.font: xft:Inconsolata-12
+URxvt.letterSpace: -1
+
+!Inconsolata-g
+!URxvt.font: xft:Inconsolata\-g-12
+!URxvt.letterSpace: -1
+
+!Anonymous Pro
+!URxvt.font: xft:Anonymous\ Pro-12
 !URxvt.letterSpace: -1
 
 !Monaco
@@ -27,7 +35,7 @@
 !URxvt.letterSpace: -1
 
 !Terminus
-URxvt.font: xft:Terminus-10
+!URxvt.font: xft:Terminus-10
 
 URxvt.background: #202020
 URxvt.foreground: #DEDEDE
