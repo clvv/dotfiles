@@ -6,78 +6,78 @@
 DEFAULT_TIMES=10
 
 getDate(){
-    # Function that generates a random date and find its day of the week
-    DATE_DOW=`echo | awk 'BEGIN {
-    "od -tu4 -N4 -A n /dev/urandom" | getline
-    srand($0)
+  # Function that generates a random date and find its day of the week
+  DATE_DOW=`echo | awk 'BEGIN {
+  "od -tu4 -N4 -A n /dev/urandom" | getline
+  srand($0)
+  }
+  function dow(year, month, day) {
+    # Function that returns the day of the week of a given date
+    # Below is Zellers congruence
+    M = 1 + (month + 9) % 12
+    if ( M > 10)
+      year = year - 1
+      return int((int((13*M-1)/5)+int(year+year/4)-int(year/100)+int(year/400)+day)%7)
+  }
+  function doRanDate() {
+    # Function that generates a random date,
+    # then prints the date and day of the week.
+    if ( rand() > 0.45)
+      year = int( rand() * 150 + 1900 )
+    else
+      year = int( rand() * 700 + 1600 )
+    # Tweak year for your own needs, this one is pretty general
+    month = int( rand() * 12 + 1 )
+    day = int( rand() * 31 + 1 )
+    # We have about 365.25/372 probability to get a valid date here
+    if ( (year % 4 == 0 && year % 100 !=0) || (year % 400 == 0) )
+      cmd = "date -d 1972-" month "-" day " 2>/dev/null"
+    else
+      cmd = "date -d 1970-" month "-" day " 2>/dev/null"
+    cmd | getline str
+    # Validate our date with a known to work year
+    returnCode = close(cmd)
+    if (returnCode != 0)
+      return doRanDate() # Call self recursivly
+    else {
+      printf "%d-%d-%d ", year, month, day
+      print dow(year, month, day)
     }
-    function dow(year, month, day) {
-        # Function that returns the day of the week of a given date
-        # Below is Zellers congruence
-        M = 1 + (month + 9) % 12
-        if ( M > 10)
-            year = year - 1
-            return int((int((13*M-1)/5)+int(year+year/4)-int(year/100)+int(year/400)+day)%7)
-    }
-    function doRanDate() {
-        # Function that generates a random date,
-        # then prints the date and day of the week.
-        if ( rand() > 0.45)
-            year = int( rand() * 150 + 1900 )
-        else
-            year = int( rand() * 700 + 1600 )
-        # Tweak year for your own needs, this one is pretty general
-        month = int( rand() * 12 + 1 )
-        day = int( rand() * 31 + 1 )
-        # We have about 365.25/372 probability to get a valid date here
-        if ( (year % 4 == 0 && year % 100 !=0) || (year % 400 == 0) )
-            cmd = "date -d 1972-" month "-" day " 2>/dev/null"
-        else
-            cmd = "date -d 1970-" month "-" day " 2>/dev/null"
-        cmd | getline str
-        # Validate our date with a known to work year
-        returnCode = close(cmd)
-        if (returnCode != 0)
-            return doRanDate() # Call self recursivly
-        else {
-            printf "%d-%d-%d ", year, month, day
-            print dow(year, month, day)
-        }
-    } { doRanDate() }'`
-    # $DATE_DOW is in this format "date day-of-the-week"
-    DATE=`echo $DATE_DOW | awk '{print $1}'`
-    DOW=`echo $DATE_DOW | awk '{print $2}'`
-    # DOW(Day of the Week) is a number from range {0..6}, with Monday being 1.
+  } { doRanDate() }'`
+  # $DATE_DOW is in this format "date day-of-the-week"
+  DATE=`echo $DATE_DOW | awk '{print $1}'`
+  DOW=`echo $DATE_DOW | awk '{print $2}'`
+  # DOW(Day of the Week) is a number from range {0..6}, with Monday being 1.
 }
 
 testDate(){
-    # Function that performs the test with a random date
-    getDate; # getDate will set $DATE and $DOW
-    echo $DATE
-    read R
-    if [ $((R % 7)) = $((DOW % 7)) -a "$R" != "" ]; then
-        echo "Correct!"
-        echo
-        return 0
-    else
-        echo "The correct day of the week is $DOW"
-        echo
-        return 1
-    fi
+  # Function that performs the test with a random date
+  getDate; # getDate will set $DATE and $DOW
+  echo $DATE
+  read R
+  if [ $((R % 7)) = $((DOW % 7)) -a "$R" != "" ]; then
+    echo "Correct!"
+    echo
+    return 0
+  else
+    echo "The correct day of the week is $DOW"
+    echo
+    return 1
+  fi
 }
 
 quiz(){
-    # The main()
-    ERRORS=0
-    START_TIME=`cat /proc/uptime | awk '{print $1}'`
-    for i in `seq 1 $1`; do
-        testDate
-        RETURN_CODE=$?
-        ERRORS=$((ERRORS + RETURN_CODE))
-    done
-    # Notice that we have to double escape $1 with \\$1 here
-    echo -n "Average time: `cat /proc/uptime | awk "{print (\\$1 - $START_TIME) / $1}"`secs"
-    echo ", `echo "$1 $ERRORS" | awk '{print ( $1 - $2 ) * 100 / $1}'`% correct"
+  # The main()
+  ERRORS=0
+  START_TIME=`cat /proc/uptime | awk '{print $1}'`
+  for i in `seq 1 $1`; do
+    testDate
+    RETURN_CODE=$?
+    ERRORS=$((ERRORS + RETURN_CODE))
+  done
+  # Notice that we have to double escape $1 with \\$1 here
+  echo -n "Average time: `cat /proc/uptime | awk "{print (\\$1 - $START_TIME) / $1}"`secs"
+  echo ", `echo "$1 $ERRORS" | awk '{print ( $1 - $2 ) * 100 / $1}'`% correct"
 }
 
 [ "$1" != "" ] && quiz $1 || quiz $DEFAULT_TIMES

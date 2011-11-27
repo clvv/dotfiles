@@ -19,15 +19,17 @@ bindkey '^[3;5~' delete-char
 bindkey '\e[3~' delete-char
 
 bindkey '^[m' copy-prev-shell-word
-bindkey '^[.' insert-last-word
 
 bindkey '^K' history-beginning-search-backward
 bindkey '^J' history-beginning-search-forward
+bindkey '^[k' history-beginning-search-backward
+bindkey '^[j' history-beginning-search-forward
 bindkey '^[^I' _history-complete-older
 bindkey '^[^[^I' _history-complete-newer
 
 bindkey -s '^[l' '^Qls^M' # Alt-l
 bindkey -s '^[>' '^Q..^M' # Alt-S-.
+bindkey -s '^[-' '^Qcd -^M'
 bindkey -s '^[S' '^Asudo ^E' # Alt-S-s add sudo
 
 # Quick jumping to n-th arguments by pressing Alt-number
