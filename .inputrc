@@ -3,12 +3,12 @@ set completion-ignore-case On
 set show-all-if-ambiguous
 
 $if Bash
-    Space: magic-space
+  Space: magic-space
 $endif
 
 C-k: history-search-backward
 C-j: history-search-forward
- 
+
 # Tab to menucomplete, Shift + Tab to do it backward
 Tab: menu-complete
 "\e[Z": menu-complete-backward
@@ -16,9 +16,9 @@ Tab: menu-complete
 # set editing-mode vi
 
 $if mode=vi
-    set keymap vi-insert
-    "\C-l": clear-screen
-    "\C-w": backward-kill-word
-    "\C-a": beginning-of-line
-    "\C-e": end-of-line
+  set keymap vi-insert
+  "\C-l": clear-screen
+  "\C-w": backward-kill-word
+  "\C-a": beginning-of-line
+  "\C-e": end-of-line
 $endif

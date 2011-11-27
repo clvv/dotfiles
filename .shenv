@@ -4,9 +4,9 @@ export EDITOR=vim
 export PAGER=less
 
 if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-    source "$HOME/.rvm/scripts/rvm"
+  source "$HOME/.rvm/scripts/rvm"
 elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-    source "/usr/local/rvm/scripts/rvm"
+  source "/usr/local/rvm/scripts/rvm"
 fi
 
 [ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
