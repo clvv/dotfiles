@@ -26,10 +26,6 @@ URxvt.letterSpace: -1
 !URxvt.font: xft:DejaVu Sans Mono-10
 !URxvt.letterSpace: -1
 
-!Bitstream Vera
-!URxvt.font: xft:Bitstream Vera Sans Mono-10
-!URxvt.letterSpace: -1
-
 !Manospace
 !URxvt.font: xft:Monospace-10
 !URxvt.letterSpace: -1
