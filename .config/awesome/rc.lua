@@ -384,10 +384,10 @@ awful.rules.rules = {
       properties = { floating = true } },
     -- Fix URxvt borders
     { rule = { class = "URxvt" },
-      properties = { size_hints_honor = false } }
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+      properties = { size_hints_honor = false } },
+    -- Float FontForge
+    { rule = { class = "fontforge" },
+      properties = { floating = true } }
 }
 -- }}}
 
