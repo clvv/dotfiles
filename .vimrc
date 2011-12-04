@@ -170,6 +170,10 @@ nmap <silent> <leader>oj :FufJumpList<CR>
 nmap <silent> <leader>od :FufDir<CR>
 "   }}}
 
+" Zen-coding leader key {{{
+let g:user_zen_leader_key = '<c-z>'
+"   }}}
+
 " Misc {{{
 set cedit=<C-Q> " open command line window from normal command line mode
 
