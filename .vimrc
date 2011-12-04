@@ -79,7 +79,6 @@ map <silent> <leader>gs :set spell!<CR>
 map <silent> <leader>gw :set wrap!<CR>
 map <silent> <leader>g1 :NERDTreeToggle<CR>
 map <silent> <leader>g2 :TagbarToggle<CR>
-map <silent> <leader>g3 :TlistToggle<CR>
 "   }}}
 
 " Windows Control {{{
