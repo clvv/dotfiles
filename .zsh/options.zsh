@@ -25,6 +25,8 @@ zle -N self-insert url-quote-magic
 autoload -U edit-command-line
 zle -N edit-command-line
 
+autoload -U add-zsh-hook
+
 setopt no_beep
 setopt auto_cd
 setopt multios
