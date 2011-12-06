@@ -10,6 +10,7 @@ elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
 fi
 
 [ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
+[ -s "$HOME/lib/f/f.sh" ] && source $HOME/lib/f/f.sh
 
 [[ "$COLORTERM" == "gnome-terminal" ]] && export TERM="xterm-256color"
 [[ "$COLORTERM" == "rxvt-xpm" ]] && export TERM="xterm-256color"
