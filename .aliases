@@ -17,7 +17,6 @@ alias md='mkdir -p'
 alias c='f -d -e cd'
 alias z='f -d -e cd'
 alias e='f -f -e vim'
-alias m='f -f -e mplayer'
 
 [ -s "$HOME/.aliases.local" ] && source $HOME/.aliases.local
 
