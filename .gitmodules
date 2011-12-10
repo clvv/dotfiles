@@ -13,3 +13,6 @@
 [submodule "lib/urxvt-perls"]
 	path = lib/urxvt-perls
 	url = https://github.com/muennich/urxvt-perls.git
+[submodule "lib/f"]
+	path = lib/f
+	url = https://github.com/clvv/f.git
