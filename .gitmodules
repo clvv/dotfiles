@@ -7,3 +7,6 @@
 [submodule "lib/v"]
 	path = lib/v
 	url = https://github.com/rupa/v.git
+[submodule "lib/f"]
+	path = lib/f
+	url = https://github.com/clvv/f.git
