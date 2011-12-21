@@ -1,3 +1,5 @@
+$include /etc/inputrc
+
 set bell-style none
 set completion-ignore-case On
 set show-all-if-ambiguous

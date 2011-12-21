@@ -10,7 +10,8 @@ elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
 fi
 
 #[ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
-_F_TRACK_PWD=1
+_F_SINK="$HOME/.f.log"
+_F_MAX=10000000
 [ -s "$HOME/lib/f/f.sh" ] && source $HOME/lib/f/f.sh
 
 [[ "$COLORTERM" == "gnome-terminal" ]] && export TERM="xterm-256color"

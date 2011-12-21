@@ -24,6 +24,7 @@ bindkey '^K' history-beginning-search-backward
 bindkey '^J' history-beginning-search-forward
 bindkey '^[k' history-beginning-search-backward
 bindkey '^[j' history-beginning-search-forward
+#bindkey '^I' menu-expand-or-complete
 bindkey '^[^I' _history-complete-older
 bindkey '^[^[^I' _history-complete-newer
 
@@ -42,4 +43,8 @@ bindkey -s '^[6' '^A^[f^[f^[f^[f^[f'
 bindkey -s '^[7' '^A^[f^[f^[f^[f^[f^[f'
 bindkey -s '^[8' '^A^[f^[f^[f^[f^[f^[f^[f'
 bindkey -s '^[9' '^A^[f^[f^[f^[f^[f^[f^[f^[f'
+
+bindkey '^X^A' f-complete
+bindkey '^X^F' f-complete-f
+bindkey '^X^D' f-complete-d
 
