@@ -20,10 +20,10 @@ setopt APPEND_HISTORY
 
 autoload colors; colors;
 autoload -U url-quote-magic
-zle -N self-insert url-quote-magic
+#zle -N self-insert url-quote-magic
 
 autoload -U edit-command-line
-zle -N edit-command-line
+#zle -N edit-command-line
 
 autoload -U add-zsh-hook
 
