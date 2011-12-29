@@ -3,20 +3,19 @@ export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export EDITOR=vim
 export PAGER=less
 
-if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-  source "$HOME/.rvm/scripts/rvm"
-elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-  source "/usr/local/rvm/scripts/rvm"
+if [ -s "$HOME/.rvm/scripts/rvm" ]; then
+  . "$HOME/.rvm/scripts/rvm"
+elif [ -s "/usr/local/rvm/scripts/rvm" ]; then
+  . "/usr/local/rvm/scripts/rvm"
 fi
 
-#[ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
 _F_SINK="$HOME/.f.log"
 _F_MAX=10000000
-[ -s "$HOME/lib/f/f.sh" ] && source $HOME/lib/f/f.sh
+[ -s "$HOME/lib/f/f.sh" ] && . "$HOME/lib/f/f.sh"
 
-[[ "$COLORTERM" == "gnome-terminal" ]] && export TERM="xterm-256color"
-[[ "$COLORTERM" == "rxvt-xpm" ]] && export TERM="xterm-256color"
+[ "$COLORTERM" = "gnome-terminal" ] && export TERM="xterm-256color"
+[ "$COLORTERM" = "rxvt-xpm" ] && export TERM="xterm-256color"
 
-[ -s "$HOME/.shenv.local" ] && source $HOME/.shenv.local
+[ -s "$HOME/.shenv.local" ] && . "$HOME/.shenv.local"
 
 # vim: se ft=sh:
