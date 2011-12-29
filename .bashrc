@@ -18,12 +18,12 @@ if [[ -n "$PS1" ]] ; then
     . /etc/bash_completion
   fi
 
-  [ -s "$HOME/.shenv" ] && source $HOME/.shenv
-  [ -s "$HOME/.aliases" ] && source $HOME/.aliases
+  [ -s "$HOME/.shenv" ] && source "$HOME/.shenv"
+  [ -s "$HOME/.aliases" ] && source "$HOME/.aliases"
   _f_bash_hook_cmd_complete c z e m
   _f_bash_hook_word_complete_wrap_all
 
-  [ -s "$HOME/.bashrc.local" ] && source $HOME/.bashrc.local
+  [ -s "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"
 
 fi
 

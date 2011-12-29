@@ -18,6 +18,6 @@ alias c='f -d -e cd'
 alias z='f -d -e cd'
 alias e='f -f -e vim'
 
-[ -s "$HOME/.aliases.local" ] && source $HOME/.aliases.local
+[ -s "$HOME/.aliases.local" ] && . "$HOME/.aliases.local"
 
 # vim: se ft=sh:
