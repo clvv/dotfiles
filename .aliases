@@ -1,6 +1,8 @@
 #alias sudo='sudo env PATH=$PATH'
 
-alias ls='ls --color=auto'
+# GNU ls color
+ls --color=auto > /dev/null 2>&1 && alias ls='ls --color=auto'
+
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
