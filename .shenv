@@ -3,6 +3,9 @@ export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export EDITOR=vim
 export PAGER=less
 
+# BSD ls color
+ls --color=auto > /dev/null 2>&1 || ls -G -d . && export CLICOLOR=yes
+
 if [ -s "$HOME/.rvm/scripts/rvm" ]; then
   . "$HOME/.rvm/scripts/rvm"
 elif [ -s "/usr/local/rvm/scripts/rvm" ]; then
