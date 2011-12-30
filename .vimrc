@@ -14,7 +14,7 @@ set noswapfile
 set nobackup
 set ruler
 set backspace=indent,eol,start
-set listchars=tab:▸\ ,trail:⋅,nbsp:⋅,eol:¬
+set listchars=tab:>-
 set wildmode=full
 set wildmenu
 if v:version >= 703
