@@ -1,4 +1,4 @@
-if [[ -n "$PS1" ]] ; then
+if [ "$PS1" ]; then
 
   HISTCONTROL=ignoreboth:erasedupes
   shopt -s histappend
@@ -6,13 +6,7 @@ if [[ -n "$PS1" ]] ; then
   HISTSIZE=1000
   HISTFILESIZE=2000
 
-  [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-  if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-  fi
-
-  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+  PS1='\[\e[0;32m\][\u \h] \[\e[0;33m\]\W \[\e[0;31m\]\$\[\e[39m\] '
 
   if shopt -oq posix; then :; else
     if [ -s /etc/bash_completion ]; then
