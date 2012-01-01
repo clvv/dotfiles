@@ -8,8 +8,8 @@ $if Bash
   Space: magic-space
 $endif
 
-C-k: history-search-backward
-C-j: history-search-forward
+"\ek": history-search-backward
+"\ej": history-search-forward
 
 # Tab to menucomplete, Shift + Tab to do it backward
 Tab: menu-complete
