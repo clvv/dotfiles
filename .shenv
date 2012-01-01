@@ -3,20 +3,45 @@ export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export EDITOR=vim
 export PAGER=less
 
-if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
-  source "$HOME/.rvm/scripts/rvm"
-elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-  source "/usr/local/rvm/scripts/rvm"
+# BSD ls color
+ls --color=auto > /dev/null 2>&1 || \
+  ls -G -d / > /dev/null 2>&1 && export CLICOLOR=yes
+
+if [ -s "$HOME/.rvm/scripts/rvm" ]; then
+  . "$HOME/.rvm/scripts/rvm"
+elif [ -s "/usr/local/rvm/scripts/rvm" ]; then
+  . "/usr/local/rvm/scripts/rvm"
 fi
 
-#[ -s "$HOME/lib/z/z.sh" ] && source $HOME/lib/z/z.sh
+rush() {
+  [ "$ZSH_VERSION" ] && setopt nomonitor || \
+  case "$-" in
+    *m*) local m=1; set +m;;
+  esac
+  exec 7>&2
+  exec 2>/dev/null
+  local timeout=$1; shift
+  ( eval "$@" <&0 2>&7 ) &
+  local pid1=$!
+  ( sleep $timeout && kill -9 $pid1 > /dev/null ) &
+  local pid2=$!
+  wait $pid1
+  local ret=$?
+  kill -9 $pid2 > /dev/null
+  exec 2>&7
+  exec 7>&-
+  [ "$m" -a "$BASH_VERISON$ZSH_VERSION" ] && set -m
+  [ "$ZSH_VERSION" ] && setopt monitor
+  return $ret
+}
+
 _F_SINK="$HOME/.f.log"
 _F_MAX=10000000
-[ -s "$HOME/lib/f/f.sh" ] && source $HOME/lib/f/f.sh
+[ -s "$HOME/lib/f/f.sh" ] && . "$HOME/lib/f/f.sh"
 
-[[ "$COLORTERM" == "gnome-terminal" ]] && export TERM="xterm-256color"
-[[ "$COLORTERM" == "rxvt-xpm" ]] && export TERM="xterm-256color"
+[ "$COLORTERM" = "gnome-terminal" ] && export TERM="xterm-256color"
+[ "$COLORTERM" = "rxvt-xpm" ] && export TERM="xterm-256color"
 
-[ -s "$HOME/.shenv.local" ] && source $HOME/.shenv.local
+[ -s "$HOME/.shenv.local" ] && . "$HOME/.shenv.local"
 
 # vim: se ft=sh:
