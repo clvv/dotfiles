@@ -4,6 +4,7 @@
 
 !Inconsolata
 URxvt.font: xft:Inconsolata-12
+URxvt.boldFont: xft:Inconsolata-12
 URxvt.letterSpace: -1
 
 !Inconsolata-g
