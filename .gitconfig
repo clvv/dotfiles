@@ -9,6 +9,7 @@
 [alias]
   ci = commit
   co = checkout
+  rb = rebase
   st = status
 [merge]
   tool = vimdiff
