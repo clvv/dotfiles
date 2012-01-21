@@ -171,7 +171,7 @@ nmap <silent> <leader>od :FufDir<CR>
 "   }}}
 
 " Zen-coding leader key {{{
-let g:user_zen_leader_key = '<c-z>'
+let g:user_zen_leader_key = '<c-x>'
 "   }}}
 
 " Misc {{{
