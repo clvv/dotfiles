@@ -106,13 +106,6 @@ nmap > >>
 nmap < <<
 "   }}}
 
-" Sudo {{{
-command! Q :q
-command! Sw :w !sudo tee %
-nmap ZS :w !sudo tee %<CR>
-nmap ZW :w<CR>
-"   }}}
-
 " Handy Emacs key bindings {{{
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
@@ -189,6 +182,10 @@ vnoremap <silent> <Leader>T, :Tabularize /,<CR>
 vnoremap <silent> <Leader>T: :Tabularize /:<CR>
 
 nmap <silent> <leader>m :make<CR><CR><CR>
+
+command! Q :q
+nmap ZS :SudoWrite<CR>
+nmap ZW :w<CR>
 "   }}}
 
 " }}}
@@ -222,15 +219,6 @@ if has("autocmd")
     autocmd!
     autocmd BufWritePost .vimrc source $MYVIMRC
   augroup END " }}}
-  autocmd BufNewFile  * let b:chmod_exe=1
-  autocmd BufWritePre * if exists("b:chmod_exe") |
-        \ unlet b:chmod_exe |
-        \ if getline(1) =~ '^#!' | let b:chmod_new="+x" | endif |
-        \ endif
-  autocmd BufWritePost,FileWritePost * if exists("b:chmod_new")|
-        \ silent! execute "!chmod ".b:chmod_new." <afile>"|
-        \ unlet b:chmod_new|
-        \ endif
   autocmd FileType *commit* setlocal spell
   autocmd FileType tex silent! compiler tex | setlocal tw=78 makeprg=pdflatex\
         \ -interaction=nonstopmode\ %
