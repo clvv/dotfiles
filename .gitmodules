@@ -1,9 +1,9 @@
 [submodule ".vim"]
 	path = .vim
 	url = https://github.com/clvv/dotvim.git
-[submodule "lib/z"]
-	path = lib/z
-	url = https://github.com/rupa/z.git
+[submodule "lib/f"]
+	path = lib/f
+	url = https://github.com/clvv/f.git
 [submodule "lib/v"]
 	path = lib/v
 	url = https://github.com/rupa/v.git
@@ -13,6 +13,3 @@
 [submodule "lib/urxvt-perls"]
 	path = lib/urxvt-perls
 	url = https://github.com/muennich/urxvt-perls.git
-[submodule "lib/f"]
-	path = lib/f
-	url = https://github.com/clvv/f.git
