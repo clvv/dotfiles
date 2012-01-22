@@ -183,7 +183,7 @@ vnoremap <silent> <Leader>T: :Tabularize /:<CR>
 
 nmap <silent> <leader>m :make<CR><CR><CR>
 
-command! Q :q
+command! -bang Q :q<bang>
 nmap ZS :SudoWrite<CR>
 nmap ZW :w<CR>
 "   }}}
