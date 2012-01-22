@@ -39,6 +39,11 @@ _F_SINK="$HOME/.f.log"
 _F_MAX=10000000
 [ -s "$HOME/lib/f/f.sh" ] && . "$HOME/lib/f/f.sh"
 
+_gb() {
+  ref="$(git symbolic-ref HEAD 2> /dev/null)"
+  echo "${ref#refs/heads/}"
+}
+
 [ "$COLORTERM" = "gnome-terminal" ] && export TERM="xterm-256color"
 [ "$COLORTERM" = "rxvt-xpm" ] && export TERM="xterm-256color"
 
