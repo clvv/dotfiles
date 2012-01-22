@@ -59,12 +59,6 @@ let g:tagbar_expand = 1
 " JSLint.vim
 let g:JSLintHighlightErrorLine = 0
 
-" Easytags
-let g:easytags_dynamic_files = 1
-
-" YankRing
-let g:yankring_history_file = '.yankring'
-
 "   }}}
 " }}}
 
@@ -152,15 +146,6 @@ nmap <silent> <leader>as :AS<CR>
 nmap <silent> <leader>av :AV<CR>
 nmap <silent> <leader>at :AT<CR>
 nmap <silent> <leader>an :AN<CR>
-"   }}}
-
-" FuzzyFinder key mappings {{{
-nmap <silent> <leader>of :FufFile<CR>
-nmap <silent> <leader>oF :FufFileWithCurrentBufferDir<CR>
-nmap <silent> <leader>ot :FufTag<CR>
-nmap <silent> <leader>oc :FufChangeList<CR>
-nmap <silent> <leader>oj :FufJumpList<CR>
-nmap <silent> <leader>od :FufDir<CR>
 "   }}}
 
 " Zen-coding leader key {{{
