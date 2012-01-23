@@ -4,6 +4,7 @@
 # Copyright © 2004  Emre Sevinc <fz@ileriseviye.org>
 # Tweaked by KIVILCIM "Sundance" Hindistan <sundance@fazlamesai.net>
 # Lots of changes by Recai Oktaþ <roktas@debian.org>
+# Fixes from Wei Dai <x@wei23.net>
 #
 # Licensed under the GNU General Public License, version 2.
 # See the file `http://www.gnu.org/copyleft/gpl.txt'.
@@ -35,7 +36,7 @@ DEFAULT_FREEBSD='
 OSNAME=FreeBSD
 HOST=http://www.freebsd.org
 CGI=cgi/man.cgi?query=$page&sektion=$sect&format=ascii
-FORMAT=html
+FORMAT=raw
 FAILURE=^[Ss]orry
 '
 
@@ -47,7 +48,7 @@ FORMAT=html
 FILTER=DEFAULT_NETBSD_FILTER
 FAILURE=[Mm]anual [Pp]age was not found
 '
-DEFAULT_NETBSD_FILTER () {
+DEFAULT_NETBSD_FILTER() {
 	sed '/^-----/,$d'
 }
 
@@ -62,8 +63,8 @@ FAILURE=[Mm]anual [Pp]age could not be found
 DEFAULT_LINUX='
 OSNAME=GNU/Linux
 HOST=http://www.freebsd.org
-CGI=cgi/man.cgi?query=$page&sektion=$sect&manpath=Red+Hat+Linux%2Fi386+9&format=troff
-FORMAT=html
+CGI=cgi/man.cgi?query=$page&sektion=$sect&manpath=Red+Hat+Linux%2Fi386+9&format=ascii
+FORMAT=raw
 FAILURE=^[Ss]orry
 '
 
@@ -72,7 +73,7 @@ FAILURE=^[Ss]orry
 # ------------------------------------------------------------------------------
 
 # Portable which(1).
-pathfind () {
+pathfind() {
     ifs_save="$IFS"
     IFS=:
     for _p in $PATH; do
@@ -85,7 +86,7 @@ pathfind () {
     return 1
 }
 
-dumper_raw () {
+dumper_raw() {
 	for p in wget lynx w3m curl links w3c; do
 		if pathfind $p; then
 			dumper=$p
@@ -107,7 +108,7 @@ dumper_raw () {
 	$dumper $opt "$@"
 }
 
-dumper_html () {
+dumper_html() {
 	# TODO w3c
 	for p in w3m links elinks lynx; do
 		if pathfind $p; then
@@ -128,7 +129,7 @@ dumper_html () {
 	$dumper $opt "$@"
 }
 
-is_cache_valid () {
+is_cache_valid() {
 	cache="$1"
 	failstamp="$2"
 	if [ $(sed '/^[[:blank:]]*$/d' $cache | wc -l) -lt 20 ]; then
@@ -169,7 +170,7 @@ done
 OS=
 DEBUG=${DEBUG-}
 CACHE_RENEW=
-while getopts o:dhn opt; do
+while getopts o:dhr opt; do
 	case $opt in
 	o) OS="$OPTARG" ;;
 	d) DEBUG=yes ;;
@@ -230,7 +231,7 @@ page="$1"
 NEWLINE='
 '
 OLDIFS="$IFS"
-_expand_variable () {
+_expand_variable() {
 	condensed=${1:?'variable empty!'}
 
 	eval "this=\$$condensed"
