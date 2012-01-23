@@ -1,8 +1,9 @@
 if &t_Co == 256
   set mouse=a
   if filereadable(expand('~/.vim/bundle/Lucius/colors/lucius.vim'))
-    source ~/.vim/bundle/Lucius/colors/lucius.vim
+    let &runtimepath .= ',' . expand('~/.vim/bundle/Lucius')
+    colorscheme lucius
   endif
 endif
 
-" vim: ft=vim
+" vim: se ft=vim:
