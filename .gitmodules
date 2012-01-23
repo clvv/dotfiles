@@ -7,3 +7,6 @@
 [submodule "lib/v"]
 	path = lib/v
 	url = https://github.com/rupa/v.git
+[submodule "lib/vimpager"]
+	path = lib/vimpager
+	url = https://github.com/rkitover/vimpager.git
