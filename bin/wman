@@ -34,7 +34,7 @@ FAILURE=[Nn]o [Mm]anual [Ee]ntry
 DEFAULT_FREEBSD='
 OSNAME=FreeBSD
 HOST=http://www.freebsd.org
-CGI=cgi/man.cgi?query=$page&sektion=$sect&format=troff
+CGI=cgi/man.cgi?query=$page&sektion=$sect&format=ascii
 FORMAT=html
 FAILURE=^[Ss]orry
 '
@@ -197,7 +197,7 @@ fi
 
 if [ -z "$OS" ]; then
 	echo "Couldn't determine OS; aborting"
-	exit 1 
+	exit 1
 fi
 
 OS=$(echo $OS | tr 'a-z' 'A-Z')
@@ -275,7 +275,7 @@ man_osname="${man_osname:-$(echo $OS | tr 'A-Z' 'a-z')}"
 	    Dumper:    $man_dumper
 	    Filter:    $man_filter
 	    Failure:   '$man_failure'
-	
+
 	Resulting url: $man_url
 
 EOF
@@ -317,7 +317,7 @@ if [ -n "$sect" ]; then
 fi
 
 if ! [ -f $man_cache ]; then
-	# Initiate cache if it doesn't exist. 
+	# Initiate cache if it doesn't exist.
 	(umask 0077 && mkdir -p $cachedir)
 
 	tmpfile="$(mktemp $cachedir/$THIS.XXXXXXXX)" || exit 1
