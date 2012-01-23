@@ -10,6 +10,7 @@ syntax on
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 set smarttab
 set autoindent
+set autochdir
 set noswapfile
 set nobackup
 set ruler
