@@ -6,7 +6,7 @@ if [ "$PS1" ]; then
   HISTSIZE=1000
   HISTFILESIZE=2000
 
-  PS1='\[\e[0;32m\][\u \h] \[\e[0;33m\][\W $(_gb)] \[\e[0;31m\]\$\[\e[39m\] '
+  PS1='\[\e[0;32m\][\u \h] \[\e[0;33m\][\W$(_gb)] \[\e[0;31m\]\$\[\e[39m\] '
 
   if shopt -oq posix; then :; else
     if [ -s /etc/bash_completion ]; then
