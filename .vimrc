@@ -153,6 +153,19 @@ nmap <silent> <leader>an :AN<CR>
 let g:user_zen_leader_key = '<c-x>'
 "   }}}
 
+" CtrlP {{{
+nmap <leader>f :CtrlPRoot<CR>
+nmap <leader>r :CtrlPMRUFiles<CR>
+nmap <leader>b :CtrlPBuffer<CR>
+"   }}}
+
+" Arpeggio {{{
+call arpeggio#load()
+Arpeggio inoremap jk (
+Arpeggio inoremap kl )
+Arpeggio inoremap ., \
+"   }}}
+
 " Misc {{{
 set cedit=<C-Q> " open command line window from normal command line mode
 
