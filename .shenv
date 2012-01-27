@@ -41,7 +41,8 @@ _F_MAX=10000000
 
 _gb() {
   ref="$(git symbolic-ref HEAD 2> /dev/null)"
-  echo "${ref#refs/heads/}"
+  branch="${ref#refs/heads/}"
+  [ -z "$branch" ] && return 1 || echo " $branch"
 }
 
 [ "$COLORTERM" = "gnome-terminal" ] && export TERM="xterm-256color"
