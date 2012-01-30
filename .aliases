@@ -16,9 +16,10 @@ alias ..='cd ..'
 alias rd=rmdir
 alias md='mkdir -p'
 
-alias c='f -d -e cd'
 alias z='f -d -e cd'
 alias e='f -f -e vim'
+
+eval "$(fasd --init-alias)"
 
 [ -s "$HOME/.aliases.local" ] && . "$HOME/.aliases.local"
 
