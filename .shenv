@@ -35,8 +35,6 @@ rush() {
   return $ret
 }
 
-_F_SINK="$HOME/.f.log"
-_F_MAX=10000000
 # [ -s "$HOME/lib/f/f.sh" ] && . "$HOME/lib/f/f.sh"
 
 _gb() {

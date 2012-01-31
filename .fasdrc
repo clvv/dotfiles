@@ -1,0 +1,4 @@
+_F_SINK="$HOME/.fasd.log"
+_F_MAX=10000000
+
+# vim: se ft=sh:
