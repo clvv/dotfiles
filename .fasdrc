@@ -2,4 +2,8 @@ _F_SINK="$HOME/.fasd.log"
 _F_MAX=10000000
 _F_BACKENDS="native recently-used"
 
+for sh in dash ksh mksh zsh; do
+  $sh -c exit && _F_SHELL="$sh"
+done
+
 # vim: se ft=sh:
