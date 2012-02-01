@@ -20,7 +20,7 @@ eval "$(fasd --init-alias)"
 
 alias e='f -e vim'
 alias m='f -e mplayer'
-alias v='f -e vim -b viminfo -i'
+alias v='f -e vim -b viminfo'
 alias o='f -e xdg-open'
 
 [ -s "$HOME/.aliases.local" ] && . "$HOME/.aliases.local"
