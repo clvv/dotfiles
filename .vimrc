@@ -221,6 +221,8 @@ if has("autocmd")
   autocmd FileType *commit* setlocal spell
   autocmd FileType tex silent! compiler tex | setlocal tw=78 makeprg=pdflatex\
         \ -interaction=nonstopmode\ %
+  autocmd BufNewFile,BufRead *.1.md setlocal tw=78 makeprg=pandoc\ -s\ -w\
+        \ man\ %\ -o\ %<
   autocmd FileType make setlocal list noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
