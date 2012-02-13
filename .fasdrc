@@ -1,10 +1,10 @@
-_F_SINK="$HOME/.fasd.log"
-_F_MAX=10000000
-_F_BACKENDS="native recently-used"
+_FASD_SINK="$HOME/.fasd.log"
+_FASD_MAX=10000000
+_FASD_BACKENDS="native recently-used"
 
 local sh; for sh in /bin/dash /bin/ksh /bin/mksh /bin/zsh; do
-  $sh -c exit && _F_SHELL=$sh && break
-  echo "$_F_SHELL" >> "$_F_SINK"
+  $sh -c exit && _FASD_SHELL=$sh && break
+  echo "$_FASD_SHELL" >> "$_FASD_SINK"
 done
 
 # vim: se ft=sh:

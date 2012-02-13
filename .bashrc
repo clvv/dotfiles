@@ -18,9 +18,8 @@ if [ "$PS1" ]; then
 
   [ -s "$HOME/.shenv" ] && source "$HOME/.shenv"
   [ -s "$HOME/.aliases" ] && source "$HOME/.aliases"
-  eval "$(fasd --init-bash)"
-  _f_bash_hook_cmd_complete z e m
-  _f_bash_hook_word_complete_wrap_all
+  _fasd_bash_hook_cmd_complete z e m
+  eval "$(fasd --init bash-wcomp bash-wcomp-install)"
 
   [ -s "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"
 

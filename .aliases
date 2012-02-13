@@ -16,8 +16,6 @@ alias ..='cd ..'
 alias rd=rmdir
 alias md='mkdir -p'
 
-eval "$(fasd --init-alias)"
-
 alias e='f -e vim'
 alias v='f -e vim -b viminfo'
 alias o='f -e xdg-open'
