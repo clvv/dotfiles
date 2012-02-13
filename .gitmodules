@@ -1,9 +1,6 @@
 [submodule ".vim"]
 	path = .vim
 	url = https://github.com/clvv/dotvim.git
-[submodule "lib/f"]
-	path = lib/f
-	url = https://github.com/clvv/f.git
 [submodule ".config/awesome/vicious"]
 	path = .config/awesome/vicious
 	url = http://git.sysphere.org/vicious
