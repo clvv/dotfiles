@@ -13,3 +13,6 @@
 [submodule "lib/vimpager"]
 	path = lib/vimpager
 	url = https://github.com/rkitover/vimpager.git
+[submodule "lib/fasd"]
+	path = lib/fasd
+	url = https://github.com/clvv/fasd.git

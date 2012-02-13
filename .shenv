@@ -35,13 +35,15 @@ rush() {
   return $ret
 }
 
-# [ -s "$HOME/lib/f/f.sh" ] && . "$HOME/lib/f/f.sh"
+# [ -s "$HOME/lib/fasd/fasd" ] && . "$HOME/lib/fasd/fasd"
+eval "$(fasd --init auto)"
 
 _gb() {
   ref="$(git symbolic-ref HEAD 2> /dev/null)"
   branch="${ref#refs/heads/}"
   [ -z "$branch" ] && return 1 || echo " $branch"
 }
+
 
 [ "$COLORTERM" = "gnome-terminal" ] && export TERM="xterm-256color"
 [ "$COLORTERM" = "rxvt-xpm" ] && export TERM="xterm-256color"
