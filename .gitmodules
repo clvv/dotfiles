@@ -1,9 +1,6 @@
 [submodule ".vim"]
 	path = .vim
 	url = https://github.com/clvv/dotvim.git
-[submodule "lib/f"]
-	path = lib/f
-	url = https://github.com/clvv/f.git
 [submodule "lib/vimpager"]
 	path = lib/vimpager
 	url = https://github.com/rkitover/vimpager.git
