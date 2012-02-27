@@ -1,4 +1,5 @@
 " Init {{{
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 set nocompatible
 filetype off
 call pathogen#infect()
@@ -159,13 +160,6 @@ nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>b :CtrlPBuffer<CR>
 "   }}}
 
-" Arpeggio {{{
-call arpeggio#load()
-Arpeggio inoremap jk (
-Arpeggio inoremap kl )
-Arpeggio inoremap ., \
-"   }}}
-
 " Misc {{{
 set cedit=<C-Q> " open command line window from normal command line mode
 
@@ -246,6 +240,7 @@ endif " }}}
 
 " Helpers {{{
 runtime ftplugin/man.vim
+runtime macros/matchit.vim
 
 " Stab, tab and space settings helper {{{
 " Calling Stab with no arguments will print current tab and space settings
