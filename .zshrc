@@ -7,6 +7,9 @@ if [[ "$dump_file" -nt "${dump_file}.zwc" || ! -f "${dump_file}.zwc" ]]; then
 fi
 unset dump_file
 
+# Load and initialize the completion system ignoring insecure directories.
+autoload -Uz compinit && compinit -i
+
 [ -s "$HOME/.shenv" ] && source "$HOME/.shenv"
 [ -s "$HOME/.aliases" ] && source "$HOME/.aliases"
 
