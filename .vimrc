@@ -275,6 +275,24 @@ function! Stab(...)
     echohl None
   endtry
 endfunction " }}}
+
+" Z to cd to recent / frequent directories {{{
+command! -nargs=* Z :call Z(<f-args>)
+function! Z(...)
+  if a:0 == 0
+    echo system('fasd -d')
+  else
+    let cmd = 'fasd -d -e printf'
+    for arg in a:000
+      let cmd = cmd . ' ' . arg
+    endfor
+    let path = system(cmd)
+    if isdirectory(path)
+      echo path
+      exec 'cd '.path
+    endif
+  endif
+endfunction " }}}
 " }}}
 
 " Source .vimrc.local if present {{{
