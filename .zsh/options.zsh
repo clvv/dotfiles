@@ -7,7 +7,7 @@ unsetopt HUP # Don't kill jobs on shell exit.
 unsetopt CHECK_JOBS # Don't report on jobs when shell exit.
 
 # History
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$HOME/.zhistory"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt HIST_IGNORE_DUPS
