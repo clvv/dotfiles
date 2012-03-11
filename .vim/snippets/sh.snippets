@@ -1,0 +1,30 @@
+snippet #!
+	#!/usr/bin/env sh
+
+	${1}
+
+snippet if
+	if ${1:command}; then
+		${2:#compound-list}
+	fi
+snippet elif
+	elif ${1:command}; then
+		${2:#compound-list}
+snippet for
+	for ${1:var} in ${2:word ...}; do
+		${3:#compound-list}
+	done
+snippet wh
+	while ${1:command}; do
+		${2:#compound-list}
+	done
+snippet case
+	case "$${1:var}" in
+		${2:pattern})
+			${3:#compound-list}
+		;;
+	esac
+snippet fn
+	${1:fname}() {
+		${2:#compound-command}
+	}

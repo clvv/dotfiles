@@ -16,7 +16,7 @@ set noswapfile
 set nobackup
 set ruler
 set backspace=indent,eol,start
-set listchars=tab:>-
+set listchars=tab:\|_
 set wildmode=full
 set wildmenu
 if v:version >= 703
@@ -218,6 +218,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.1.md setlocal tw=78 makeprg=pandoc\ -s\ -w\
         \ man\ %\ -o\ %<
   autocmd FileType make setlocal list noet
+  autocmd FileType snippet setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
   autocmd FileType lisp,scheme,clojure let b:delimitMate_quotes = '"'
