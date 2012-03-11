@@ -9,7 +9,7 @@
 	url = https://github.com/tpope/vim-pathogen.git
 [submodule ".vim/bundle/Lucius"]
 	path = .vim/bundle/Lucius
-	url = https://github.com/vim-scripts/Lucius.git
+	url = https://github.com/clvv/Lucius.git
 [submodule ".vim/bundle/vim-coffee-script"]
 	path = .vim/bundle/vim-coffee-script
 	url = https://github.com/kchmck/vim-coffee-script.git
