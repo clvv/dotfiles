@@ -34,7 +34,7 @@ URxvt.letterSpace: -1
 !Terminus
 !URxvt.font: xft:Terminus-10
 
-URxvt.background: #202020
+URxvt.background: #1C1C1C
 URxvt.foreground: #DEDEDE
 
 ! black
