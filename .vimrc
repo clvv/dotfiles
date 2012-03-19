@@ -11,9 +11,10 @@ syntax on
 set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 set smarttab
 set autoindent
-set autochdir
-set noswapfile
+set autoread
+set autowrite
 set nobackup
+set noswapfile
 set ruler
 set backspace=indent,eol,start
 set listchars=tab:\|_
@@ -97,9 +98,11 @@ map <silent> <leader><leader> "+
 set pastetoggle=<leader>gv
 "   }}}
 
-" One-key indentation {{{
+" Indentation {{{
 nmap > >>
 nmap < <<
+vmap > >gv
+vmap < <gv
 "   }}}
 
 " Handy Emacs key bindings {{{
@@ -107,10 +110,8 @@ cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
 cnoremap <C-E>      <End>
 cnoremap <C-F>      <Right>
-cnoremap <C-N>      <Down>
-cnoremap <C-J>      <Down>
-cnoremap <C-P>      <Up>
-cnoremap <C-K>      <Up>
+cnoremap <ESC>j     <Down>
+cnoremap <ESC>k     <Up>
 cnoremap <ESC>b     <S-Left>
 cnoremap <ESC><C-B> <S-Left>
 cnoremap <ESC>f     <S-Right>
@@ -164,15 +165,17 @@ nmap <leader>b :CtrlPBuffer<CR>
 set cedit=<C-Q> " open command line window from normal command line mode
 
 " display line up/down (not actual)
-map <up> gk
-map <down> gj
+map <Up> gk
+map <Down> gj
 
 " <S-M-L> to clear highlights
-nmap <Esc>L :noh<CR>
+nmap <ESC>L :noh<CR>
 
-vnoremap <silent> <Leader>T= :Tabularize /=<CR>
-vnoremap <silent> <Leader>T, :Tabularize /,<CR>
-vnoremap <silent> <Leader>T: :Tabularize /:<CR>
+" expand `%%' to directory of current file
+cnoremap %% <C-R>=expand('%:h').'/'<CR>
+
+vmap <leader>T :Tabularize /
+nmap <leader>T :Tabularize /
 
 nmap <silent> <leader>m :make<CR><CR><CR>
 
@@ -277,7 +280,7 @@ function! Stab(...)
   endtry
 endfunction " }}}
 
-" Z to cd to recent / frequent directories {{{
+" Z - cd to recent / frequent directories {{{
 command! -nargs=* Z :call Z(<f-args>)
 function! Z(...)
   if a:0 == 0
@@ -292,6 +295,19 @@ function! Z(...)
       echo path
       exec 'cd '.path
     endif
+  endif
+endfunction " }}}
+
+" <leader>z - quick spelling correction {{{
+nmap <silent> <leader>z :QuickSpellingFix<CR>
+command! QuickSpellingFix call QuickSpellingFix()
+function! QuickSpellingFix()
+  if &spell
+    normal 1z=
+  else
+    set spell
+    normal 1z=
+    set nospell
   endif
 endfunction " }}}
 " }}}
