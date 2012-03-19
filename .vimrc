@@ -171,9 +171,6 @@ map <Down> gj
 " <S-M-L> to clear highlights
 nmap <ESC>L :noh<CR>
 
-" expand `%%' to directory of current file
-cnoremap %% <C-R>=expand('%:h').'/'<CR>
-
 vmap <leader>T :Tabularize /
 nmap <leader>T :Tabularize /
 
@@ -200,7 +197,7 @@ set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Ctag {{{
 " Lookup tags file up the dir tree
-set tags=tags;/
+set tags=tags;~
 " Tab and Vsplit open tag
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 map <silent> <leader>] :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
@@ -220,7 +217,7 @@ if has("autocmd")
         \ -interaction=nonstopmode\ %
   autocmd BufNewFile,BufRead *.1.md setlocal tw=78 makeprg=pandoc\ -s\ -w\
         \ man\ %\ -o\ %<
-  autocmd FileType make setlocal list noet
+  autocmd FileType make setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType snippet setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType python setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
