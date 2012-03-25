@@ -111,7 +111,7 @@ batwidget = widget({ type = "textbox" })
 vicious.register(batwidget, vicious.widgets.bat, function (widget, args)
                                                      if args[2] == 0 then return ""
                                                      else
-                                                         return "Bat: " .. args[0] .. args[1] .. "%"
+                                                         return "Bat: " .. args[1] .. args[2] .. "%"
                                                      end
                                                  end, 61, "BAT0")
 
