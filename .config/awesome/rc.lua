@@ -9,7 +9,9 @@ require("naughty")
 -- Widget Lib
 require("vicious")
 -- Load local settings
-require("local")
+if awful.util.file_readable(awful.util.getdir("config") .. "/local.lua") then
+    require("local")
+end
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
