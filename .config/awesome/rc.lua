@@ -79,21 +79,6 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ Menu
--- Create a laucher widget and a main menu
---myawesomemenu = {
-   --{ "manual", terminal .. " -e man awesome" },
-   --{ "edit config", editor_cmd .. " " .. awesome.conffile },
-   --{ "restart", awesome.restart },
-   --{ "quit", awesome.quit }
---}
-
-mymainmenu = awful.menu
-
-mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
-                                     menu = mymainmenu })
--- }}}
-
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
@@ -115,13 +100,18 @@ vicious.register(memwidget, vicious.widgets.mem, "Mem: $1% ($2MB/$3MB)", 13)
 cpuwidget = widget({ type = "textbox" })
 vicious.register(cpuwidget, vicious.widgets.cpu, "CPU: $1%")
 
--- Volume widget
---volwidget = widget({ type = "textbox" })
---vicious.register(volwidget, vicious.widgets.volume, "Vol: $1%", 1, 'PCM')
+-- Thermal widget
+thermalwidget = widget({ type = "textbox" })
+vicious.register(thermalwidget, vicious.widgets.thermal, "Temp: $1C", 19, "thermal_zone0")
 
 -- Battery widget
 batwidget = widget({ type = "textbox" })
-vicious.register(batwidget, vicious.widgets.bat, "Bat: $1$2%", 60, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, function (widget, args)
+                                                     if args[2] == 0 then return ""
+                                                     else
+                                                         return "Bat: " .. args[0] .. args[1] .. "%"
+                                                     end
+                                                 end, 61, "BAT0")
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -192,7 +182,6 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
-            mylauncher,
             mytaglist[s],
             mypromptbox[s],
             layout = awful.widget.layout.horizontal.leftright
@@ -202,8 +191,8 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil,
         seperator, memwidget,
         seperator, cpuwidget,
+        seperator, thermalwidget,
         seperator, batwidget,
-        --seperator, volwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -212,7 +201,6 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -234,7 +222,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show({keygrabber=true}) end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -384,6 +371,9 @@ awful.rules.rules = {
       properties = { floating = true } },
     -- Fix URxvt borders
     { rule = { class = "URxvt" },
+      properties = { size_hints_honor = false } },
+    -- Fix XTerm borders
+    { rule = { class = "XTerm" },
       properties = { size_hints_honor = false } },
     -- Float FontForge
     { rule = { class = "fontforge" },
