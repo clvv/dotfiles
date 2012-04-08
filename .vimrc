@@ -283,17 +283,18 @@ endfunction " }}}
 command! -nargs=* Z :call Z(<f-args>)
 function! Z(...)
   if a:0 == 0
-    echo system('fasd -d')
+    let list = split(system('fasd -dlR'), '\n')
+    let path = tlib#input#List('s', 'Select one', list)
   else
     let cmd = 'fasd -d -e printf'
     for arg in a:000
       let cmd = cmd . ' ' . arg
     endfor
     let path = system(cmd)
-    if isdirectory(path)
-      echo path
-      exec 'cd '.path
-    endif
+  endif
+  if isdirectory(path)
+    echo path
+    exec 'cd ' . path
   endif
 endfunction " }}}
 
