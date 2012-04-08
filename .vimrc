@@ -62,6 +62,9 @@ let g:tagbar_expand = 1
 " JSLint.vim
 let g:JSLintHighlightErrorLine = 0
 
+" Lucius
+let g:lucius_style = 'dark_dim'
+
 "   }}}
 " }}}
 
