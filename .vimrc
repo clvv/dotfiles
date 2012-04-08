@@ -159,7 +159,9 @@ let g:user_zen_leader_key = '<c-x>'
 "   }}}
 
 " CtrlP {{{
-nmap <leader>f :CtrlPRoot<CR>
+nmap <leader>f :CtrlPCurFile<CR>
+nmap <leader>F :CtrlPCurWD<CR>
+nmap <leader>R :CtrlPRoot<CR>
 nmap <leader>r :CtrlPMRUFiles<CR>
 nmap <leader>b :CtrlPBuffer<CR>
 "   }}}
