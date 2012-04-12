@@ -18,7 +18,7 @@ alias md='mkdir -p'
 
 alias e='f -e vim'
 alias m='f -e mplayer'
-alias v='f -e vim -b viminfo'
+alias v='f -t -e vim -b viminfo'
 alias o='f -e xdg-open'
 
 [ -s "$HOME/.aliases.local" ] && . "$HOME/.aliases.local"
