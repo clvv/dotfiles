@@ -1,5 +1,5 @@
 _F_SINK="$HOME/.fasd.log"
-_F_MAX=10000000
+_F_MAX=10000
 _F_BACKENDS=native
 
 local sh; for sh in /bin/dash /bin/ksh /bin/mksh /bin/zsh; do

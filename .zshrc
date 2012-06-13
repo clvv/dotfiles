@@ -13,5 +13,14 @@ autoload -Uz compinit && compinit -i
 [ -s "$HOME/.shenv" ] && source "$HOME/.shenv"
 [ -s "$HOME/.aliases" ] && source "$HOME/.aliases"
 
+FASD_CACHE="$HOME/.fasd-init-zsh"
+
+if test-nt "$(which fasd)" "$FASD_CACHE" || [ ! -f "$FASD_CACHE" ]; then
+  fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp \
+    zsh-wcomp-install > "$FASD_CACHE"
+fi
+
+source "$FASD_CACHE"
+
 : # set $? to 0
 

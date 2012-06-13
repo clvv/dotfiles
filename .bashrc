@@ -18,6 +18,16 @@ if [ "$PS1" ]; then
 
   [ -s "$HOME/.shenv" ] && source "$HOME/.shenv"
   [ -s "$HOME/.aliases" ] && source "$HOME/.aliases"
+
+  FASD_CACHE="$HOME/.fasd-init-bash"
+
+  if test-nt "$(which fasd)" "$FASD_CACHE" || [ ! -f "$FASD_CACHE" ]; then
+    fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install \
+      bash-wcomp bash-wcomp-install > "$FASD_CACHE"
+  fi
+
+  source "$FASD_CACHE"
+
   _fasd_bash_hook_cmd_complete z e m
   eval "$(fasd --init bash-wcomp bash-wcomp-install)"
 
