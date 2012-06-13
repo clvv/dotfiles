@@ -1,5 +1,5 @@
 _FASD_SINK="$HOME/.fasd.log"
-_FASD_MAX=10000000
+_FASD_MAX=10000
 _FASD_BACKENDS="native recently-used"
 
 local sh; for sh in /bin/dash /bin/ksh /bin/mksh /bin/zsh; do
