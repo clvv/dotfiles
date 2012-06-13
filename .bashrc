@@ -29,7 +29,6 @@ if [ "$PS1" ]; then
   source "$FASD_CACHE"
 
   _fasd_bash_hook_cmd_complete z e m
-  eval "$(fasd --init bash-wcomp bash-wcomp-install)"
 
   [ -s "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"
 
