@@ -1,4 +1,3 @@
-_FASD_SINK="$HOME/.fasd.log"
 _FASD_MAX=10000
 _FASD_BACKENDS="native recently-used"
 
