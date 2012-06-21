@@ -10,6 +10,12 @@ alias egrep='egrep --color=auto'
 alias ll='ls -halF'
 alias la='ls -A'
 alias l='ls -CF'
+alias lt='ls -t'
+alias lS='ls -S'
+
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
 
 alias ..='cd ..'
 

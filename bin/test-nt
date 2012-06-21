@@ -6,7 +6,7 @@
 
 [ $# -eq 2 ] || exit 2
 
-case "$(ls -td "$@" 2>/dev/null)" in
+case "$(ls -tdH "$@" 2>/dev/null)" in
   $1*$2) exit 0;;
   *) exit 1;;
 esac
