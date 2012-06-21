@@ -22,8 +22,7 @@ if [ "$PS1" ]; then
   FASD_CACHE="$HOME/.fasd-init-bash"
 
   if test-nt "$(which fasd)" "$FASD_CACHE" || [ ! -f "$FASD_CACHE" ]; then
-    fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install \
-      bash-wcomp bash-wcomp-install > "$FASD_CACHE"
+    fasd --init posix-alias bash-{hook,ccomp,ccomp-install} > "$FASD_CACHE"
   fi
 
   source "$FASD_CACHE"
