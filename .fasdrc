@@ -1,5 +1,5 @@
-_F_MAX=10000
-_F_BACKENDS=native
+_FASD_MAX=10000
+_FASD_BACKENDS=native
 
 local sh; for sh in /bin/dash /bin/ksh /bin/mksh /bin/zsh; do
   $sh -c exit && _FASD_SHELL=$sh && break
