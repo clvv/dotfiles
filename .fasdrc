@@ -1,9 +1,8 @@
 _FASD_MAX=10000
 _FASD_BACKENDS="native recently-used"
 
-local sh; for sh in /bin/dash /bin/ksh /bin/mksh /bin/zsh; do
-  $sh -c exit && _FASD_SHELL=$sh && break
-  echo "$_FASD_SHELL" >> "$_FASD_SINK"
+local shell; for shell in dash ksh mksh zsh; do
+  _FASD_SHELL="$(command -v $shell)" && break
 done
 
 # vim: se ft=sh:
