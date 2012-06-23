@@ -43,7 +43,7 @@ bindkey -s '^[7' '^A^[f^[f^[f^[f^[f^[f'
 bindkey -s '^[8' '^A^[f^[f^[f^[f^[f^[f^[f'
 bindkey -s '^[9' '^A^[f^[f^[f^[f^[f^[f^[f^[f'
 
-bindkey '^X^A' f-complete
-bindkey '^X^F' f-complete-f
-bindkey '^X^D' f-complete-d
+bindkey '^X^A' fasd-complete
+bindkey '^X^F' fasd-complete-f
+bindkey '^X^D' fasd-complete-d
 
