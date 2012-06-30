@@ -1,5 +1,3 @@
-#alias sudo='sudo env PATH=$PATH'
-
 # GNU ls color
 ls --color=auto > /dev/null 2>&1 && alias ls='ls --color=auto'
 
