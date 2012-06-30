@@ -1,17 +1,6 @@
-export PATH="$PATH:$HOME/bin:$HOME/node_modules/.bin:$HOME/.cabal/bin"
-export PYTHONSTARTUP="$HOME/.pythonrc.py"
-export EDITOR=vim
-export PAGER="$HOME/bin/vimpager"
+# This file is sourced by interactive shells
 
-# BSD ls color
-ls --color=auto > /dev/null 2>&1 || \
-  ls -G -d / > /dev/null 2>&1 && export CLICOLOR=yes
-
-if [ -s "$HOME/.rvm/scripts/rvm" ]; then
-  . "$HOME/.rvm/scripts/rvm"
-elif [ -s "/usr/local/rvm/scripts/rvm" ]; then
-  . "/usr/local/rvm/scripts/rvm"
-fi
+[ -s "$HOME/.env" ] && . "$HOME/.env"
 
 rush() {
   [ "$ZSH_VERSION" ] && setopt nomonitor || \
@@ -41,9 +30,9 @@ _gb() {
   [ -z "$branch" ] && return 1 || echo " $branch"
 }
 
-
-[ "$COLORTERM" = "gnome-terminal" ] && export TERM="xterm-256color"
-[ "$COLORTERM" = "rxvt-xpm" ] && export TERM="xterm-256color"
+[ "$TMUX" ] && case $COLORTERM in
+  gnome-terminal|rxvt-xpm) export TERM="screen-256color"
+esac
 
 [ -s "$HOME/.shenv.local" ] && . "$HOME/.shenv.local"
 
