@@ -1,5 +1,7 @@
 # This file is sourced by interactive shells
 
+[ -s "$HOME/.env" ] && . "$HOME/.env"
+
 rush() {
   [ "$ZSH_VERSION" ] && setopt nomonitor || \
   case "$-" in
