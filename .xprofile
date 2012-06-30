@@ -1,5 +1,7 @@
 # This file is sourced when launching X, but before starting any WM
 
+[ -s "$HOME/.env" ] && . "$HOME/.env"
+
 xset -b
 
 if command -v xcape > /dev/null; then
