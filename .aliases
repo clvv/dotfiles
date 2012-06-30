@@ -3,9 +3,12 @@
 # GNU ls color
 ls --color=auto > /dev/null 2>&1 && alias ls='ls --color=auto'
 
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+# Only some grep supports `--color=auto'
+if echo x | grep --color=auto x > /dev/null; then
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
 
 alias ll='ls -halF'
 alias la='ls -A'
@@ -15,7 +18,9 @@ alias lS='ls -S'
 
 alias df='df -h'
 alias du='du -h'
-alias free='free -h'
+
+command -v free > /dev/null && \
+  alias free='free -h'
 
 alias ..='cd ..'
 

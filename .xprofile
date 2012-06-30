@@ -1,2 +1,14 @@
+# This file is sourced when launching X, but before starting any WM
+
 xset -b
 
+if command -v xcape > /dev/null; then
+  ps -u $USER | grep -q xcape || xcape
+  setxkbmap -option ctrl:nocaps
+else
+  xmodmap "$HOME/.Xmodmap"
+fi
+
+[ -s "$HOME/.xprofile.local" ] && . "$HOME/.xprofile.local"
+
+# vim: se ft=sh:
