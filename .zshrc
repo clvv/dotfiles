@@ -16,9 +16,9 @@ autoload -Uz compinit && compinit -i
 
 FASD_CACHE="$HOME/.fasd-init-zsh"
 
-if test-nt "$(which fasd)" "$FASD_CACHE" || [ ! -f "$FASD_CACHE" ]; then
+if [ "${commands[fasd]}" -nt "$FASD_CACHE" -o ! -f "$FASD_CACHE" ]; then
   fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} \
-    > "$FASD_CACHE"
+    >! "$FASD_CACHE"
 fi
 
 source "$FASD_CACHE"
