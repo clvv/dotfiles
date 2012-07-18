@@ -24,7 +24,7 @@ fi
 
 FASD_CACHE="$HOME/.fasd-init-bash"
 
-if [ "$(command -v fasd)" -nt "$FASD_CACHE" -o ! -f "$FASD_CACHE" ]; then
+if [ "$(which fasd)" -nt "$FASD_CACHE" -o ! -f "$FASD_CACHE" ]; then
   fasd --init posix-alias bash-{hook,ccomp,ccomp-install} >| "$FASD_CACHE"
 fi
 
