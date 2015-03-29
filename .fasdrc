@@ -1,7 +1,7 @@
 _FASD_MAX=10000
 _FASD_BACKENDS="native recently-used"
 
-local shell; for shell in dash ksh mksh zsh; do
+local shell; for shell in dash mksh zsh; do
   _FASD_SHELL="$(command -v $shell)" && break
 done
 
