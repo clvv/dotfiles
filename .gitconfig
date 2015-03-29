@@ -13,3 +13,5 @@
   st = status
 [merge]
   tool = vimdiff
+[push]
+	default = simple
