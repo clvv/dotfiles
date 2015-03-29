@@ -1,8 +1,10 @@
 $include /etc/inputrc
 
 set bell-style none
-set completion-ignore-case On
-set show-all-if-ambiguous
+set completion-ignore-case on
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set menu-complete-display-prefix on
 
 $if Bash
   Space: magic-space
