@@ -17,18 +17,20 @@ alias lS='ls -S'
 alias df='df -h'
 alias du='du -h'
 
+{ if ! command -v open && command -v xdg-open; then
+  alias open='xdg-open'
+fi } >/dev/null
+
 command -v free > /dev/null && \
   alias free='free -h'
 
 alias ..='cd ..'
 
-alias rd=rmdir
-alias md='mkdir -p'
-
 alias e='f -e vim'
 alias m='f -e mplayer'
 alias v='f -t -e vim -b viminfo'
-alias o='f -e xdg-open'
+
+alias o='f -e open'
 
 [ -s "$HOME/.aliases.local" ] && . "$HOME/.aliases.local"
 
