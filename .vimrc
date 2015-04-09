@@ -26,6 +26,9 @@ if v:version >= 703
 else
   set t_RV=
 endif
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j " Delete comment character when joining commented lines
+endif
 
 let g:tex_flavor = "latex"
 let mapleader = ','
@@ -226,6 +229,7 @@ if has("autocmd")
   autocmd FileType python,lua setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
   autocmd FileType lisp,scheme,clojure let b:delimitMate_quotes = '"'
+  autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 endif " }}}
 
 " Styling {{{
