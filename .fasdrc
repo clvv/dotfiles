@@ -1,5 +1,5 @@
-_FASD_MAX=10000
-_FASD_BACKENDS=native
+_FASD_MAX=5000
+_FASD_BACKENDS="native spotlight current"
 
 local shell; for shell in dash mksh zsh; do
   _FASD_SHELL="$(command -v $shell)" && break
