@@ -2,37 +2,11 @@
 
 [ -s "$HOME/.env" ] && . "$HOME/.env"
 
-rush() {
-  [ "$ZSH_VERSION" ] && setopt nomonitor || \
-  case "$-" in
-    *m*) local m=1; set +m;;
-  esac
-  exec 7>&2
-  exec 2>/dev/null
-  local timeout=$1; shift
-  ( eval "$@" <&0 2>&7 ) &
-  local pid1=$!
-  ( sleep $timeout && kill -9 $pid1 > /dev/null ) &
-  local pid2=$!
-  wait $pid1
-  local ret=$?
-  kill -9 $pid2 > /dev/null
-  exec 2>&7
-  exec 7>&-
-  [ "$m" -a "$BASH_VERISON$ZSH_VERSION" ] && set -m
-  [ "$ZSH_VERSION" ] && setopt monitor
-  return $ret
-}
-
 _gb() {
   ref="$(git symbolic-ref HEAD 2> /dev/null)"
   branch="${ref#refs/heads/}"
   [ -z "$branch" ] && return 1 || echo " $branch"
 }
-
-[ "$TMUX" ] && case $COLORTERM in
-  gnome-terminal|rxvt-xpm) export TERM="screen-256color"
-esac
 
 [ -s "$HOME/.shenv.local" ] && . "$HOME/.shenv.local"
 
