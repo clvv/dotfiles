@@ -225,6 +225,7 @@ if has("autocmd")
         \ -interaction=nonstopmode\ %
   autocmd BufNewFile,BufRead *.1.md setlocal tw=78 makeprg=pandoc\ -s\ -w\
         \ man\ %\ -o\ %<
+  autocmd FileType make,snippet,snippets,autohotkey setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType make,snippet,snippets setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType python,lua setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"

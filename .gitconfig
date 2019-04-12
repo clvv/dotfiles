@@ -15,3 +15,5 @@
   tool = vimdiff
 [push]
 	default = simple
+[credential]
+	helper = store --file ~/.my-credentials
