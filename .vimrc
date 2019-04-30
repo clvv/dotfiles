@@ -242,6 +242,7 @@ else
     set mouse=a " Scrolling in urxvt
     colorscheme lucius
     set cursorline
+    set t_ut= " Background
   endif
   nmap <silent> <leader>c2 :set t_Co=256<CR>
   nmap <silent> <leader>c8 :set t_Co=8<CR>
