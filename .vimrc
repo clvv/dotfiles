@@ -29,6 +29,8 @@ endif
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j " Delete comment character when joining commented lines
 endif
+set noerrorbells
+set vb t_vb=
 
 let g:tex_flavor = "latex"
 let mapleader = ','
