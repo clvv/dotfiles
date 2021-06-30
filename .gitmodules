@@ -1,9 +1,3 @@
-[submodule ".config/awesome/vicious"]
-	path = .config/awesome/vicious
-	url = http://git.sysphere.org/vicious
-[submodule "lib/urxvt-perls"]
-	path = lib/urxvt-perls
-	url = https://github.com/muennich/urxvt-perls.git
 [submodule "lib/vimpager"]
 	path = lib/vimpager
 	url = https://github.com/rkitover/vimpager.git
