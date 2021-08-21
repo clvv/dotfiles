@@ -189,6 +189,7 @@ nmap <silent> <leader>m :make<CR><CR><CR>
 command! -bang Q :q<bang>
 nmap ZS :SudoWrite<CR>
 nmap ZW :w<CR>
+nmap zW <Nop>
 "   }}}
 
 " }}}
