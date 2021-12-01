@@ -35,6 +35,8 @@ set vb t_vb=
 let g:tex_flavor = "latex"
 let mapleader = ','
 
+let g:snipMate = { 'snippet_version' : 1 }
+
 " Search settings {{{
 set hlsearch
 set incsearch
