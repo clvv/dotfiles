@@ -29,6 +29,8 @@ endif
 if v:version > 703 || v:version == 703 && has("patch541")
   set formatoptions+=j " Delete comment character when joining commented lines
 endif
+set noerrorbells
+set vb t_vb=
 
 let g:tex_flavor = "latex"
 let mapleader = ','
@@ -187,6 +189,7 @@ nmap <silent> <leader>m :make<CR><CR><CR>
 command! -bang Q :q<bang>
 nmap ZS :SudoWrite<CR>
 nmap ZW :w<CR>
+nmap zW <Nop>
 "   }}}
 
 " }}}
@@ -225,6 +228,7 @@ if has("autocmd")
         \ -interaction=nonstopmode\ %
   autocmd BufNewFile,BufRead *.1.md setlocal tw=78 makeprg=pandoc\ -s\ -w\
         \ man\ %\ -o\ %<
+  autocmd FileType make,snippet,snippets,autohotkey setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType make,snippet,snippets setlocal list ts=8 sw=8 sts=8 noet
   autocmd FileType python,lua setlocal ts=4 sw=4 sts=4 et
   autocmd FileType vim let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
@@ -242,6 +246,7 @@ else
     set mouse=a " Scrolling in urxvt
     colorscheme lucius
     set cursorline
+    set t_ut= " Background
   endif
   nmap <silent> <leader>c2 :set t_Co=256<CR>
   nmap <silent> <leader>c8 :set t_Co=8<CR>

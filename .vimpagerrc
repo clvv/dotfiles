@@ -6,8 +6,8 @@ if &t_Co == 256
   endif
 endif
 
-if exists("vimpager") && vimpager == 1
-  if exists("vimpager_ptree") && vimpager_ptree[-2] == 'wman'
+if exists("g:vimpager.enabled")
+  if exists("g:vimpager_ptree") && g:vimpager_ptree[-2] == 'wman'
     set ft=man
   endif
 endif
