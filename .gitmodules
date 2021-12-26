@@ -82,3 +82,6 @@
 [submodule ".vim/bundle/Tagbar"]
 	path = .vim/bundle/Tagbar
 	url = https://github.com/vim-scripts/Tagbar.git
+[submodule "/home/wdai/.vim/bundle/rust.vim"]
+	path = /home/wdai/.vim/bundle/rust.vim
+	url = https://github.com/rust-lang/rust.vim.git
