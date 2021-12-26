@@ -79,9 +79,9 @@
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule ".vim/bundle/Tagbar"]
-	path = .vim/bundle/Tagbar
-	url = https://github.com/vim-scripts/Tagbar.git
-[submodule "/home/wdai/.vim/bundle/rust.vim"]
-	path = /home/wdai/.vim/bundle/rust.vim
+[submodule ".vim/bundle/rust.vim"]
+	path = .vim/bundle/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
+	url = https://github.com/preservim/tagbar.git
