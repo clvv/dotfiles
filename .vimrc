@@ -242,14 +242,14 @@ endif " }}}
 if has('gui_running')
   set guioptions=
   set cursorline
+  LuciusBlack
   colorscheme lucius
-  LuciusDark
 else
   if &t_Co == 256
     set mouse=a " Scrolling in urxvt
     colorscheme lucius
-    LuciusDark
     set cursorline
+    LuciusBlack
     set t_ut= " Background
   endif
   nmap <silent> <leader>c2 :set t_Co=256<CR>

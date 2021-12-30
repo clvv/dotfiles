@@ -3,7 +3,7 @@ if &t_Co == 256
   if filereadable(expand('~/.vim/plugged/vim-lucius/colors/lucius.vim'))
     let &runtimepath .= ',' . expand('~/.vim/plugged/vim-lucius')
     colorscheme lucius
-    LuciusDark
+    LuciusBlack
   endif
 endif
 
