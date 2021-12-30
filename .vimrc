@@ -1,8 +1,38 @@
-" Init {{{
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-set nocompatible
-filetype off
-call pathogen#infect()
+" Plugins {{{
+call plug#begin('~/.vim/plugged')
+
+" IDE: Coc, Conquer of completion
+" Requires nodejs: curl -sL install-node.now.sh/lts | bash
+Plug 'neoclide/coc.nvim', {'branch': 'release',
+            \ 'for': 'rust', 'do': ':CocInstall coc-rust-analyzer'
+            \ }
+autocmd! User coc.nvim source ~/.config/nvim/coc.vim
+
+" Theme:
+Plug 'jonathanfilip/vim-lucius'
+
+" Commands:
+Plug 'mileszs/ack.vim', { 'on': 'Ack' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/tagbar', { 'on': 'TagbarToggle' }
+Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git'] }
+Plug 'tpope/vim-eunuch'
+
+" Edit:
+Plug 'Raimondi/delimitMate'
+Plug 'ervandew/supertab'
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+
+" Other:
+Plug 'vim-scripts/IndexedSearch'
+Plug 'vim-scripts/ZoomWin'
+Plug 'bogado/file-line'
+
+call plug#end()
 " }}}
 
 " Settings {{{
@@ -23,6 +53,9 @@ set wildmenu
 if v:version >= 703
   set undofile
   set undodir=~/.vim/undo
+  if has("nvim-0.5.0")
+    set undodir=~/.config/nvim/undo
+  endif
 else
   set t_RV=
 endif
@@ -34,8 +67,6 @@ set vb t_vb=
 
 let g:tex_flavor = "latex"
 let mapleader = ','
-
-let g:snipMate = { 'snippet_version' : 1 }
 
 " Search settings {{{
 set hlsearch
@@ -66,12 +97,11 @@ let g:tagbar_compact = 1
 let g:tagbar_width = 30
 let g:tagbar_expand = 1
 
+" NerdTree
+let g:NERDTreeWinPos = 'right'
+
 " JSLint.vim
 let g:JSLintHighlightErrorLine = 0
-
-" Lucius
-let g:lucius_style = 'dark_dim'
-
 "   }}}
 " }}}
 
@@ -140,41 +170,11 @@ imap <M-b> <Esc>bi
 imap <M-f> <Esc>wi
 "   }}}
 
-" Easy jumping and selecting over block of code {{{
-map <Space> %
-"   }}}
-
-" Bubble lines <S-M-[K,J]> {{{
-nmap <Esc>K [e
-nmap <Esc>J ]e
-vmap <Esc>K [egv
-vmap <Esc>J ]egv
-"   }}}
-
-" Alternate file mappings{{{
-nmap <silent> <leader>a :A<CR>
-nmap <silent> <leader>A :A<CR>
-nmap <silent> <leader>aa :A<CR>
-nmap <silent> <leader>as :AS<CR>
-nmap <silent> <leader>av :AV<CR>
-nmap <silent> <leader>at :AT<CR>
-nmap <silent> <leader>an :AN<CR>
-"   }}}
-
-" Zen-coding leader key {{{
-let g:user_zen_leader_key = '<c-x>'
-"   }}}
-
-" CtrlP {{{
-nmap <leader>f :CtrlPCurFile<CR>
-nmap <leader>F :CtrlPCurWD<CR>
-nmap <leader>R :CtrlPRoot<CR>
-nmap <leader>r :CtrlPMRUFiles<CR>
-nmap <leader>b :CtrlPBuffer<CR>
-"   }}}
-
 " Misc {{{
 set cedit=<C-Q> " open command line window from normal command line mode
+
+" Easy jumping and selecting over block of code
+map <Space> %
 
 " display line up/down (not actual)
 map <Up> gk
@@ -243,10 +243,12 @@ if has('gui_running')
   set guioptions=
   set cursorline
   colorscheme lucius
+  LuciusDark
 else
   if &t_Co == 256
     set mouse=a " Scrolling in urxvt
     colorscheme lucius
+    LuciusDark
     set cursorline
     set t_ut= " Background
   endif
@@ -255,7 +257,7 @@ else
 endif " }}}
 
 " Helpers {{{
-runtime ftplugin/man.vim
+" runtime ftplugin/man.vim
 runtime macros/matchit.vim
 
 " Stab, tab and space settings helper {{{
@@ -311,7 +313,7 @@ function! Z(...)
   endif
 endfunction " }}}
 
-" <leader>z - quick spelling correction {{{
+" <Leader>z - quick spelling correction {{{
 nmap <silent> <leader>z :QuickSpellingFix<CR>
 command! QuickSpellingFix call QuickSpellingFix()
 function! QuickSpellingFix()
@@ -329,3 +331,4 @@ endfunction " }}}
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif " }}}
+" vim:set ft=vim et sw=2:
