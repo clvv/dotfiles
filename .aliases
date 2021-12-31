@@ -17,8 +17,13 @@ alias lS='ls -S'
 alias df='df -h'
 alias du='du -h'
 
-{ if ! command -v open && command -v xdg-open; then
-  alias open='xdg-open'
+{ if ! command -v open; then
+  command -v xdg-open && alias open='xdg-open'
+  command -v explorer.exe && alias open='explorer.exe'
+fi } >/dev/null
+
+{ if command -v nvim; then
+  alias nv='nvim -u ~/.config/nvim/init-neo.vim'
 fi } >/dev/null
 
 command -v free > /dev/null && \
@@ -28,7 +33,6 @@ alias ..='cd ..'
 
 alias e='f -e vim'
 alias v='f -t -e vim -b viminfo'
-
 alias o='f -e open'
 
 [ -s "$HOME/.aliases.local" ] && . "$HOME/.aliases.local"
