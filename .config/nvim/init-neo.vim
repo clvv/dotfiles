@@ -21,6 +21,7 @@ Plug 'hrsh7th/cmp-vsnip'
 " LSP:
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'williamboman/nvim-lsp-installer'
 
 " Treesitter:
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -108,29 +109,42 @@ local on_attach = function(client, bufnr)
   -- buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-require('rust-tools').setup({
-  tools = {
-    autoSetHints = true,
-    hover_with_actions = true,
-    runnables = {
-      use_telescope = false
-    },
-    inlay_hints = {
-      show_parameter_hints = false,
-      parameter_hints_prefix = "",
-      other_hints_prefix = "",
-    },
-    hover_actions = {
-      border = "none"
+local lsp_installer = require("nvim-lsp-installer")
+
+lsp_installer.on_server_ready(function(server)
+    local opts = {
+        on_attach = on_attach,
+        flags = {
+          debounce_text_changes = 150,
+        }
     }
-  },
-  server = {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-})
+
+    if server.name == "rust_analyzer" then
+        -- Initialize the LSP via rust-tools instead
+        require("rust-tools").setup {
+            -- The "server" property provided in rust-tools setup function are the
+            -- settings rust-tools will provide to lspconfig during init.            --
+            -- We merge the necessary settings from nvim-lsp-installer (server:get_default_options())
+            -- with the user's own settings (opts).
+            tools = {
+              autoSetHints = true,
+              hover_with_actions = true,
+              inlay_hints = {
+                  show_parameter_hints = false,
+                  parameter_hints_prefix = "",
+                  other_hints_prefix = "",
+              },
+              hover_actions = {
+                  border = "none"
+              }
+            },
+            server = vim.tbl_deep_extend("force", server:get_default_options(), opts),
+        }
+        server:attach_buffers()
+    else
+        server:setup(opts)
+    end
+end)
 EOF
 
 " Setup Completion
@@ -178,7 +192,7 @@ set signcolumn=number
 " 300ms of no cursor movement to trigger CursorHold
 set updatetime=300
 " Show diagnostic popup on cursor hover
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+autocmd CursorHold * lua vim.diagnostic.open_float()
 " }}}
 
 source ~/.vimrc.common

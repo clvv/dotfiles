@@ -4,7 +4,8 @@ call plug#begin('~/.vim/plugged')
 " IDE: Coc, Conquer of completion
 " Requires nodejs: curl -sL install-node.now.sh/lts | bash
 Plug 'neoclide/coc.nvim', {'branch': 'release',
-            \ 'for': 'rust', 'do': ':CocInstall coc-rust-analyzer'
+            \ 'for': 'rust', 'do': ':CocInstall coc-rust-analyzer',
+            \ 'on': 'CocInfo'
             \ }
 autocmd! User coc.nvim source ~/.config/nvim/coc.vim
 
