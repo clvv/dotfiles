@@ -1,11 +1,10 @@
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 
-" IDE: Coc, Conquer of completion
-" Requires nodejs: curl -sL install-node.now.sh/lts | bash
+" IDE: Coc, Conquer of completion. Requires nodejs.
 Plug 'neoclide/coc.nvim', {'branch': 'release',
-            \ 'for': 'rust', 'do': ':CocInstall coc-rust-analyzer',
-            \ 'on': 'CocInfo'
+            \ 'for': ['rust', 'tex', 'markdown'], 'on': 'CocInfo',
+            \ 'do': ':CocInstall coc-rust-analyzer coc-ltex',
             \ }
 autocmd! User coc.nvim source ~/.config/nvim/coc.vim
 
@@ -28,9 +27,11 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 
+" Language:
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
 " Other:
 Plug 'vim-scripts/IndexedSearch'
-Plug 'vim-scripts/ZoomWin'
 Plug 'bogado/file-line'
 
 call plug#end()
