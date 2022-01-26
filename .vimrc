@@ -9,7 +9,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release',
 autocmd! User coc.nvim source ~/.config/nvim/coc.vim
 
 " Theme:
-Plug 'jonathanfilip/vim-lucius'
+Plug 'clvv/vim-lucius'
 
 " Commands:
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
