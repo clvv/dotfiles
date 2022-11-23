@@ -2,7 +2,7 @@
   ui = auto
 [user]
   name = Wei Dai
-  email = weidai@eng.ucsd.edu
+  email = me@wdai.us
 [core]
   editor = vim
   excludesfile = ~/.ignore
