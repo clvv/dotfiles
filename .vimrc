@@ -3,8 +3,9 @@ call plug#begin('~/.vim/plugged')
 
 " IDE: Coc, Conquer of completion. Requires nodejs.
 Plug 'neoclide/coc.nvim', {'branch': 'release',
-            \ 'for': ['rust', 'tex', 'markdown'], 'on': 'CocInfo',
-            \ 'do': ':CocInstall coc-rust-analyzer coc-ltex',
+            \ 'for': ['rust', 'tex', 'markdown', 'typescript', 'solidity'],
+            \ 'on': 'CocInfo',
+            \ 'do': ':CocInstall coc-rust-analyzer coc-ltex coc-tsserver coc-solidity',
             \ }
 autocmd! User coc.nvim source ~/.config/nvim/coc.vim
 
@@ -29,6 +30,7 @@ Plug 'tpope/vim-repeat'
 
 " Language:
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'iden3/vim-circom-syntax'
 
 " Other:
 Plug 'vim-scripts/IndexedSearch'
