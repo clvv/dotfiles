@@ -3,10 +3,10 @@ call plug#begin('~/.vim/plugged')
 
 " IDE: Coc, Conquer of completion. Requires nodejs.
 Plug 'neoclide/coc.nvim', {'branch': 'release',
-            \ 'for': ['rust', 'tex', 'markdown', 'typescript', 'solidity'],
-            \ 'on': 'CocInfo',
-            \ 'do': ':CocInstall coc-rust-analyzer coc-ltex coc-tsserver coc-solidity',
-            \ }
+  \ 'for': ['rust', 'tex', 'markdown', 'typescript', 'solidity'],
+  \ 'on': 'CocInfo',
+  \ 'do': ':CocInstall coc-rust-analyzer coc-ltex coc-tsserver coc-solidity coc-lists',
+  \ }
 autocmd! User coc.nvim source ~/.config/nvim/coc.vim
 
 " Theme:
