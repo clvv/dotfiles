@@ -94,6 +94,7 @@ map L gt
 map <silent> <leader>n :tabnew<Cr>
 map <silent> <leader>c <C-w>c
 map <silent> <leader>q ZQ
+map <silent> <leader>t :tabnew<Cr>:terminal<Cr>
 "   }}}
 
 " System Copy & Paste prefix {{{

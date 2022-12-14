@@ -1,5 +1,6 @@
 {
 	"list.normalMappings": {
 		"q": "do:exit"
-  }
+  },
+  "suggest.noselect": true
 }
