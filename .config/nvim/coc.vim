@@ -155,3 +155,4 @@ set statusline=%f\ %h%w%m%r%=%{coc#status()}%{get(b:,'coc_current_function','')}
 nnoremap <silent><nowait> <leader>d  :<C-u>CocList diagnostics<cr>
 nnoremap <silent><nowait> <leader>j  :<C-u>CocList files<cr>
 nnoremap <silent><nowait> <leader>s  :<C-u>CocList grep<cr>
+nnoremap <silent><nowait> <leader>l  :<C-u>CocListResume<cr>

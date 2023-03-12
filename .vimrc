@@ -15,7 +15,7 @@ Plug 'clvv/vim-lucius'
 " Commands:
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'preservim/tagbar', { 'on': 'TagbarToggle' }
+Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git'] }
 Plug 'tpope/vim-eunuch'
 
