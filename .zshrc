@@ -11,14 +11,15 @@ for config ($HOME/.zsh/*.zsh) source "$config"
 # Load and initialize the completion system ignoring insecure directories.
 autoload -Uz compinit && compinit -i
 
-[ -s "$HOME/.shenv" ] && source "$HOME/.shenv"
-[ -s "$HOME/.aliases" ] && source "$HOME/.aliases"
-
 FASD_CACHE="$HOME/.fasd-init-zsh"
 
 if [ "${commands[fasd]}" -nt "$FASD_CACHE" -o ! -f "$FASD_CACHE" ]; then
   fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} \
     >! "$FASD_CACHE"
+fi
+
+if [ -e "$HOME/lib/zsh-yarn-completions/zsh-yarn-completions.plugin.zsh" ]; then
+  source "$HOME/lib/zsh-yarn-completions/zsh-yarn-completions.plugin.zsh"
 fi
 
 source "$FASD_CACHE"
