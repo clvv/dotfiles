@@ -23,7 +23,11 @@ alias du='du -h'
 fi } >/dev/null
 
 { if command -v nvim; then
-  alias nv='nvim -u ~/.config/nvim/init-neo.vim'
+  alias nv='nvim'
+fi } >/dev/null
+
+{ if command -v powershell.exe; then
+  alias win='powershell.exe'
 fi } >/dev/null
 
 command -v free > /dev/null && \
