@@ -17,3 +17,5 @@
 	default = simple
 [credential]
 	helper = store --file ~/.my-credentials
+[init]
+	defaultBranch = main
