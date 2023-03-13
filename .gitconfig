@@ -4,7 +4,6 @@
   name = Wei Dai
   email = me@wdai.us
 [core]
-  editor = vim
   excludesfile = ~/.ignore
 [alias]
   ci = commit
